@@ -40,6 +40,7 @@ final class AuditDriver implements MappingDriver
             $builder->createField('id', 'integer')->isPrimaryKey()->generatedValue()->build();
             $builder->addField('comment', 'text', array('nullable' => true));
             $builder->addField('timestamp', 'datetime');
+            $builder->addField('approved', 'boolean');
 
             // Add association between RevisionEntity and Revision
             $builder->addOneToMany('revisionEntities', 'SoliantEntityAudit\\Entity\\RevisionEntity', 'revision');

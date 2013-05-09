@@ -135,4 +135,30 @@ class AuditService extends AbstractHelper
         return $entityManager->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')
             ->findBy($search, array('id' => 'DESC'));
     }
+
+    public function workspaceRevisionEntity($entity)
+    {
+        $entityManager = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getEntityManager();
+        $auditService = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getAuditService();
+
+        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        if ($moduleOptions->getUser()) {
+            $user = $moduleOptions->getUser();
+        } else {
+            $user = null;
+        }
+
+        $revisionEntities = $entityManager->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->findBy(array(
+            'targetEntityClass' => get_class($entity),
+            'entityKeys' => serialize($auditService->getEntityIdentifierValues($entity)),
+        ), array('id' => 'DESC'), 1);
+
+        foreach ($revisionEntities as $revisionEntity) {
+            if ($revisionEntity->getUser() == $user)
+                return $revisionEntity;
+
+            if ($revisionEntity->getRevision()->isApproved())
+                return $revisionEntity;
+        }
+    }
 }

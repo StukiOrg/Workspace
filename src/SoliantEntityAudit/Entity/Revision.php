@@ -3,7 +3,6 @@
 namespace SoliantEntityAudit\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-    ;
 
 class Revision
 {
@@ -53,6 +52,19 @@ class Revision
         return $this;
     }
 
+    private $approved;
+
+    public function isApproved()
+    {
+        return $this->approved;
+    }
+
+    public function setApproved($value)
+    {
+        $this->approved = $value;
+        return $this;
+    }
+
     private $revisionEntities;
 
     public function getRevisionEntities() {
@@ -65,5 +77,6 @@ class Revision
     public function __construct()
     {
         $this->setTimestamp(new \DateTime());
+        $this->setApproved(false);
     }
 }

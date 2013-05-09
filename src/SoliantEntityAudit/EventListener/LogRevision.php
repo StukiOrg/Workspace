@@ -6,6 +6,7 @@ use Doctrine\Common\EventSubscriber
     , Doctrine\ORM\Events
     , Doctrine\ORM\Event\OnFlushEventArgs
     , Doctrine\ORM\Event\PostFlushEventArgs
+    , Doctrine\ORM\Event\LifecycleEventArgs 
     , SoliantEntityAudit\Entity\Revision as RevisionEntity
     , SoliantEntityAudit\Options\ModuleOptions
     , SoliantEntityAudit\Entity\RevisionEntity as RevisionEntityEntity
@@ -24,7 +25,7 @@ class LogRevision implements EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(Events::onFlush, Events::postFlush);
+        return array(Events::onFlush, Events::postFlush, Events::postLoad);
     }
 
     private function setEntities($entities)
@@ -238,6 +239,20 @@ class LogRevision implements EventSubscriber
         }
 
         $this->setEntities($entities);
+    }
+
+    public function postLoad(LifecycleEventArgs $args) {
+        $entity = $args->getEntity();
+
+        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        $auditService = $moduleOptions->getAuditService();
+
+        $workspaceRevisionEntity = $auditService->workspaceRevisionEntity($entity);
+        if (!$workspaceRevisionEntity) $entity = null;
+
+        $auditEntity = $workspaceRevisionEntity->getAuditEntity();
+
+        // next step: hydrate $entity with $auditEntity
     }
 
     public function postFlush(PostFlushEventArgs $args)
