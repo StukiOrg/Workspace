@@ -32,6 +32,7 @@
             <th>Entity</th>
             <th>Comment</th>
             <th>User</th>
+            <th>Approval</th>
         </tr>
     </thead>
 
@@ -57,7 +58,7 @@ foreach ($paginator as $revisionEntity) {
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revisions',
+                    $this->url('audit/revision',
                         array(
                             'revisionId' => $revisionEntity->getRevision()->getId()
                         )
@@ -92,6 +93,13 @@ foreach ($paginator as $revisionEntity) {
                         }
                     ?>
                 </a>
+            </td>
+            <td>
+                <?= $this->partial(
+                    'soliant-entity-audit/index/partial-revision-approve',
+                    array('revision' => $revisionEntity->getRevision())
+                );
+                ?>
             </td>
         </tr>
 <?php

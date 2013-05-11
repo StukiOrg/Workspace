@@ -52,16 +52,65 @@ class Revision
         return $this;
     }
 
-    private $approved;
+    private $approve;
 
-    public function isApproved()
+    public function getApprove()
     {
-        return $this->approved;
+        return $this->approve;
     }
 
-    public function setApproved($value)
+    public function setApprove($value)
     {
-        $this->approved = $value;
+        switch ($value) {
+            case 'approved':
+            case 'submitted':
+            case 'rejected':
+            case 'not submitted':
+                break;
+            default:
+                throw new \Exception('Invalid approval string: ' . $value);
+        }
+
+        $this->approve = $value;
+        return $this;
+    }
+
+    private $approveMessage;
+
+    public function getApproveMessage()
+    {
+        return $this->approveMessage;
+    }
+
+    public function setApproveMessage($value)
+    {
+        $this->approveMessage = $value;
+        return $this;
+    }
+
+    protected $approveTimestamp;
+
+    public function getApproveTimestamp()
+    {
+        return $this->approveTimestamp;
+    }
+
+    public function setApproveTimestamp(\DateTime $value)
+    {
+        $this->approveTimestamp = $value;
+        return $this;
+    }
+
+    protected $approveUser;
+
+    public function getApproveUser()
+    {
+        return $this->approveUser;
+    }
+
+    public function setApproveUser($value)
+    {
+        $this->approveUser = $value;
         return $this;
     }
 
@@ -77,6 +126,6 @@ class Revision
     public function __construct()
     {
         $this->setTimestamp(new \DateTime());
-        $this->setApproved(false);
+        $this->setApprove('not submitted');
     }
 }

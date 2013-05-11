@@ -1,0 +1,24 @@
+<a href="<?=
+    $this->url('audit/revision',
+        array('revisionId' => $this->revision->getId())
+    );
+?>" class="btn btn-approve-<?= $this->revision->getApprove(); ?>">
+    <i class="icon-<?php
+    switch ($this->revision->getApprove()) {
+        case 'approved':
+            echo 'check';
+            break;
+        case 'rejected':
+            echo 'check-minus';
+            break;
+        case 'submitted':
+            echo 'check-sign';
+            break;
+        case 'not submitted':
+            echo 'check-empty';
+            break;
+        default:
+            echo '';
+            break;
+    }
+    ?>"></i> <?= ucwords($this->revision->getApprove()); ?></a>

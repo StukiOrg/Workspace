@@ -28,6 +28,7 @@ if ($user) {
             <th>Entity</th>
             <th>Comment</th>
             <th>User</th>
+            <th>Approved</th>
         </tr>
     </thead>
 
@@ -46,7 +47,7 @@ if ($user) {
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revisions',
+                    $this->url('audit/revision',
                         array(
                             'revisionId' => $revision->getId()
                         )
@@ -92,6 +93,10 @@ if ($user) {
                         }
                     ?>
                 </a>
+            </td>
+
+            <td>
+
             </td>
         </tr>
     <?php

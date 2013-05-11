@@ -6,7 +6,7 @@
    array('route' => 'audit', 'roles' => array('user')),
    array('route' => 'audit/page', 'roles' => array('user')),
    array('route' => 'audit/user', 'roles' => array('user')),
-   array('route' => 'audit/revisions', 'roles' => array('user')),
+   array('route' => 'audit/revision', 'roles' => array('user')),
    array('route' => 'audit/revision-entity', 'roles' => array('user')),
    array('route' => 'audit/entity', 'roles' => array('user')),
    array('route' => 'audit/compare', 'roles' => array('user')),

@@ -124,7 +124,8 @@ class LogRevision implements EventSubscriber
             $revision->setUser($moduleOptions->getUser());
         } else {
             // If a user can modify data without being logged in approve it immediatly
-            $revision->setApproved(true);
+            $revision->setApprove('approved');
+            $revision->setApproveTimestamp(new \DateTime());
         }
 
         $comment = $moduleOptions->getAuditService()->getComment();
@@ -246,7 +247,10 @@ class LogRevision implements EventSubscriber
         $this->setEntities($entities);
     }
 
-    public function postLoad(LifecycleEventArgs $args) {
+    public function postLoad(LifecycleEventArgs $args)
+    {
+        return;
+
         $entity = $args->getEntity();
 
         $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
@@ -277,8 +281,7 @@ class LogRevision implements EventSubscriber
 
         }
 
-        $auditEntity = $workspaceRevisionEntity->getAuditEntity();
-        $entity->exchangeArray($auditEntity->getArrayCopy());
+        $entity->exchangeArray($workspaceRevisionEntity->getAuditEntity()->getArrayCopy());
     }
 
     public function postFlush(PostFlushEventArgs $args)

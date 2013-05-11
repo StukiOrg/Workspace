@@ -23,6 +23,7 @@
             <th>Entity</th>
             <th>Comment</th>
             <th>User</th>
+            <th>Approval</th>
         </tr>
     </thead>
 
@@ -41,7 +42,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revisions',
+                    $this->url('audit/revision',
                         array(
                             'revisionId' => $revision->getId()
                         )
@@ -88,6 +89,15 @@
                     ?>
                 </a>
             </td>
+
+            <td>
+                <?= $this->partial(
+                    'soliant-entity-audit/index/partial-revision-approve',
+                    array('revision' => $revision)
+                );
+                ?>
+            </td>
+
         </tr>
     <?php
     }

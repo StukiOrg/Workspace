@@ -9,6 +9,7 @@
             <th>Revision</th>
             <th>Comment</th>
             <th>User</th>
+            <th>Approval</th>
         </tr>
     </thead>
 
@@ -41,6 +42,13 @@
                         }
                     ?>
                 </a>
+            </td>
+            <td>
+                <?= $this->partial(
+                    'soliant-entity-audit/index/partial-revision-approve',
+                    array('revision' => $this->revision)
+                );
+                ?>
             </td>
         </tr>
     </tbody>

@@ -94,7 +94,7 @@ return array(
                         ),
                     ),
 
-                    'revisions' => array(
+                    'revision' => array(
                         'type' => 'Segment',
                         'options' => array(
                             'route' => '/revision[/:revisionId]',
