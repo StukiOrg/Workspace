@@ -65,10 +65,10 @@ class Module
                     $auditConfig->setEntityManager($serviceManager->get('doctrine.entitymanager.orm_default'));
                     $auditConfig->setAuditService($serviceManager->get('auditService'));
 
-                    $auth = $serviceManager->get($auditConfig->getAuthenticationService());
-                    if ($auth->hasIdentity()) {
-                        $auditConfig->setUser($auth->getIdentity());
-                    }
+                    $authenticationServiceAlias = (isset($config['audit']['authenticationService'])) ? $config['audit']['authenticationService']: 'zfcuser_auth_service';
+
+                    $auth = $serviceManager->get($authenticationServiceAlias);
+                    $auditConfig->setAuthenticationService($auth);
 
                     return $auditConfig;
                 },

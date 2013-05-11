@@ -28,7 +28,6 @@ class ModuleOptions
         $this->setRevisionTableName(isset($config['revisionTableName']) ? $config['revisionTableName']: 'Revision');
         $this->setRevisionEntityTableName(isset($config['revisionEntityTableName']) ? $config['revisionEntityTableName']: 'RevisionEntity');
         $this->setUserEntityClassName(isset($config['userEntityClassName']) ? $config['userEntityClassName']: 'ZfcUserDoctrineORM\\Entity\\User');
-        $this->setAuthenticationService(isset($config['authenticationService']) ? $config['authenticationService']: 'zfcuser_auth_service');
     }
 
     public function getAuditService()
@@ -177,6 +176,12 @@ class ModuleOptions
 
     public function getUser()
     {
+        if (!$this->user) {
+            if ($this->getAuthenticationService()->hasIdentity()) {
+                $this->user = $this->getAuthenticationService()->getIdentity();
+            }
+        }
+
         return $this->user;
     }
 }

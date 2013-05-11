@@ -138,27 +138,30 @@ class AuditService extends AbstractHelper
 
     public function workspaceRevisionEntity($entity)
     {
-        $entityManager = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getEntityManager();
-        $auditService = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getAuditService();
-
         $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
-        if ($moduleOptions->getUser()) {
-            $user = $moduleOptions->getUser();
-        } else {
-            $user = null;
-        }
+
+        $entityManager = $moduleOptions->getEntityManager();
+        $auditService = $moduleOptions->getAuditService();
+
+        $user = $moduleOptions->getUser();
 
         $revisionEntities = $entityManager->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($entity),
             'entityKeys' => serialize($auditService->getEntityIdentifierValues($entity)),
-        ), array('id' => 'DESC'), 1);
-
+        ), array('id' => 'DESC'));
+#echo '<BR><BR><BR>';
         foreach ($revisionEntities as $revisionEntity) {
-            if ($revisionEntity->getUser() == $user)
+            if ($revisionEntity->getRevision()->getUser() == $user) {
+#                echo('user specific');
+#                echo (string)$entity;
                 return $revisionEntity;
+            }
 
-            if ($revisionEntity->getRevision()->isApproved())
+            if ($revisionEntity->getRevision()->isApproved()) {
+#                echo('approved');
+#                echo (string)$entity;
                 return $revisionEntity;
+            }
         }
     }
 }

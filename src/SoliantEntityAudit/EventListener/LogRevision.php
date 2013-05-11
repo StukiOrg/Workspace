@@ -6,7 +6,7 @@ use Doctrine\Common\EventSubscriber
     , Doctrine\ORM\Events
     , Doctrine\ORM\Event\OnFlushEventArgs
     , Doctrine\ORM\Event\PostFlushEventArgs
-    , Doctrine\ORM\Event\LifecycleEventArgs 
+    , Doctrine\ORM\Event\LifecycleEventArgs
     , SoliantEntityAudit\Entity\Revision as RevisionEntity
     , SoliantEntityAudit\Options\ModuleOptions
     , SoliantEntityAudit\Entity\RevisionEntity as RevisionEntityEntity
@@ -120,7 +120,12 @@ class LogRevision implements EventSubscriber
 
         $revision = new RevisionEntity();
         $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
-        if ($moduleOptions->getUser()) $revision->setUser($moduleOptions->getUser());
+        if ($moduleOptions->getUser()) {
+            $revision->setUser($moduleOptions->getUser());
+        } else {
+            // If a user can modify data without being logged in approve it immediatly
+            $revision->setApproved(true);
+        }
 
         $comment = $moduleOptions->getAuditService()->getComment();
         $revision->setComment($comment);
@@ -245,14 +250,35 @@ class LogRevision implements EventSubscriber
         $entity = $args->getEntity();
 
         $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+
+        // Is the entity audited?
+        $found = false;
+        foreach ($moduleOptions->getAuditedClassNames() as $name => $targetClassOptions) {
+            if ($name == get_class($entity)) {
+                $found = true;
+                break;
+            }
+        }
+
+        if (!$found) return;  # Entity is not audited
+
         $auditService = $moduleOptions->getAuditService();
 
         $workspaceRevisionEntity = $auditService->workspaceRevisionEntity($entity);
-        if (!$workspaceRevisionEntity) $entity = null;
+        if (!$workspaceRevisionEntity) {
+            // Entity does not exist along this workspace, unset
+
+            echo (string)$entity;
+            echo('entity does not exist in workspace');
+
+            unset($entity);
+            throw new \Exception('unset entity');
+            return false;
+
+        }
 
         $auditEntity = $workspaceRevisionEntity->getAuditEntity();
-
-        // next step: hydrate $entity with $auditEntity
+        $entity->exchangeArray($auditEntity->getArrayCopy());
     }
 
     public function postFlush(PostFlushEventArgs $args)
