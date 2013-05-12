@@ -1,3 +1,7 @@
+<a class="btn btn-info pull-right" style="margin-left: 20px;" href="<?=
+    $this->url('stuki-workspace/master');
+?>"><i class="icon-code-fork"></i> Master</a>
+
 <a class="btn btn-info pull-right" href="<?=
     $this->url('stuki-workspace/firehose');
 ?>"><i class="icon-bullseye"></i> Firehose</a>
@@ -16,6 +20,7 @@
             <th>Entity</th>
             <th>Comment</th>
             <th>User</th>
+            <th>Approval</th>
         </tr>
     </thead>
 
@@ -32,7 +37,7 @@
 
                     <?= $this->revisionEntity->getRevision()->getId(); ?>
 
-                    @ <?php echo $this->AuditDateTimeFormatter($revisionEntity->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->StukiDateTimeFormatter($revisionEntity->getRevision()->getTimestamp()); ?>
                 </a>
 
             </td>
@@ -57,11 +62,18 @@
                             echo ' ';
                             echo $this->escapeHtml($this->revisionEntity->getRevision()->getUser()->getDisplayName());
                         } else {
-                            echo $this->gravatar('anonymous@unknown.net', array('img_size' => 24));
-                            echo ' Anonymous';
+                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
+                            echo ' Stuki Workspace';
                         }
                     ?>
                 </a>
+            </td>
+            <td>
+                <?= $this->partial(
+                    'stuki-workspace/index/partial/revision-approve',
+                    array('revision' => $this->revisionEntity->getRevision())
+                );
+                ?>
             </td>
         </tr>
     </tbody>
@@ -69,7 +81,7 @@
 
 <?php
 
-    $paginator = $this->auditOneToManyPaginator(
+    $paginator = $this->stukiOneToManyPaginator(
         $this->page,
         $this->revisionEntity,
         $this->joinTable,
@@ -92,6 +104,7 @@
             <th>Entity</th>
             <th>Comment</th>
             <th>User</th>
+            <th>Approval</th>
         </tr>
     </thead>
 
@@ -110,7 +123,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('stuki-workspace/revisions',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $association->getRevision()->getId()
                         )
@@ -119,7 +132,7 @@
 
                     <?= $association->getRevision()->getId(); ?>
 
-                    @ <?php echo $this->AuditDateTimeFormatter($association->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->StukiDateTimeFormatter($association->getRevision()->getTimestamp()); ?>
                 </a>
 
             </td>
@@ -144,11 +157,18 @@
                             echo ' ';
                             echo $this->escapeHtml($association->getRevision()->getUser()->getDisplayName());
                         } else {
-                            echo $this->gravatar('anonymous@unknown.net', array('img_size' => 24));
-                            echo ' Anonymous';
+                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
+                            echo ' Stuki Workspace';
                         }
                     ?>
                 </a>
+            </td>
+            <td>
+                <?= $this->partial(
+                    'stuki-workspace/index/partial/revision-approve',
+                    array('revision' => $association->getRevision())
+                );
+                ?>
             </td>
         </tr>
         <?php

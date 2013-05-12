@@ -84,7 +84,7 @@ class Module
     {
          return array(
             'factories' => array(
-                'auditDateTimeFormatter' => function($sm) {
+                'stukiDateTimeFormatter' => function($sm) {
                     $Servicelocator = $sm->getServiceLocator();
                     $config = $Servicelocator->get("Config");
                     $format = $config['audit']['datetimeFormat'];

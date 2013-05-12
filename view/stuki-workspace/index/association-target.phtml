@@ -50,7 +50,7 @@
                 ?>">
 
                     <?= $this->escapeHtml($revisionEntity->getRevision()->getId());?>
-                    @ <?php echo $this->AuditDateTimeFormatter($revisionEntity->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->StukiDateTimeFormatter($revisionEntity->getRevision()->getTimestamp()); ?>
 
                 </a>
             </td>
@@ -79,8 +79,8 @@
                             echo ' ';
                             echo $this->escapeHtml($revisionEntity->getRevision()->getUser()->getDisplayName());
                         } else {
-                            echo $this->gravatar('anonymous@unknown.net', array('img_size' => 24));
-                            echo ' Anonymous';
+                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
+                            echo ' Stuki Workspace';
                         }
                     ?>
                 </a>

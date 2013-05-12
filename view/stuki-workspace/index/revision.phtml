@@ -18,7 +18,7 @@
             <td>
                 <?= $this->escapeHtml($this->revision->getId());?>
 
-                @ <?php echo $this->AuditDateTimeFormatter($this->revision->getTimestamp()); ?>
+                @ <?php echo $this->StukiDateTimeFormatter($this->revision->getTimestamp()); ?>
             </td>
 
             <td><?= $this->escapeHtml($this->revision->getComment()); ?></td>
@@ -37,8 +37,8 @@
                             echo ' ';
                             echo $this->escapeHtml($this->revision->getUser()->getDisplayName());
                         } else {
-                            echo $this->gravatar('anonymous@unknown.net', array('img_size' => 24));
-                            echo ' Anonymous';
+                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
+                            echo ' Stuki Workspace';
                         }
                     ?>
                 </a>
@@ -74,7 +74,7 @@ foreach ($this->revision->getRevisionEntities() as $revisionEntity) {
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
                     <?php if ($value instanceof \DateTime): ?>
-                        <?php echo  $this->AuditDateTimeFormatter($value); ?>
+                        <?php echo  $this->StukiDateTimeFormatter($value); ?>
                     <?php else : ?>
                         <?php  echo $this->escapeHtml($value); ?>
                     <?php endif; ?>

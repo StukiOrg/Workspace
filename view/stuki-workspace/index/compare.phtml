@@ -44,7 +44,7 @@
                     ?>
 
                         <?php if ($oldValues[$field] instanceof \DateTime): ?>
-                            <?php echo $this->AuditDateTimeFormatter($oldValues[$field]); ?>
+                            <?php echo $this->StukiDateTimeFormatter($oldValues[$field]); ?>
                         <?php else: ?>
                             <?php echo  $this->escapeHtml($oldValues[$field]); ?>
                         <?php endif; ?></td>
@@ -57,7 +57,7 @@
                     if ($oldValues[$field] == $newValues[$field]){
                     ?>
                         <?php if ($oldValues[$field] instanceof \DateTime): ?>
-                            <?php echo $this->AuditDateTimeFormatter($oldValues[$field]); ?>
+                            <?php echo $this->StukiDateTimeFormatter($oldValues[$field]); ?>
                         <?php else: ?>
                             <?php echo  $this->escapeHtml($oldValues[$field]); ?>
                         <?php endif; ?></td>
@@ -71,7 +71,7 @@
                     ?>
 
                         <?php if ($newValues[$field] instanceof \DateTime): ?>
-                            <?php echo $this->AuditDateTimeFormatter($newValues[$field]); ?>
+                            <?php echo $this->StukiDateTimeFormatter($newValues[$field]); ?>
                         <?php else: ?>
                             <?php echo  $this->escapeHtml($newValues[$field]); ?>
                         <?php endif; ?></td>
@@ -100,7 +100,7 @@
                 ?>">
 
                     <?= $this->escapeHtml($revisionEntity_old->getRevision()->getId());?>
-                    @ <?php echo $this->AuditDateTimeFormatter($revisionEntity_old->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->StukiDateTimeFormatter($revisionEntity_old->getRevision()->getTimestamp()); ?>
 
                 </a>
 
@@ -124,7 +124,7 @@
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
                     <?php if ($value instanceof \DateTime): ?>
-                        <?php echo  $this->AuditDateTimeFormatter($value); ?>
+                        <?php echo  $this->StukiDateTimeFormatter($value); ?>
                     <?php else : ?>
                         <?php  echo $this->escapeHtml($value); ?>
                     <?php endif; ?>
@@ -151,7 +151,7 @@
                 ?>">
 
                     <?= $this->escapeHtml($revisionEntity_old->getRevision()->getId());?>
-                    @ <?php echo $this->AuditDateTimeFormatter($revisionEntity_old->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->StukiDateTimeFormatter($revisionEntity_old->getRevision()->getTimestamp()); ?>
 
                 </a>
 
@@ -172,7 +172,7 @@
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
                     <?php if ($value instanceof \DateTime): ?>
-                        <?php echo  $this->AuditDateTimeFormatter($value); ?>
+                        <?php echo  $this->StukiDateTimeFormatter($value); ?>
                     <?php else : ?>
                         <?php  echo $this->escapeHtml($value); ?>
                     <?php endif; ?>

@@ -5,12 +5,12 @@ namespace StukiWorkspaceTest\View\Helper;
 use StukiWorkspaceTest\Bootstrap
     ;
 
-class AuditDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
+class StukiDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 {
     public function testFormatter()
     {
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $helper = $sm->get('viewhelpermanager')->get('auditDateTimeFormatter');
+        $helper = $sm->get('viewhelpermanager')->get('stukiDateTimeFormatter');
 
         $now = new \DateTime();
         $helper->setDateTimeFormat('U');

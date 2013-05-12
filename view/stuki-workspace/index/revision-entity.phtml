@@ -36,7 +36,7 @@
 
                     <?= $this->revisionEntity->getRevision()->getId(); ?>
 
-                    @ <?php echo $this->AuditDateTimeFormatter($revisionEntity->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->StukiDateTimeFormatter($revisionEntity->getRevision()->getTimestamp()); ?>
                 </a>
 
             </td>
@@ -61,8 +61,8 @@
                             echo ' ';
                             echo $this->escapeHtml($this->revisionEntity->getRevision()->getUser()->getDisplayName());
                         } else {
-                            echo $this->gravatar('anonymous@unknown.net', array('img_size' => 24));
-                            echo ' Anonymous';
+                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
+                            echo ' Stuki Workspace';
                         }
                     ?>
                 </a>
@@ -103,6 +103,8 @@
                         if ($associationRevisionEntity) {
                             echo $this->stukiRevisionEntityLink($associationRevisionEntity);
                         }
+                    } else {
+                        echo $this->escapeHtml($value);
                     }
                     ?>
                 </td>
@@ -355,7 +357,7 @@
                     ?>">
 
                         <?= $rev->getRevision()->getId(); ?>
-                        @ <?php echo $this->AuditDateTimeFormatter($rev->getRevision()->getTimestamp()); ?>
+                        @ <?php echo $this->StukiDateTimeFormatter($rev->getRevision()->getTimestamp()); ?>
 
                     </a>
                 </td>
@@ -380,8 +382,8 @@
                                 echo ' ';
                                 echo $this->escapeHtml($rev->getRevision()->getUser()->getDisplayName());
                             } else {
-                                echo $this->gravatar('anonymous@unknown.net', array('img_size' => 24));
-                                echo ' Anonymous';
+                                echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
+                                echo ' Stuki Workspace';
                             }
                         ?>
                     </a>

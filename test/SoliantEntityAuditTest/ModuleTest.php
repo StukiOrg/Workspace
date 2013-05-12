@@ -51,7 +51,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     {
 
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $helper = $sm->get('viewhelpermanager')->get('auditDateTimeFormatter');
+        $helper = $sm->get('viewhelpermanager')->get('stukiDateTimeFormatter');
 
         $now = new \DateTime();
         $helper->setDateTimeFormat('U');

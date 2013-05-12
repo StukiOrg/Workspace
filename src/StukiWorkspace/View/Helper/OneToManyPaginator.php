@@ -31,7 +31,7 @@ final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorA
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-#        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
+        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
 
         $entityClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $joinTable);
 
@@ -45,9 +45,12 @@ final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorA
                 JOIN s.revisionEntity re
                 WHERE s.$mappedBy = :var
             )
+            AND (r.approve = 'approved'
+                OR r.user = :user)
             ORDER BY r.timestamp DESC
         ");
         $query->setParameter('var', $revisionEntity->getTargetEntity());
+        $query->setParameter('user', $auditModuleOptions->getUser());
 
         $adapter = new DoctrineAdapter(new ORMPaginator($query));
         $paginator = new Paginator($adapter);
