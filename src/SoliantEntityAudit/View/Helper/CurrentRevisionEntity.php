@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAudit\View\Helper;
+namespace StukiWorkspace\View\Helper;
 
 use Zend\View\Helper\AbstractHelper
     , Doctrine\ORM\EntityManager
@@ -10,7 +10,7 @@ use Zend\View\Helper\AbstractHelper
     , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
     , Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator
     , Zend\Paginator\Paginator
-    , SoliantEntityAudit\Entity\AbstractAudit
+    , StukiWorkspace\Entity\AbstractAudit
     ;
 
 // Return the latest revision entity for the given entity
@@ -34,7 +34,7 @@ final class CurrentRevisionEntity extends AbstractHelper implements ServiceLocat
         $entityManager = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getEntityManager();
         $auditService = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getAuditService();
 
-        $revisionEntities = $entityManager->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->findBy(array(
+        $revisionEntities = $entityManager->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($entity),
             'entityKeys' => serialize($auditService->getEntityIdentifierValues($entity)),
         ), array('id' => 'DESC'), 1);

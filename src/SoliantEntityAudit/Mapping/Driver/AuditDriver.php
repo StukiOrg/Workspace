@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAudit\Mapping\Driver;
+namespace StukiWorkspace\Mapping\Driver;
 
 use Doctrine\Common\Persistence\Mapping\ClassMetadata
     , Doctrine\Common\Persistence\Mapping\Driver\MappingDriver
@@ -17,14 +17,14 @@ final class AuditDriver implements MappingDriver
      */
     function loadMetadataForClass($className, ClassMetadata $metadata)
     {
-        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
         $entityManager = $moduleOptions->getEntityManager();
         $metadataFactory = $entityManager->getMetadataFactory();
         $builder = new ClassMetadataBuilder($metadata);
 
-        if ($className == 'SoliantEntityAudit\\Entity\RevisionEntity') {
+        if ($className == 'StukiWorkspace\\Entity\RevisionEntity') {
             $builder->createField('id', 'integer')->isPrimaryKey()->generatedValue()->build();
-            $builder->addManyToOne('revision', 'SoliantEntityAudit\\Entity\\Revision', 'revisionEntities');
+            $builder->addManyToOne('revision', 'StukiWorkspace\\Entity\\Revision', 'revisionEntities');
             $builder->addField('entityKeys', 'string');
             $builder->addField('auditEntityClass', 'string');
             $builder->addField('targetEntityClass', 'string');
@@ -36,7 +36,7 @@ final class AuditDriver implements MappingDriver
         }
 
         // Revision is managed here rather than a separate namespace and driver
-        if ($className == 'SoliantEntityAudit\\Entity\\Revision') {
+        if ($className == 'StukiWorkspace\\Entity\\Revision') {
             $builder->createField('id', 'integer')->isPrimaryKey()->generatedValue()->build();
             $builder->addField('comment', 'text', array('nullable' => true));
             $builder->addField('timestamp', 'datetime');
@@ -45,7 +45,7 @@ final class AuditDriver implements MappingDriver
             $builder->addField('approveTimestamp', 'datetime', array('nullable' => true));
 
             // Add association between RevisionEntity and Revision
-            $builder->addOneToMany('revisionEntities', 'SoliantEntityAudit\\Entity\\RevisionEntity', 'revision');
+            $builder->addOneToMany('revisionEntities', 'StukiWorkspace\\Entity\\RevisionEntity', 'revision');
 
             // Add assoication between User and Revision
             $userMetadata = $metadataFactory->getMetadataFor($moduleOptions->getUserEntityClassName());
@@ -74,8 +74,8 @@ final class AuditDriver implements MappingDriver
 
             $builder->createField('id', 'integer')->isPrimaryKey()->generatedValue()->build();
 
-            $builder->addManyToOne('targetRevisionEntity', 'SoliantEntityAudit\\Entity\\RevisionEntity');
-            $builder->addManyToOne('sourceRevisionEntity', 'SoliantEntityAudit\\Entity\\RevisionEntity');
+            $builder->addManyToOne('targetRevisionEntity', 'StukiWorkspace\\Entity\\RevisionEntity');
+            $builder->addManyToOne('sourceRevisionEntity', 'StukiWorkspace\\Entity\\RevisionEntity');
 
             $metadata->setTableName($moduleOptions->getTableNamePrefix() . $joinClasses[$className]['joinTable']['name'] . $moduleOptions->getTableNameSuffix());
 //            $metadata->setIdentifier($identifiers);
@@ -89,7 +89,7 @@ final class AuditDriver implements MappingDriver
 
         $auditedClassMetadata = $metadataFactory->getMetadataFor($metadataClass->getAuditedEntityClass());
 
-        $builder->addManyToOne($moduleOptions->getRevisionEntityFieldName(), 'SoliantEntityAudit\\Entity\\RevisionEntity');
+        $builder->addManyToOne($moduleOptions->getRevisionEntityFieldName(), 'StukiWorkspace\\Entity\\RevisionEntity');
 # Compound keys removed in favor of auditId (audit_id)
         $identifiers[] = $moduleOptions->getRevisionEntityFieldName();
 
@@ -133,20 +133,20 @@ final class AuditDriver implements MappingDriver
      */
     function getAllClassNames()
     {
-        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
         $entityManager = $moduleOptions->getEntityManager();
         $metadataFactory = $entityManager->getMetadataFactory();
 
         $auditEntities = array();
         foreach ($moduleOptions->getAuditedClassNames() as $name => $targetClassOptions) {
-            $auditClassName = "SoliantEntityAudit\\Entity\\" . str_replace('\\', '_', $name);
+            $auditClassName = "StukiWorkspace\\Entity\\" . str_replace('\\', '_', $name);
             $auditEntities[] = $auditClassName;
             $auditedClassMetadata = $metadataFactory->getMetadataFor($name);
 
             // FIXME:  done in autoloader
             foreach ($auditedClassMetadata->getAssociationMappings() as $mapping) {
                 if (isset($mapping['joinTable']['name'])) {
-                    $auditJoinTableClassName = "SoliantEntityAudit\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
+                    $auditJoinTableClassName = "StukiWorkspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
                     $auditEntities[] = $auditJoinTableClassName;
                     $moduleOptions->addJoinClass($auditJoinTableClassName, $mapping);
                 }
@@ -154,8 +154,8 @@ final class AuditDriver implements MappingDriver
         }
 
         // Add revision (manage here rather than separate namespace)
-        $auditEntities[] = 'SoliantEntityAudit\\Entity\\Revision';
-        $auditEntities[] = 'SoliantEntityAudit\\Entity\\RevisionEntity';
+        $auditEntities[] = 'StukiWorkspace\\Entity\\Revision';
+        $auditEntities[] = 'StukiWorkspace\\Entity\\RevisionEntity';
 
         return $auditEntities;
     }

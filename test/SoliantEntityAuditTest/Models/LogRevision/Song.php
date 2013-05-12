@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAuditTest\Models\LogRevision;
+namespace StukiWorkspaceTest\Models\LogRevision;
 
 use Doctrine\ORM\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder

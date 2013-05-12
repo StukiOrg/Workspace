@@ -1,5 +1,5 @@
 <?php
-namespace SoliantEntityAudit\View\Helper ;
+namespace StukiWorkspace\View\Helper ;
 
 
 use Zend\Http\Request;

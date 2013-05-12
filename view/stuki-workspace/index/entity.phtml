@@ -8,7 +8,7 @@
             <a href="<?=
 
                     $this->url(
-                        'audit/entity',
+                        'stuki-workspace/entity',
                         array(
                             'entityClass' => $this->entityClass,
                         )
@@ -20,9 +20,9 @@
             <th colspan="4">
                 <?= $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/entity',
+                'stuki-workspace/pagination/entity',
                     array(
-                        'route' => 'audit/entity',
+                        'route' => 'stuki-workspace/entity',
                         'entityClass' => $this->entityClass,
                     )); ?>
             </th>
@@ -41,9 +41,9 @@
             <th colspan="4">
                 <?= $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/entity',
+                'stuki-workspace/pagination/entity',
                     array(
-                        'route' => 'audit/entity',
+                        'route' => 'stuki-workspace/entity',
                         'entityClass' => $this->entityClass,
                     )); ?>
             </th>
@@ -58,7 +58,7 @@ foreach ($paginator as $revisionEntity) {
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revision',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $revisionEntity->getRevision()->getId()
                         )
@@ -77,9 +77,9 @@ foreach ($paginator as $revisionEntity) {
             <td>
                 <a href="<?php
                     if ($revisionEntity->getRevision()->getUser()) {
-                        echo $this->url('audit/user', array('userId' => $revisionEntity->getRevision()->getUser()->getId()));
+                        echo $this->url('stuki-workspace/user', array('userId' => $revisionEntity->getRevision()->getUser()->getId()));
                     } else {
-                        echo $this->url('audit/user', array('userId' => '0'));
+                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php
@@ -96,7 +96,7 @@ foreach ($paginator as $revisionEntity) {
             </td>
             <td>
                 <?= $this->partial(
-                    'soliant-entity-audit/index/partial-revision-approve',
+                    'stuki-workspace/index/partial-revision-approve',
                     array('revision' => $revisionEntity->getRevision())
                 );
                 ?>

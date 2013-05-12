@@ -26,9 +26,9 @@
             <td>
                 <a href="<?php
                     if ($this->revision->getUser()) {
-                        echo $this->url('audit/user', array('userId' => $this->revision->getUser()->getId()));
+                        echo $this->url('stuki-workspace/user', array('userId' => $this->revision->getUser()->getId()));
                     } else {
-                        echo $this->url('audit/user', array('userId' => '0'));
+                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php
@@ -45,7 +45,7 @@
             </td>
             <td>
                 <?= $this->partial(
-                    'soliant-entity-audit/index/partial-revision-approve',
+                    'stuki-workspace/index/partial-revision-approve',
                     array('revision' => $this->revision)
                 );
                 ?>

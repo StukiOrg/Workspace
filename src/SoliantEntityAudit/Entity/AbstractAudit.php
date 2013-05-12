@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAudit\Entity;
+namespace StukiWorkspace\Entity;
 
 abstract class AbstractAudit
 {

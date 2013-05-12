@@ -1,9 +1,9 @@
 <?php
 
-namespace SoliantEntityAuditTest\View\Helper;
+namespace StukiWorkspaceTest\View\Helper;
 
-use SoliantEntityAuditTest\Bootstrap
-    , SoliantEntityAuditTest\Models\Bootstrap\Album
+use StukiWorkspaceTest\Bootstrap
+    , StukiWorkspaceTest\Models\Bootstrap\Album
     ;
 
 class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
@@ -13,7 +13,7 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Inserting data insures we will have a result > 0
-        $em = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         $entity = new Album;
         $entity->setTitle('Test 1');
@@ -31,10 +31,10 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
     public function testRevisionEntitiesAreReturnedInPaginator()
     {
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $em = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         $helper = $sm->get('viewhelpermanager')->get('auditRevisionEntityPaginator');
-        $revisionEntities = $em->getRepository('SoliantEntityAudit\Entity\RevisionEntity')->findBy(array(
+        $revisionEntities = $em->getRepository('StukiWorkspace\Entity\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($this->entity),
             'entityKeys' => serialize(array('id' => $this->entity->getId()))
         ));
@@ -53,10 +53,10 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
     {
 
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $em = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         $helper = $sm->get('viewhelpermanager')->get('auditRevisionEntityPaginator');
-        $revisionEntities = $em->getRepository('SoliantEntityAudit\Entity\RevisionEntity')->findBy(array(
+        $revisionEntities = $em->getRepository('StukiWorkspace\Entity\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($this->entity),
             'entityKeys' => serialize(array('id' => $this->entity->getId()))
         ));
@@ -76,10 +76,10 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
     {
 
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $em = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         $helper = $sm->get('viewhelpermanager')->get('auditRevisionEntityPaginator');
-        $revisionEntities = $em->getRepository('SoliantEntityAudit\Entity\RevisionEntity')->findAll();
+        $revisionEntities = $em->getRepository('StukiWorkspace\Entity\RevisionEntity')->findAll();
 
         $count = sizeof($revisionEntities);
 

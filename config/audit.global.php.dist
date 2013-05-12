@@ -3,13 +3,13 @@
 /**
  * bjyauthorize route guards for reference
  *
-   array('route' => 'audit', 'roles' => array('user')),
-   array('route' => 'audit/page', 'roles' => array('user')),
-   array('route' => 'audit/user', 'roles' => array('user')),
-   array('route' => 'audit/revision', 'roles' => array('user')),
-   array('route' => 'audit/revision-entity', 'roles' => array('user')),
-   array('route' => 'audit/entity', 'roles' => array('user')),
-   array('route' => 'audit/compare', 'roles' => array('user')),
+   array('route' => 'stuki-workspace', 'roles' => array('user')),
+   array('route' => 'stuki-workspace/page', 'roles' => array('user')),
+   array('route' => 'stuki-workspace/user', 'roles' => array('user')),
+   array('route' => 'stuki-workspace/revision', 'roles' => array('user')),
+   array('route' => 'stuki-workspace/revision-entity', 'roles' => array('user')),
+   array('route' => 'stuki-workspace/entity', 'roles' => array('user')),
+   array('route' => 'stuki-workspace/compare', 'roles' => array('user')),
 */
 
 

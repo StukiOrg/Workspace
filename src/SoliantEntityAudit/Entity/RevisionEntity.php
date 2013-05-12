@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAudit\Entity;
+namespace StukiWorkspace\Entity;
 
 use Doctrine\ORM\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder
@@ -92,7 +92,7 @@ class RevisionEntity
 
     public function setAuditEntity(AbstractAudit $entity)
     {
-        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
 
         $auditService = $moduleOptions->getAuditService();
         $identifiers = $auditService->getEntityIdentifierValues($entity);
@@ -106,14 +106,14 @@ class RevisionEntity
 
     public function getAuditEntity()
     {
-        $entityManager = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $entityManager = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         return $entityManager->getRepository($this->getAuditEntityClass())->findOneBy(array('revisionEntity' => $this));
     }
 
     public function getTargetEntity()
     {
-        $entityManager = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $entityManager = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         return $entityManager->getRepository(
             $entityManager

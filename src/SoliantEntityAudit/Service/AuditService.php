@@ -1,9 +1,9 @@
 <?php
 
-namespace SoliantEntityAudit\Service;
+namespace StukiWorkspace\Service;
 
 use Zend\View\Helper\AbstractHelper
-    , SoliantEntityAudit\Entity\AbstractAudit
+    , StukiWorkspace\Entity\AbstractAudit
     ;
 
 class AuditService extends AbstractHelper
@@ -30,7 +30,7 @@ class AuditService extends AbstractHelper
     }
 
     public function getEntityValues($entity) {
-        $em = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         $metadata = $em->getClassMetadata(get_class($entity));
         $fields = $metadata->getFieldNames();
@@ -62,14 +62,14 @@ class AuditService extends AbstractHelper
      * Find a mapping to the given field for 1:many
      */
     public function getAssociationRevisionEntity(AbstractAudit $entity, $field, $value) {
-        $em = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         foreach ($entity->getAssociationMappings() as $mapping) {
 
             if ($mapping['fieldName'] == $field) {
                 $qb = $em->createQueryBuilder();
                 $qb->select('revisionEntity')
-                    ->from('SoliantEntityAudit\\Entity\\RevisionEntity', 'revisionEntity')
+                    ->from('StukiWorkspace\\Entity\\RevisionEntity', 'revisionEntity')
                     ->innerJoin('revisionEntity.revision', 'revision')
                     ->andWhere('revisionEntity.targetEntityClass = ?1')
                     ->andWhere('revisionEntity.entityKeys = ?2')
@@ -92,14 +92,14 @@ class AuditService extends AbstractHelper
 
     public function getEntityIdentifierValues($entity, $cleanRevisionEntity = false)
     {
-        $entityManager = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $entityManager = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
         $metadataFactory = $entityManager->getMetadataFactory();
 
         // Get entity metadata - Audited entities will always have composite keys
         $metadata = $metadataFactory->getMetadataFor(get_class($entity));
         $values = $metadata->getIdentifierValues($entity);
 
-        if ($cleanRevisionEntity and $values['revisionEntity'] instanceof \SoliantEntityAudit\Entity\RevisionEntity) {
+        if ($cleanRevisionEntity and $values['revisionEntity'] instanceof \StukiWorkspace\Entity\RevisionEntity) {
             unset($values['revisionEntity']);
         }
 
@@ -117,35 +117,35 @@ class AuditService extends AbstractHelper
      */
     public function getRevisionEntities($entity)
     {
-        $entityManager = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $entityManager = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
-        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys(\SoliantEntityAudit\Module::getModuleOptions()->getAuditedClassNames()))) {
-            $auditEntityClass = 'SoliantEntityAudit\\Entity\\' . str_replace('\\', '_', get_class($entity));
+        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys(\StukiWorkspace\Module::getModuleOptions()->getAuditedClassNames()))) {
+            $auditEntityClass = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
             $identifiers = $this->getEntityIdentifierValues($entity);
         } elseif ($entity instanceof AbstractAudit) {
             $auditEntityClass = get_class($entity);
             $identifiers = $this->getEntityIdentifierValues($entity, true);
         } else {
-            $auditEntityClass = 'SoliantEntityAudit\\Entity\\' . str_replace('\\', '_', $entity);
+            $auditEntityClass = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $entity);
         }
 
         $search = array('auditEntityClass' => $auditEntityClass);
         if (isset($identifiers)) $search['entityKeys'] = serialize($identifiers);
 
-        return $entityManager->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')
+        return $entityManager->getRepository('StukiWorkspace\\Entity\\RevisionEntity')
             ->findBy($search, array('id' => 'DESC'));
     }
 
     public function workspaceRevisionEntity($entity)
     {
-        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
 
         $entityManager = $moduleOptions->getEntityManager();
         $auditService = $moduleOptions->getAuditService();
 
         $user = $moduleOptions->getUser();
 
-        $revisionEntities = $entityManager->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->findBy(array(
+        $revisionEntities = $entityManager->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($entity),
             'entityKeys' => serialize($auditService->getEntityIdentifierValues($entity)),
         ), array('id' => 'DESC'));

@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAuditTest;
+namespace StukiWorkspaceTest;
 
 use Zend\Loader\AutoloaderFactory
     , Zend\Mvc\Service\ServiceManagerConfig

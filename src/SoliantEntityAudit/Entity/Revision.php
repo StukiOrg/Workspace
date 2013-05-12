@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAudit\Entity;
+namespace StukiWorkspace\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 

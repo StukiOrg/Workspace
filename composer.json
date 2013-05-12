@@ -1,22 +1,18 @@
 {
-    "name": "soliantconsulting/entity-audit",
-    "description": "Doctrine 2 Entity Auditing",
+    "name": "stuki/workspace",
+    "description": "Doctrine 2 Workspaces",
     "type": "zf-module",
     "license": "MIT",
     "keywords": [
+    	"workspace",    
         "audit",
         "doctrine"
     ],
     "authors": [
         {
-            "name": "Tawfek Daghistani",
-            "email": "tawfekov@gmail.com",
-            "homepage": "http://www.dagho.com"
-        },
-        {
             "name": "Tom Anderson",
-            "email": "tanderson@soliantconsulting.com",
-            "homepage": "http://www.soliantconsulting.com"
+            "email": "tom.h.anderson@gmail.com",
+            "homepage": "http://db.etree.org"
         }
     ],
     "require": {
@@ -28,12 +24,11 @@
     "require-dev": {
         "zf-commons/zfc-user": "0.1.1",
         "zf-commons/zfc-user-doctrine-orm": "dev-master",
-
         "phpunit/phpunit": "3.7.14"
     },
     "autoload": {
         "psr-0": {
-            "SoliantEntityAudit": "src/"
+            "StukiWorkspace": "src/"
         },
         "classmap": [
             "./Module.php"

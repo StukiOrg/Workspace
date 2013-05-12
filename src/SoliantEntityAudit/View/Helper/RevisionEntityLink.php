@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAudit\View\Helper;
+namespace StukiWorkspace\View\Helper;
 use Zend\View\Helper\AbstractHelper;
 use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -24,7 +24,7 @@ final class RevisionEntityLink extends AbstractHelper implements ServiceLocatorA
     {
         $view = $this->getServiceLocator()->getServiceLocator()->get('View');
         $model = new ViewModel();
-        $model->setTemplate('soliant-entity-audit/helper/revision-entity-link.phtml');
+        $model->setTemplate('stuki-workspace/helper/revision-entity-link.phtml');
         $model->setVariable('revisionEntity', $revisionEntity);
         $model->setOption('has_parent', true);
         return $view->render($model);

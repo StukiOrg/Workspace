@@ -19,7 +19,7 @@ if ($user) {
             <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/revision', array('route' => 'audit/page'));
+                'stuki-workspace/pagination/revision', array('route' => 'audit/page'));
             ?>
             </th>
         </tr>
@@ -36,7 +36,7 @@ if ($user) {
         <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/revision', array('route' => 'audit/page'));
+                'stuki-workspace/pagination/revision', array('route' => 'audit/page'));
             ?>
         </th>
     </tfoot>
@@ -47,7 +47,7 @@ if ($user) {
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revision',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $revision->getId()
                         )
@@ -77,9 +77,9 @@ if ($user) {
             <td>
                 <a href="<?php
                     if ($revision->getUser()) {
-                        echo $this->url('audit/user', array('userId' => $revision->getUser()->getId()));
+                        echo $this->url('stuki-workspace/user', array('userId' => $revision->getUser()->getId()));
                     } else {
-                        echo $this->url('audit/user', array('userId' => '0'));
+                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php

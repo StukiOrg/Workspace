@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAuditTest\Models\Autoloader;
+namespace StukiWorkspaceTest\Models\Autoloader;
 
 use Doctrine\ORM\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder

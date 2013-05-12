@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAudit\Loader;
+namespace StukiWorkspace\Loader;
 
 use Zend\Loader\StandardAutoloader
     , Zend\ServiceManager\ServiceManager
@@ -20,7 +20,7 @@ class AuditAutoloader extends StandardAutoloader
      */
     public function loadClass($className, $type)
     {
-        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
         if (!$moduleOptions) return;
         $entityManager = $moduleOptions->getEntityManager();
 
@@ -31,7 +31,7 @@ class AuditAutoloader extends StandardAutoloader
 
         if (in_array($className, array_keys($joinClasses))) {
 
-            $auditClass->setNamespaceName("SoliantEntityAudit\\Entity");
+            $auditClass->setNamespaceName("StukiWorkspace\\Entity");
             $auditClass->setName($className);
             $auditClass->setExtendedClass('AbstractAudit');
 
@@ -98,7 +98,7 @@ class AuditAutoloader extends StandardAutoloader
         #FIXME:  why is this sent work outside the set namespace?
         foreach($moduleOptions->getAuditedClassNames() as $targetClass => $targetClassOptions) {
 
-             $auditClassName = 'SoliantEntityAudit\\Entity\\' . str_replace('\\', '_', $targetClass);
+             $auditClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $targetClass);
 
              if ($auditClassName == $className) {
                  $currentClass = $targetClass;
@@ -114,7 +114,7 @@ class AuditAutoloader extends StandardAutoloader
         $fields = $auditedClassMetadata->getFieldNames();
         $identifiers = $auditedClassMetadata->getFieldNames();
 
-        $service = \SoliantEntityAudit\Module::getModuleOptions()->getAuditService();
+        $service = \StukiWorkspace\Module::getModuleOptions()->getAuditService();
 
         // Generate audit entity
         foreach ($fields as $field) {
@@ -163,7 +163,7 @@ class AuditAutoloader extends StandardAutoloader
             " return '" .  addslashes($currentClass) . "';"
         );
 
-        $auditClass->setNamespaceName("SoliantEntityAudit\\Entity");
+        $auditClass->setNamespaceName("StukiWorkspace\\Entity");
         $auditClass->setName(str_replace('\\', '_', $currentClass));
         $auditClass->setExtendedClass('AbstractAudit');
 
@@ -172,7 +172,7 @@ class AuditAutoloader extends StandardAutoloader
 
             foreach ($auditedClassMetadata->getAssociationMappings() as $mapping) {
                 if (isset($mapping['joinTable']['name'])) {
-                    $auditJoinTableClassName = "SoliantEntityAudit\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
+                    $auditJoinTableClassName = "StukiWorkspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
                     $auditEntities[] = $auditJoinTableClassName;
                     $moduleOptions->addJoinClass($auditJoinTableClassName, $mapping);
                 }

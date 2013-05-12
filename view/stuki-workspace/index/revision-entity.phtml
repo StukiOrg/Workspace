@@ -2,7 +2,7 @@
     use Doctrine\ORM\Mapping\ClassMetadataInfo;
 ?>
 
-<h1>Audit Revision Entity</h1>
+<h1>stuki-workspace Revision Entity</h1>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -19,7 +19,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revision',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $this->revisionEntity->getRevision()->getId()
                         )
@@ -42,9 +42,9 @@
             <td>
                 <a href="<?php
                     if ($this->revisionEntity->getRevision()->getUser()) {
-                        echo $this->url('audit/user', array('userId' => $this->revisionEntity->getRevision()->getUser()->getId()));
+                        echo $this->url('stuki-workspace/user', array('userId' => $this->revisionEntity->getRevision()->getUser()->getId()));
                     } else {
-                        echo $this->url('audit/user', array('userId' => '0'));
+                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php
@@ -62,7 +62,7 @@
 
             <td>
                 <?= $this->partial(
-                    'soliant-entity-audit/index/partial-revision-approve',
+                    'stuki-workspace/index/partial/revision-approve',
                     array('revision' => $this->revisionEntity->getRevision())
                 );
                 ?>
@@ -73,7 +73,7 @@
 
 <table class="table table-striped table-hover table-bordered ">
     <caption>
-        Audited Entity Values
+        Entity Values
     </caption>
     <thead>
         <tr>
@@ -127,7 +127,7 @@
 
                         case ClassMetadataInfo::ONE_TO_MANY: # 4
                             // Verify an audit class exists for this field
-                            if (!class_exists('SoliantEntityAudit\\Entity\\' . str_replace('\\', '_', $value['targetEntity'])))
+                            if (!class_exists('StukiWorkspace\\Entity\\' . str_replace('\\', '_', $value['targetEntity'])))
                                 continue;
 
 
@@ -155,7 +155,7 @@
 
                             <?php
 
-                                $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+                                $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
                                 $joinClasses = $moduleOptions->getJoinClasses();
                                 foreach ($joinClasses as $join) {
                                     if ($join['sourceEntity'] == $value['targetEntity'])
@@ -165,7 +165,7 @@
                             ?>
                                 href="<?=
                                     $this->url(
-                                        'audit/one-to-many',
+                                        'stuki-workspace/one-to-many',
                                         array(
                                             'revisionEntityId' => $this->revisionEntity->getId(),
                                             'joinTable' => $value['targetEntity'],
@@ -213,7 +213,7 @@
 
                                 // Find join table association where target and source are inverse of this association
                                 // which will have the join table name
-                                $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+                                $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
                                 $joinClasses = $moduleOptions->getJoinClasses();
                                 foreach ($joinClasses as $join) {
                                     if ($join['sourceEntity'] == $value['targetEntity'])
@@ -223,7 +223,7 @@
                             ?>
                                 href="<?=
                                     $this->url(
-                                        'audit/association-source',
+                                        'stuki-workspace/association-source',
                                         array(
                                             'revisionEntityId' => $this->revisionEntity->getId(),
                                             'joinTable' => $join['joinTable']['name'],
@@ -241,7 +241,7 @@
                                 ?>
                                 href="<?=
                                     $this->url(
-                                        'audit/association-target',
+                                        'stuki-workspace/association-target',
                                         array(
                                             'revisionEntityId' => $this->revisionEntity->getId(),
                                             'joinTable' => $value['joinTable']['name'],
@@ -276,7 +276,7 @@
 
 
 <form action="<?=
-    $this->url('audit/compare',
+    $this->url('stuki-workspace/compare',
         array(
         )
     );
@@ -298,9 +298,9 @@
                 <?=
                 $this->paginationControl($paginator,
                     'Sliding',
-                    'soliant-entity-audit/pagination/revision-entity',
+                    'stuki-workspace/pagination/revision-entity',
                     array(
-                        'route' => 'audit/revision-entity',
+                        'route' => 'stuki-workspace/revision-entity',
                         'revisionEntityId' => $this->revisionEntity->getId(),
                     )
                 ); ?>
@@ -322,9 +322,9 @@
                 <?=
                 $this->paginationControl($paginator,
                     'Sliding',
-                    'soliant-entity-audit/pagination/revision-entity',
+                    'stuki-workspace/pagination/revision-entity',
                     array(
-                        'route' => 'audit/revision-entity',
+                        'route' => 'stuki-workspace/revision-entity',
                         'revisionEntityId' => $this->revisionEntity->getId(),
                     )
                 ); ?>
@@ -339,7 +339,7 @@
             <tr>
                 <td>
                     <a href="<?=
-                        $this->url('audit/revision',
+                        $this->url('stuki-workspace/revision',
                             array(
                                 'revisionId' => $rev->getRevision()->getId()
                             )
@@ -361,9 +361,9 @@
                 <td>
                     <a href="<?php
                         if ($rev->getRevision()->getUser()) {
-                            echo $this->url('audit/user', array('userId' => $rev->getRevision()->getUser()->getId()));
+                            echo $this->url('stuki-workspace/user', array('userId' => $rev->getRevision()->getUser()->getId()));
                         } else {
-                            echo $this->url('audit/user', array('userId' => '0'));
+                            echo $this->url('stuki-workspace/user', array('userId' => '0'));
                         }
                     ?>" class="btn btn-default">
                         <?php
@@ -397,6 +397,7 @@
                         }
                         ?> />
                 </td>
+
             </tr>
             <?php
             }
@@ -410,7 +411,7 @@
 
     <a href="<?=
             $this->url(
-                'audit/entity',
+                'stuki-workspace/entity',
                 array(
                     'entityClass' => $this->revisionEntity->getAuditEntity()->getAuditedEntityClass(),
                 )

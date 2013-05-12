@@ -1,10 +1,10 @@
 <?php
 
-namespace SoliantEntityAuditTest\Options;
+namespace StukiWorkspaceTest\Options;
 
-use SoliantEntityAudit\Options\ModuleOptions
-    , SoliantEntityAudit\Tests\Util\ServiceManagerFactory
-    , SoliantEntityAuditTest\Bootstrap
+use StukiWorkspace\Options\ModuleOptions
+    , StukiWorkspace\Tests\Util\ServiceManagerFactory
+    , StukiWorkspaceTest\Bootstrap
     ;
 
 class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
@@ -51,7 +51,7 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $moduleOptions = clone $serviceManager->get('auditModuleOptions');
         $moduleOptions->setDefaults(array());
 
-        $userClass = \SoliantEntityAudit\Module::getModuleOptions()->getUserEntityClassName();
+        $userClass = \StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName();
         $user = new $userClass;
 
         $user->setEmail('test');

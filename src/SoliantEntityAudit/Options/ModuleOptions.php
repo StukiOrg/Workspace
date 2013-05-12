@@ -1,8 +1,8 @@
 <?php
 
-namespace SoliantEntityAudit\Options;
+namespace StukiWorkspace\Options;
 use Doctrine\ORM\EntityManager
-    , SoliantEntityAudit\Service\AuditService
+    , StukiWorkspace\Service\AuditService
     ;
 
 class ModuleOptions

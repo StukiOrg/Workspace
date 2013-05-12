@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAuditTest\Models\Bootstrap;
+namespace StukiWorkspaceTest\Models\Bootstrap;
 
 use Doctrine\ORM\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder

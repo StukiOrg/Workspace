@@ -12,7 +12,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
 use StukiWorkspace\Entity\AbstractAudit;
 
-final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorAwareInterface
+final class stuki-workspacePaginator extends AbstractHelper implements ServiceLocatorAwareInterface
 {
     private $serviceLocator;
 
@@ -27,29 +27,21 @@ final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorA
         return $this;
     }
 
-    public function __invoke($page, $revisionEntity, $joinTable, $mappedBy)
+    public function __invoke($page, $filter = array())
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
         $auditService = $this->getServiceLocator()->getServiceLocator()->get('auditService');
 
-        $entityClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $joinTable);
+        $repository = $entityManager->getRepository('StukiWorkspace\\Entity\\Revision');
 
-        $query = $entityManager->createQuery("
-            SELECT e
-            FROM StukiWorkspace\Entity\RevisionEntity e
-            JOIN e.revision r
-            WHERE e.id IN (
-                SELECT re.id
-                FROM $entityClassName s
-                JOIN s.revisionEntity re
-                WHERE s.$mappedBy = :var
-            )
-            ORDER BY r.timestamp DESC
-        ");
-        $query->setParameter('var', $revisionEntity->getTargetEntity());
+        $qb = $repository->createQueryBuilder('revision');
+        $qb->orWhere("revision.user = :user");
+        $qb->setParameter('user', $auditModuleOptions->getUser());
+        $qb->orWhere("revision.approve = 'approved'");
+        $qb->orderBy('revision.id', 'DESC');
 
-        $adapter = new DoctrineAdapter(new ORMPaginator($query));
+        $adapter = new DoctrineAdapter(new ORMPaginator($qb));
         $paginator = new Paginator($adapter);
         $paginator->setDefaultItemCountPerPage($auditModuleOptions->getPaginatorLimit());
 
@@ -58,4 +50,3 @@ final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorA
         return $paginator;
     }
 }
-

@@ -4,9 +4,9 @@
     <a href="#" class="btn btn-danger">Delete</a>
 </span>
 
-<h1>Audit Entity Association</h1>
+<h1>Audit Entity Source Association</h1>
 
-<?php $paginator = $this->auditAssociationPaginator($this->page, $this->revisionEntity, $this->joinTable); ?>
+<?php $paginator = $this->auditAssociationSourcePaginator($this->page, $this->revisionEntity, $this->joinTable); ?>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -14,14 +14,14 @@
             <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/association', array('route' => 'audit/association'));
+                'stuki-workspace/pagination/association', array('route' => 'audit/association'));
             ?>
             </th>
         </tr>
         <tr>
             <th>Revision</th>
-            <th>Target</th>
             <th>Source</th>
+            <th>Target</th>
             <th>Comment</th>
             <th>User</th>
         </tr>
@@ -31,7 +31,7 @@
         <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/association', array('route' => 'audit/page'));
+                'stuki-workspace/pagination/association', array('route' => 'audit/page'));
             ?>
         </th>
     </tfoot>
@@ -42,7 +42,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revision',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $revisionEntity->getRevision()->getId()
                         )
@@ -56,21 +56,23 @@
             </td>
 
             <td>
+                <?= $this->auditRevisionEntityLink($association->getSourceRevisionEntity()); ?>
+            </td>
+
+            <td>
                 <?= $this->auditRevisionEntityLink($association->getTargetRevisionEntity()); ?>
             </td>
 
             <td>
-                <?= $this->auditRevisionEntityLink($association->getSourceRevisionEntity()); ?>
+                <?= $this->escapeHtml($revisionEntity->getRevision()->getComment()); ?>
             </td>
-
-            <td><?= $this->escapeHtml($revisionEntity->getRevision()->getComment()); ?></td>
 
             <td>
                 <a href="<?php
                     if ($revisionEntity->getRevision()->getUser()) {
-                        echo $this->url('audit/user', array('userId' => $revisionEntity->getRevision()->getUser()->getId()));
+                        echo $this->url('stuki-workspace/user', array('userId' => $revisionEntity->getRevision()->getUser()->getId()));
                     } else {
-                        echo $this->url('audit/user', array('userId' => '0'));
+                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php

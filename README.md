@@ -1,58 +1,56 @@
-SoliantEntityAudit
-==============
+Stuki Workspace
+===============
 
-[![Build Status](https://travis-ci.org/TomHAnderson/SoliantEntityAudit.png)](https://travis-ci.org/TomHAnderson/SoliantEntityAudit)
+[![Build Status](https://travis-ci.org/StukiOrg/Workspace.png)](https://travis-ci.org/StukiOrg/Workspace)
 
-An auditing module for Doctrine 2.  Requires ZfcUser to map revisions to users.  This module creates an entity to audit a specified target entity and tracks revisions to that target.
-
+A workspace module for Doctrine 2.  This module creates an entity to audit specified targets for every user to work within their own workspace.  Users may request their workspace be merged into master from any revision.  
 
 About
 =====
 
-This module takes a configuration of entities to audit and creates 
-entities to audit them and revision tracking entities.  Included is a view layer to browse the audit records.  Routing back to live application data is supported and view helpers
-allow you to find and browse to the latest audit record from a given audited entity.
+This module takes a configuration of entities to include in the workspace and creates 
+entities to audit them.  The audited entites become a workspace for each user.  As the user creates, updates, and deletes data the changes are logged to their workspace.  The user may request their workspace be merged to master.  Merge requests are handled by privileged users.  As revisions are approved they are merged into the master database.
 
-Revisions pool all audited entities into revision buckets.  Each bucket contains the revision entity for each audited record in a transaction.
-
-Auditing is done in it's own transaction after a flush has been performed.  Auditing takes two flushes in one transaction to complete.  
+This is accomplished by evaluating each entity when it is fetched from the ORM.  The entity will be changed to the latest revision for the current user within their workspace.  
 
 
 Install
 =======
 
-Require SoliantEntityAudit with composer 
+Require Stuki Workspace with composer 
 
 ```php
-php composer.phar require "soliantconsulting/entity-audit": "dev-master"
+php composer.phar require "stuki/workspace": "dev-master"
 ```
 
 
-Enable SoliantEntityAudit in `config/application.config.php`: 
+Enable Stuki Workspace in `config/application.config.php`: 
 ```php
 return array(
     'modules' => array(
-        'SoliantEntityAudit'
+        'StukiWorkspace'
         ...
     ),
 ```
 
-Copy `config/SoliantEntityAudit.global.php.dist` to `config/autoload/SoliantEntityAudit.global.php` and edit setting as
+Copy `config/workspace.global.php.dist` to `config/autoload/workspace.global.php` and edit setting as
 
 ```php
 return array(
-    'audit' => array(
-        'datetimeFormat' => 'r',
-        'paginatorLimit' => 20,
-        
-        'tableNamePrefix' => '',
-        'tableNameSuffix' => '_audit',
-        'revisionTableName' => 'Revision',
-        'revisionEntityTableName' => 'RevisionEntity',
-        
-        'entities' => array(           
-            'Db\Entity\Song' => array(),
-            'Db\Entity\Performer' => array(),
+    'stuki' => array(
+        'workspace' => array(
+            'datetimeFormat' => 'r',
+            'paginatorLimit' => 20,
+
+            'tableNamePrefix' => '',
+            'tableNameSuffix' => '_audit',
+            'revisionTableName' => 'Revision',
+            'revisionEntityTableName' => 'RevisionEntity',
+
+            'entities' => array(           
+                'Db\Entity\Song' => array(),
+                'Db\Entity\Performer' => array(),
+            ),
         ),
     ),
 );
@@ -118,7 +116,7 @@ This is how to map from your application to it's current revision entity:
 
 ```
     <a class="btn btn-info" href="<?=
-        $this->url('audit/revision-entity',
+        $this->url('stuki-workspace/revision-entity',
             array(
                 'revisionEntityId' => $this->auditCurrentRevisionEntity($auditedEntity)->getId()
             )

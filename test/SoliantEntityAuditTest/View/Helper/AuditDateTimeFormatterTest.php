@@ -1,8 +1,8 @@
 <?php
 
-namespace SoliantEntityAuditTest\View\Helper;
+namespace StukiWorkspaceTest\View\Helper;
 
-use SoliantEntityAuditTest\Bootstrap
+use StukiWorkspaceTest\Bootstrap
     ;
 
 class AuditDateTimeFormatterTest extends \PHPUnit_Framework_TestCase

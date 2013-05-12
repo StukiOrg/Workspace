@@ -1,14 +1,14 @@
 <?php
 
-namespace SoliantEntityAudit;
+namespace StukiWorkspace;
 
 use Zend\Mvc\MvcEvent
-    , SoliantEntityAudit\Options\ModuleOptions
-    , SoliantEntityAudit\Service\AuditService
-    , SoliantEntityAudit\Loader\AuditAutoloader
-    , SoliantEntityAudit\EventListener\LogRevision
-    , SoliantEntityAudit\View\Helper\DateTimeFormatter
-    , SoliantEntityAudit\View\Helper\EntityValues
+    , StukiWorkspace\Options\ModuleOptions
+    , StukiWorkspace\Service\AuditService
+    , StukiWorkspace\Loader\AuditAutoloader
+    , StukiWorkspace\EventListener\LogRevision
+    , StukiWorkspace\View\Helper\DateTimeFormatter
+    , StukiWorkspace\View\Helper\EntityValues
     ;
 
 class Module
@@ -24,9 +24,9 @@ class Module
                 ),
             ),
 
-            'SoliantEntityAudit\Loader\AuditAutoloader' => array(
+            'StukiWorkspace\Loader\AuditAutoloader' => array(
                 'namespaces' => array(
-                    'SoliantEntityAudit\Entity' => __DIR__,
+                    'StukiWorkspace\Entity' => __DIR__,
                 )
             ),
         );

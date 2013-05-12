@@ -1,9 +1,9 @@
 <?php
 
-namespace SoliantEntityAuditTest\View\Helper;
+namespace StukiWorkspaceTest\View\Helper;
 
-use SoliantEntityAuditTest\Bootstrap
-    , SoliantEntityAuditTest\Models\Bootstrap\Album
+use StukiWorkspaceTest\Bootstrap
+    , StukiWorkspaceTest\Models\Bootstrap\Album
     ;
 
 class EntityOptionsTest extends \PHPUnit_Framework_TestCase
@@ -13,7 +13,7 @@ class EntityOptionsTest extends \PHPUnit_Framework_TestCase
         $sm = Bootstrap::getApplication()->getServiceManager();
         $helper = $sm->get('viewhelpermanager')->get('auditEntityOptions');
 
-        $helper('SoliantEntityAuditTest\Models\Bootstrap\Song');
+        $helper('StukiWorkspaceTest\Models\Bootstrap\Song');
         $helper();
     }
 }

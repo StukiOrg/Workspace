@@ -1,17 +1,12 @@
-<?php
-if ($user) {
-    $userId = $user->getId();
-?>
-    <h1>Workspace for <?= $this->escapeHtml($user->getDisplayName()); ?></h1>
-<?php
-} else {
-    $userId = null;
-?>
-<h1>Audit Anonymous Revisions</h1>
-<?php
-}
-?>
-<?php $paginator = $this->auditRevisionPaginator($this->page, array('user' => $userId)); ?>
+<span class="pull-right">
+    <a href="#" class="btn btn-success">Insert</a>
+    <a href="#" class="btn btn-warning">Update</a>
+    <a href="#" class="btn btn-danger">Delete</a>
+</span>
+
+<h1>All stuki-workspaces</h1>
+
+<?php $paginator = $this->auditRevisionPaginator($this->page); ?>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -19,7 +14,7 @@ if ($user) {
             <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/revision', array('route' => 'audit/page'));
+                'stuki-workspace/pagination/revision', array('route' => 'audit/page'));
             ?>
             </th>
         </tr>
@@ -28,6 +23,7 @@ if ($user) {
             <th>Entity</th>
             <th>Comment</th>
             <th>User</th>
+            <th>Approval</th>
         </tr>
     </thead>
 
@@ -35,7 +31,7 @@ if ($user) {
         <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/revision', array('route' => 'audit/page'));
+                'stuki-workspace/pagination/revision', array('route' => 'audit/page'));
             ?>
         </th>
     </tfoot>
@@ -46,7 +42,7 @@ if ($user) {
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revision',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $revision->getId()
                         )
@@ -76,9 +72,9 @@ if ($user) {
             <td>
                 <a href="<?php
                     if ($revision->getUser()) {
-                        echo $this->url('audit/user', array('userId' => $revision->getUser()->getId()));
+                        echo $this->url('stuki-workspace/user', array('userId' => $revision->getUser()->getId()));
                     } else {
-                        echo $this->url('audit/user', array('userId' => '0'));
+                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php
@@ -93,6 +89,15 @@ if ($user) {
                     ?>
                 </a>
             </td>
+
+            <td>
+                <?= $this->partial(
+                    'stuki-workspace/index/partial/revision-approve',
+                    array('revision' => $revision)
+                );
+                ?>
+            </td>
+
         </tr>
     <?php
     }

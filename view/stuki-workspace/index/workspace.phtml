@@ -4,9 +4,9 @@
     <a href="#" class="btn btn-danger">Delete</a>
 </span>
 
-<h1>Audit</h1>
+<h1>stuki-workspace</h1>
 
-<?php $paginator = $this->auditRevisionPaginator($this->page); ?>
+<?php $paginator = $this->auditstuki-workspacePaginator($this->page); ?>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -14,7 +14,7 @@
             <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/revision', array('route' => 'audit/page'));
+                'stuki-workspace/pagination/revision', array('route' => 'audit/page'));
             ?>
             </th>
         </tr>
@@ -31,7 +31,7 @@
         <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/revision', array('route' => 'audit/page'));
+                'stuki-workspace/pagination/revision', array('route' => 'audit/page'));
             ?>
         </th>
     </tfoot>
@@ -42,7 +42,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revision',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $revision->getId()
                         )
@@ -72,9 +72,9 @@
             <td>
                 <a href="<?php
                     if ($revision->getUser()) {
-                        echo $this->url('audit/user', array('userId' => $revision->getUser()->getId()));
+                        echo $this->url('stuki-workspace/user', array('userId' => $revision->getUser()->getId()));
                     } else {
-                        echo $this->url('audit/user', array('userId' => '0'));
+                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php
@@ -92,7 +92,7 @@
 
             <td>
                 <?= $this->partial(
-                    'soliant-entity-audit/index/partial-revision-approve',
+                    'stuki-workspace/index/partial/revision-approve',
                     array('revision' => $revision)
                 );
                 ?>

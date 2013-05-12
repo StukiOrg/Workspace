@@ -7,7 +7,7 @@
         Comparing <a href="<?=
 
                     $this->url(
-                        'audit/entity',
+                        'stuki-workspace/entity',
                         array(
                             'entityClass' => $revisionEntity_old->getAuditEntity()->getAuditedEntityClass(),
                         )
@@ -92,7 +92,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revision',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $revisionEntity_old->getRevision()->getId()
                         )
@@ -143,7 +143,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revision',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $revisionEntity_old->getRevision()->getId()
                         )

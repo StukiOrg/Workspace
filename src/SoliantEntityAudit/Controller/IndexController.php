@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAudit\Controller;
+namespace StukiWorkspace\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController
  , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
@@ -24,6 +24,19 @@ class IndexController extends AbstractActionController
     }
 
     /**
+     * Renders a user's workspace of revisions
+     *
+     * @param int $page
+     */
+    public function workspaceAction()
+    {
+        $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
+        return array(
+            'page' => $page,
+        );
+    }
+
+    /**
      * Renders a paginated list of revisions for the given user
      *
      * @param int $page
@@ -33,8 +46,8 @@ class IndexController extends AbstractActionController
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $userId = (int)$this->getEvent()->getRouteMatch()->getParam('userId');
 
-        $user = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager()
-            ->getRepository(\SoliantEntityAudit\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
+        $user = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository(\StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
 
         return array(
             'page' => $page,
@@ -52,8 +65,8 @@ class IndexController extends AbstractActionController
     {
         $revisionId = (int)$this->getEvent()->getRouteMatch()->getParam('revisionId');
 
-        $revision = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('SoliantEntityAudit\\Entity\\Revision')
+        $revision = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('StukiWorkspace\\Entity\\Revision')
             ->find($revisionId);
 
         if (!$revision)
@@ -74,14 +87,14 @@ class IndexController extends AbstractActionController
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $revisionEntityId = (int) $this->getEvent()->getRouteMatch()->getParam('revisionEntityId');
 
-        $revisionEntity = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->find($revisionEntityId);
+        $revisionEntity = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
             return $this->plugin('redirect')->toRoute('audit');
 
-        $repository = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity');
+        $repository = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity');
 
         return array(
             'page' => $page,
@@ -122,10 +135,10 @@ class IndexController extends AbstractActionController
         $revisionEntityId_old = $this->getRequest()->getPost()->get('revisionEntityId_old');
         $revisionEntityId_new = $this->getRequest()->getPost()->get('revisionEntityId_new');
 
-        $revisionEntity_old = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->find($revisionEntityId_old);
-        $revisionEntity_new = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->find($revisionEntityId_new);
+        $revisionEntity_old = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId_old);
+        $revisionEntity_new = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId_new);
 
         if (!$revisionEntity_old and !$revisionEntity_new)
             return $this->plugin('redirect')->toRoute('audit');
@@ -149,7 +162,7 @@ class IndexController extends AbstractActionController
         $auditService = $this->getServiceLocator()->get('auditService');
 
         $revisionEntity = $moduleOptions->getEntityManager()
-            ->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->find($revisionEntityId);
+            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
             return $this->plugin('redirect')->toRoute('audit');
@@ -181,8 +194,8 @@ class IndexController extends AbstractActionController
 
         $auditService = $this->getServiceLocator()->get('auditService');
 
-        $revisionEntity = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->find($revisionEntityId);
+        $revisionEntity = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
             return $this->plugin('redirect')->toRoute('audit');
@@ -207,7 +220,7 @@ class IndexController extends AbstractActionController
 
         foreach ($moduleOptions->getAuditedClassNames()
             as $className => $route) {
-            $auditClassName = 'SoliantEntityAudit\\Entity\\' . str_replace('\\', '_', $className);
+            $auditClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $className);
             $x = new $auditClassName;
         }
         $joinClasses = $moduleOptions->getJoinClasses();
@@ -218,8 +231,8 @@ class IndexController extends AbstractActionController
 
         $auditService = $this->getServiceLocator()->get('auditService');
 
-        $revisionEntity = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')->find($revisionEntityId);
+        $revisionEntity = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
             return $this->plugin('redirect')->toRoute('audit');
@@ -242,7 +255,7 @@ class IndexController extends AbstractActionController
 
         foreach ($moduleOptions->getAuditedClassNames()
             as $className => $route) {
-            $auditClassName = 'SoliantEntityAudit\\Entity\\' . str_replace('\\', '_', $className);
+            $auditClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $className);
             $x = new $auditClassName;
         }
     }

@@ -18,7 +18,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revision',
+                    $this->url('stuki-workspace/revision',
                         array(
                             'revisionId' => $this->revisionEntity->getRevision()->getId()
                         )
@@ -41,9 +41,9 @@
             <td>
                 <a href="<?php
                     if ($this->revisionEntity->getRevision()->getUser()) {
-                        echo $this->url('audit/user', array('userId' => $this->revisionEntity->getRevision()->getUser()->getId()));
+                        echo $this->url('stuki-workspace/user', array('userId' => $this->revisionEntity->getRevision()->getUser()->getId()));
                     } else {
-                        echo $this->url('audit/user', array('userId' => '0'));
+                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php
@@ -78,7 +78,7 @@
             <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/one-to-many', array('route' => 'audit/one-to-many'));
+                'stuki-workspace/pagination/one-to-many', array('route' => 'audit/one-to-many'));
             ?>
             </th>
         </tr>
@@ -94,7 +94,7 @@
         <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'soliant-entity-audit/pagination/one-to-many', array('route' => 'audit/one-to-many'));
+                'stuki-workspace/pagination/one-to-many', array('route' => 'audit/one-to-many'));
             ?>
         </th>
     </tfoot>
@@ -105,7 +105,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('audit/revisions',
+                    $this->url('stuki-workspace/revisions',
                         array(
                             'revisionId' => $association->getRevision()->getId()
                         )
@@ -128,9 +128,9 @@
             <td>
                 <a href="<?php
                     if ($association->getRevision()->getUser()) {
-                        echo $this->url('audit/user', array('userId' => $association->getRevision()->getUser()->getId()));
+                        echo $this->url('stuki-workspace/user', array('userId' => $association->getRevision()->getUser()->getId()));
                     } else {
-                        echo $this->url('audit/user', array('userId' => '0'));
+                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php

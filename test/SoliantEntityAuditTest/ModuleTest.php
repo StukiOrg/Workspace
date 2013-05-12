@@ -1,9 +1,9 @@
 <?php
 
-namespace SoliantEntityAuditTest\Loader;
+namespace StukiWorkspaceTest\Loader;
 
-use SoliantEntityAuditTest\Bootstrap
-    , SoliantEntityAudit\Controller\IndexController
+use StukiWorkspaceTest\Bootstrap
+    , StukiWorkspace\Controller\IndexController
     , Zend\Mvc\Router\Http\TreeRouteStack as HttpRouter
     , Zend\Http\Request
     , Zend\Http\Response
@@ -15,12 +15,12 @@ use SoliantEntityAuditTest\Bootstrap
     , Doctrine\ORM\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Driver\StaticPhpDriver
     , Doctrine\ORM\Mapping\Driver\PhpDriver
-    , SoliantEntityAudit\Options\ModuleOptions
-    , SoliantEntityAudit\Service\AuditService
-    , SoliantEntityAudit\Loader\AuditAutoloader
-    , SoliantEntityAudit\EventListener\LogRevision
-    , SoliantEntityAudit\View\Helper\DateTimeFormatter
-    , SoliantEntityAudit\View\Helper\EntityValues
+    , StukiWorkspace\Options\ModuleOptions
+    , StukiWorkspace\Service\AuditService
+    , StukiWorkspace\Loader\AuditAutoloader
+    , StukiWorkspace\EventListener\LogRevision
+    , StukiWorkspace\View\Helper\DateTimeFormatter
+    , StukiWorkspace\View\Helper\EntityValues
     , Zend\ServiceManager\ServiceManager
 
     ;
@@ -43,8 +43,8 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     {
         $sm = Bootstrap::getApplication()->getServiceManager();
 
-        $this->assertInstanceOf('SoliantEntityAudit\Options\ModuleOptions', $sm->get('auditModuleOptions'));
-        $this->assertInstanceOf('SoliantEntityAudit\Service\AuditService', $sm->get('auditService'));
+        $this->assertInstanceOf('StukiWorkspace\Options\ModuleOptions', $sm->get('auditModuleOptions'));
+        $this->assertInstanceOf('StukiWorkspace\Service\AuditService', $sm->get('auditService'));
     }
 
     public function testViewHelperConfig()

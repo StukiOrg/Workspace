@@ -1,9 +1,9 @@
 <?php
 
-namespace SoliantEntityAuditTest\View\Helper;
+namespace StukiWorkspaceTest\View\Helper;
 
-use SoliantEntityAuditTest\Bootstrap
-    , SoliantEntityAuditTest\Models\Bootstrap\Album
+use StukiWorkspaceTest\Bootstrap
+    , StukiWorkspaceTest\Models\Bootstrap\Album
     ;
 
 class CurrentRevisionEntityTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +11,7 @@ class CurrentRevisionEntityTest extends \PHPUnit_Framework_TestCase
     public function testReturnsRevisionEntity()
     {
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $em = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         $helper = $sm->get('viewhelpermanager')->get('auditCurrentRevisionEntity');
 
@@ -26,13 +26,13 @@ class CurrentRevisionEntityTest extends \PHPUnit_Framework_TestCase
         // Test getRevisionEntities on Revision
         $this->assertEquals(1, sizeof($revisionEntity->getRevision()->getRevisionEntities()));
 
-        $this->assertInstanceOf('SoliantEntityAudit\Entity\RevisionEntity', $revisionEntity);
+        $this->assertInstanceOf('StukiWorkspace\Entity\RevisionEntity', $revisionEntity);
     }
 
     public function testDoesNotReturnRevisionEntity()
     {
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $em = \SoliantEntityAudit\Module::getModuleOptions()->getEntityManager();
+        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
         $helper = $sm->get('viewhelpermanager')->get('auditCurrentRevisionEntity');
 

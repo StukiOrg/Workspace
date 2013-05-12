@@ -1,9 +1,9 @@
 <?php
 
-namespace SoliantEntityAuditTest\View\Helper;
+namespace StukiWorkspaceTest\View\Helper;
 
-use SoliantEntityAuditTest\Bootstrap
-    , SoliantEntityAuditTest\Models\Bootstrap\Album
+use StukiWorkspaceTest\Bootstrap
+    , StukiWorkspaceTest\Models\Bootstrap\Album
     ;
 
 class RevisionPaginatorTest extends \PHPUnit_Framework_TestCase
@@ -34,7 +34,7 @@ class RevisionPaginatorTest extends \PHPUnit_Framework_TestCase
         $em = Bootstrap::getApplication()->getServiceManager()->get("doctrine.entitymanager.orm_default");
 
         $helper = $sm->get('viewhelpermanager')->get('auditRevisionPaginator');
-        $revisions = $em->getRepository('SoliantEntityAudit\Entity\Revision')->findAll();
+        $revisions = $em->getRepository('StukiWorkspace\Entity\Revision')->findAll();
         $count = sizeof($revisions);
 
         $paginator = $helper($page = 0);

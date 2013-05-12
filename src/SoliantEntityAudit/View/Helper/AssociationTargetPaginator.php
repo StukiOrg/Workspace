@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAudit\View\Helper;
+namespace StukiWorkspace\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Doctrine\ORM\EntityManager;
@@ -10,7 +10,7 @@ use Zend\View\Model\ViewModel;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
-use SoliantEntityAudit\Entity\AbstractAudit;
+use StukiWorkspace\Entity\AbstractAudit;
 
 final class AssociationTargetPaginator extends AbstractHelper implements ServiceLocatorAwareInterface
 {
@@ -40,7 +40,7 @@ final class AssociationTargetPaginator extends AbstractHelper implements Service
             }
         }
 
-        $repository = $entityManager->getRepository('SoliantEntityAudit\\Entity\\' . str_replace('\\', '_', $joinTable));
+        $repository = $entityManager->getRepository('StukiWorkspace\\Entity\\' . str_replace('\\', '_', $joinTable));
 
         $qb = $repository->createQueryBuilder('association');
         $qb->andWhere('association.targetRevisionEntity = :var');

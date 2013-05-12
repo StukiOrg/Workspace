@@ -1,15 +1,15 @@
 <?php
 
-namespace SoliantEntityAudit\EventListener;
+namespace StukiWorkspace\EventListener;
 
 use Doctrine\Common\EventSubscriber
     , Doctrine\ORM\Events
     , Doctrine\ORM\Event\OnFlushEventArgs
     , Doctrine\ORM\Event\PostFlushEventArgs
     , Doctrine\ORM\Event\LifecycleEventArgs
-    , SoliantEntityAudit\Entity\Revision as RevisionEntity
-    , SoliantEntityAudit\Options\ModuleOptions
-    , SoliantEntityAudit\Entity\RevisionEntity as RevisionEntityEntity
+    , StukiWorkspace\Entity\Revision as RevisionEntity
+    , StukiWorkspace\Options\ModuleOptions
+    , StukiWorkspace\Entity\RevisionEntity as RevisionEntityEntity
     , Zend\Code\Reflection\ClassReflection
     , Doctrine\ORM\PersistentCollection
     ;
@@ -119,7 +119,7 @@ class LogRevision implements EventSubscriber
         if ($this->revision) return;
 
         $revision = new RevisionEntity();
-        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
         if ($moduleOptions->getUser()) {
             $revision->setUser($moduleOptions->getUser());
         } else {
@@ -167,11 +167,11 @@ class LogRevision implements EventSubscriber
     {
         $auditEntities = array();
 
-        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
         if (!in_array(get_class($entity), array_keys($moduleOptions->getAuditedClassNames())))
             return array();
 
-        $auditEntityClass = 'SoliantEntityAudit\\Entity\\' . str_replace('\\', '_', get_class($entity));
+        $auditEntityClass = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
         $auditEntity = new $auditEntityClass();
         $auditEntity->exchangeArray($this->getClassProperties($entity));
 
@@ -253,7 +253,7 @@ class LogRevision implements EventSubscriber
 
         $entity = $args->getEntity();
 
-        $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
 
         // Is the entity audited?
         $found = false;
@@ -289,7 +289,7 @@ class LogRevision implements EventSubscriber
         if ($this->getEntities() and !$this->getInAuditTransaction()) {
             $this->setInAuditTransaction(true);
 
-            $moduleOptions = \SoliantEntityAudit\Module::getModuleOptions();
+            $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
             $entityManager = $moduleOptions->getEntityManager();
             $entityManager->beginTransaction();
 
@@ -316,7 +316,7 @@ class LogRevision implements EventSubscriber
 
                 if (!$mapping['isOwningSide']) continue;
 
-                $joinClassName = "SoliantEntityAudit\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
+                $joinClassName = "StukiWorkspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
                 $moduleOptions->addJoinClass($joinClassName, $mapping);
 
                 foreach ($this->many2many as $map) {
@@ -328,7 +328,7 @@ class LogRevision implements EventSubscriber
                     $audit = new $joinClassName();
 
                     // Get current inverse revision entity
-                    $revisionEntities = $entityManager->getRepository('SoliantEntityAudit\\Entity\\RevisionEntity')
+                    $revisionEntities = $entityManager->getRepository('StukiWorkspace\\Entity\\RevisionEntity')
                         ->findBy(array(
                             'targetEntityClass' => get_class($element),
                             'entityKeys' => serialize(array('id' => $element->getId())),

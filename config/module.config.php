@@ -1,12 +1,12 @@
 <?php
 
-namespace SoliantEntityAudit;
+namespace StukiWorkspace;
 
 return array(
     'doctrine' => array(
         'driver' => array(
             __NAMESPACE__ . '_driver' => array(
-                'class' => 'SoliantEntityAudit\Mapping\Driver\AuditDriver',
+                'class' => 'StukiWorkspace\Mapping\Driver\AuditDriver',
             ),
 
             'orm_default' => array(
@@ -19,7 +19,7 @@ return array(
         'eventmanager' => array(
             'orm_default' => array(
                 'subscribers' => array(
-                    'SoliantEntityAudit\EventListener\LogRevision',
+                    'StukiWorkspace\EventListener\LogRevision',
                 ),
             ),
         ),
@@ -27,7 +27,7 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'audit' => 'SoliantEntityAudit\Controller\IndexController'
+            'audit' => 'StukiWorkspace\Controller\IndexController'
         ),
     ),
 
@@ -39,26 +39,27 @@ return array(
 
     'view_helpers' => array(
         'invokables' => array(
-            'auditCurrentRevisionEntity' => 'SoliantEntityAudit\View\Helper\CurrentRevisionEntity',
-            'auditEntityOptions' => 'SoliantEntityAudit\View\Helper\EntityOptions',
+            'auditCurrentRevisionEntity' => 'StukiWorkspace\View\Helper\CurrentRevisionEntity',
+            'auditEntityOptions' => 'StukiWorkspace\View\Helper\EntityOptions',
 
-            'auditRevisionEntityLink' => 'SoliantEntityAudit\View\Helper\RevisionEntityLink',
+            'auditRevisionEntityLink' => 'StukiWorkspace\View\Helper\RevisionEntityLink',
 
-            'auditRevisionPaginator' => 'SoliantEntityAudit\View\Helper\RevisionPaginator',
-            'auditRevisionEntityPaginator' => 'SoliantEntityAudit\View\Helper\RevisionEntityPaginator',
-            'auditAssociationSourcePaginator' => 'SoliantEntityAudit\View\Helper\AssociationSourcePaginator',
-            'auditAssociationTargetPaginator' => 'SoliantEntityAudit\View\Helper\AssociationTargetPaginator',
-            'auditOneToManyPaginator' => 'SoliantEntityAudit\View\Helper\OneToManyPaginator',
+            'auditWorkspacePaginator' => 'StukiWorkspace\View\Helper\WorkspacePaginator',
+            'auditRevisionPaginator' => 'StukiWorkspace\View\Helper\RevisionPaginator',
+            'auditRevisionEntityPaginator' => 'StukiWorkspace\View\Helper\RevisionEntityPaginator',
+            'auditAssociationSourcePaginator' => 'StukiWorkspace\View\Helper\AssociationSourcePaginator',
+            'auditAssociationTargetPaginator' => 'StukiWorkspace\View\Helper\AssociationTargetPaginator',
+            'auditOneToManyPaginator' => 'StukiWorkspace\View\Helper\OneToManyPaginator',
         ),
     ),
 
     'router' => array(
         'routes' => array(
-            'audit' => array(
+            'stuki-workspace' => array(
                 'type' => 'Literal',
                 'priority' => 1000,
                 'options' => array(
-                    'route' => '/audit',
+                    'route' => '/workspace',
                     'defaults' => array(
                         'controller' => 'audit',
                         'action'     => 'index',
@@ -177,7 +178,7 @@ return array(
                     'compare' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/audit/compare',
+                            'route' => '/compare',
                             'defaults' => array(
                                 'controller' => 'audit',
                                 'action' => 'compare',

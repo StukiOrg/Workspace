@@ -1,6 +1,6 @@
 <?php
 
-namespace SoliantEntityAuditTest;
+namespace StukiWorkspaceTest;
 
 return array(
     'audit' => array(
@@ -16,9 +16,9 @@ return array(
         'revisionEntityTableName' => 'RevisionEntity',
 
         'entities' => array(
-            'SoliantEntityAuditTest\Models\Bootstrap\Album' => array(),
-            'SoliantEntityAuditTest\Models\Bootstrap\Performer' => array(),
-            'SoliantEntityAuditTest\Models\Bootstrap\Song' => array(),
+            'StukiWorkspaceTest\Models\Bootstrap\Album' => array(),
+            'StukiWorkspaceTest\Models\Bootstrap\Performer' => array(),
+            'StukiWorkspaceTest\Models\Bootstrap\Song' => array(),
         ),
     ),
 
@@ -35,21 +35,21 @@ return array(
         ),
 
         'driver' => array(
-            'SoliantEntityAudit_moduleDriver' => array(
-                'class' => 'SoliantEntityAudit\Mapping\Driver\AuditDriver',
+            'StukiWorkspace_moduleDriver' => array(
+                'class' => 'StukiWorkspace\Mapping\Driver\AuditDriver',
             ),
 
             __NAMESPACE__ . '_driver' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\StaticPHPDriver',
                 'paths' => array(
-                    __DIR__ . '/../SoliantEntityAuditTest/Models/Bootstrap',
+                    __DIR__ . '/../StukiWorkspaceTest/Models/Bootstrap',
                 ),
             ),
 
             'orm_default' => array(
                 'drivers' => array(
                     __NAMESPACE__ . '\Models' => __NAMESPACE__ . '_driver',
-                    'SoliantEntityAudit\Entity' => 'SoliantEntityAudit_moduleDriver',
+                    'StukiWorkspace\Entity' => 'StukiWorkspace_moduleDriver',
                 ),
             ),
         ),
