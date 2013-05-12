@@ -20,12 +20,16 @@ class IndexController extends AbstractActionController
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $userId = (int)$this->getEvent()->getRouteMatch()->getParam('userId');
 
-        if (!$userId) {
+        if (!$userId and \StukiWorkspace\Module::getModuleOptions()->getUser()) {
             $userId = \StukiWorkspace\Module::getModuleOptions()->getUser()->getId();
+            if ($userId) {
+                $user = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+                    ->getRepository(\StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
+            }
         }
 
-        $user = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-            ->getRepository(\StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
+        if (!isset($user))
+            return $this->plugin('redirect')->toRoute('stuki-workspace/master');
 
         return array(
             'page' => $page,
@@ -91,7 +95,7 @@ class IndexController extends AbstractActionController
             ->find($revisionId);
 
         if (!$revision)
-            return $this->plugin('redirect')->toRoute('audit');
+            return $this->plugin('redirect')->toRoute('stuki-workspace');
 
         return array(
             'revision' => $revision,
@@ -112,7 +116,7 @@ class IndexController extends AbstractActionController
             ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
-            return $this->plugin('redirect')->toRoute('audit');
+            return $this->plugin('redirect')->toRoute('stuki-workspace');
 
         $repository = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
             ->getRepository('StukiWorkspace\\Entity\\RevisionEntity');
@@ -162,7 +166,7 @@ class IndexController extends AbstractActionController
             ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId_new);
 
         if (!$revisionEntity_old and !$revisionEntity_new)
-            return $this->plugin('redirect')->toRoute('audit');
+            return $this->plugin('redirect')->toRoute('stuki-workspace');
 
         return array(
             'revisionEntity_old' => $revisionEntity_old,
@@ -186,7 +190,7 @@ class IndexController extends AbstractActionController
             ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
-            return $this->plugin('redirect')->toRoute('audit');
+            return $this->plugin('redirect')->toRoute('stuki-workspace');
 
         return array(
             'revisionEntity' => $revisionEntity,
@@ -219,7 +223,7 @@ class IndexController extends AbstractActionController
             ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
-            return $this->plugin('redirect')->toRoute('audit');
+            return $this->plugin('redirect')->toRoute('stuki-workspace');
 
         return array(
             'revisionEntity' => $revisionEntity,
@@ -256,7 +260,7 @@ class IndexController extends AbstractActionController
             ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
-            return $this->plugin('redirect')->toRoute('audit');
+            return $this->plugin('redirect')->toRoute('stuki-workspace');
 
         return array(
             'revisionEntity' => $revisionEntity,

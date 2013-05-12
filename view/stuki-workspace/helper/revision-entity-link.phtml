@@ -17,13 +17,13 @@
     if ($options = $this->stukiEntityOptions($this->revisionEntity->getTargetEntityClass())) {
         $routeOptions = array_merge($options['defaults'], $this->revisionEntity->getEntityKeys());
     ?>
-        <a class="btn btn-info"  href="<?=
+        <a class="workspace btn btn-info"  href="<?=
             $this->url($options['route'], $routeOptions);
         ?>"><i class="icon-globe"></i></a>
     <?php
     }
     ?>
-    <a class="btn btn-<?php
+    <a class="workspace btn btn-<?php
     switch ($this->revisionEntity->getRevisionType()) {
         case 'INS':
             echo 'success';

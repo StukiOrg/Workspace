@@ -10,13 +10,13 @@
 if ($user) {
     $userId = $user->getId();
 ?>
-    <h1>Workspace for user <?= $this->escapeHtml($user->getDisplayName()); ?></h1>
+    <h1>Workspace for <?= $this->escapeHtml($user->getDisplayName()); ?></h1>
 <?php
 } else {
     $userId = null;
 ?>
 <h1>Workspace Approved Revisions</h1>
-Revisions which were automatically approved
+Revisions which were automatically approved by Stuki Workspace
 <?php
 }
 ?>
