@@ -39,17 +39,17 @@ return array(
 
     'view_helpers' => array(
         'invokables' => array(
-            'auditCurrentRevisionEntity' => 'StukiWorkspace\View\Helper\CurrentRevisionEntity',
-            'auditEntityOptions' => 'StukiWorkspace\View\Helper\EntityOptions',
+            'stukiCurrentRevisionEntity' => 'StukiWorkspace\View\Helper\CurrentRevisionEntity',
+            'stukiEntityOptions' => 'StukiWorkspace\View\Helper\EntityOptions',
 
-            'auditRevisionEntityLink' => 'StukiWorkspace\View\Helper\RevisionEntityLink',
+            'stukiRevisionEntityLink' => 'StukiWorkspace\View\Helper\RevisionEntityLink',
 
-            'auditWorkspacePaginator' => 'StukiWorkspace\View\Helper\WorkspacePaginator',
-            'auditRevisionPaginator' => 'StukiWorkspace\View\Helper\RevisionPaginator',
-            'auditRevisionEntityPaginator' => 'StukiWorkspace\View\Helper\RevisionEntityPaginator',
-            'auditAssociationSourcePaginator' => 'StukiWorkspace\View\Helper\AssociationSourcePaginator',
-            'auditAssociationTargetPaginator' => 'StukiWorkspace\View\Helper\AssociationTargetPaginator',
-            'auditOneToManyPaginator' => 'StukiWorkspace\View\Helper\OneToManyPaginator',
+            'stukiWorkspacePaginator' => 'StukiWorkspace\View\Helper\WorkspacePaginator',
+            'stukiRevisionPaginator' => 'StukiWorkspace\View\Helper\RevisionPaginator',
+            'stukiRevisionEntityPaginator' => 'StukiWorkspace\View\Helper\RevisionEntityPaginator',
+            'stukiAssociationSourcePaginator' => 'StukiWorkspace\View\Helper\AssociationSourcePaginator',
+            'stukiAssociationTargetPaginator' => 'StukiWorkspace\View\Helper\AssociationTargetPaginator',
+            'stukiOneToManyPaginator' => 'StukiWorkspace\View\Helper\OneToManyPaginator',
         ),
     ),
 
@@ -94,7 +94,26 @@ return array(
                             ),
                         ),
                     ),
-
+                    'master' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/master',
+                            'defaults' => array(
+                                'controller' => 'audit',
+                                'action'     => 'master',
+                            ),
+                        ),
+                    ),
+                    'firehose' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/firehose',
+                            'defaults' => array(
+                                'controller' => 'audit',
+                                'action'     => 'firehose',
+                            ),
+                        ),
+                    ),
                     'revision' => array(
                         'type' => 'Segment',
                         'options' => array(

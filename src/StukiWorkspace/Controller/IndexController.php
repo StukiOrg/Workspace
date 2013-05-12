@@ -18,23 +18,43 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
+        $userId = (int)$this->getEvent()->getRouteMatch()->getParam('userId');
+
+        if (!$userId) {
+            $userId = \StukiWorkspace\Module::getModuleOptions()->getUser()->getId();
+        }
+
+        $user = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository(\StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
+
         return array(
             'page' => $page,
+            'user' => $user,
         );
     }
 
     /**
-     * Renders a user's workspace of revisions
-     *
-     * @param int $page
+     * Show all revisions on the master workspace
      */
-    public function workspaceAction()
+    public function masterAction()
     {
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         return array(
             'page' => $page,
         );
     }
+
+    /**
+     * Show all revisions from all users
+     */
+    public function firehoseAction()
+    {
+        $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
+        return array(
+            'page' => $page,
+        );
+    }
+
 
     /**
      * Renders a paginated list of revisions for the given user
@@ -50,6 +70,7 @@ class IndexController extends AbstractActionController
             ->getRepository(\StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
 
         return array(
+            'userId' => $userId,
             'page' => $page,
             'user' => $user,
         );
@@ -99,7 +120,7 @@ class IndexController extends AbstractActionController
         return array(
             'page' => $page,
             'revisionEntity' => $revisionEntity,
-            'auditService' => $this->getServiceLocator()->get('auditService'),
+            'stukiWorkspaceService' => $this->getServiceLocator()->get('stukiWorkspaceService'),
         );
     }
 
@@ -159,7 +180,7 @@ class IndexController extends AbstractActionController
         $revisionEntityId = $this->getEvent()->getRouteMatch()->getParam('revisionEntityId');
         $mappedBy = $this->getEvent()->getRouteMatch()->getParam('mappedBy');
 
-        $auditService = $this->getServiceLocator()->get('auditService');
+        $stukiWorkspaceService = $this->getServiceLocator()->get('stukiWorkspaceService');
 
         $revisionEntity = $moduleOptions->getEntityManager()
             ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
@@ -192,7 +213,7 @@ class IndexController extends AbstractActionController
         $joinTable = $this->getEvent()->getRouteMatch()->getParam('joinTable');
         $revisionEntityId = $this->getEvent()->getRouteMatch()->getParam('revisionEntityId');
 
-        $auditService = $this->getServiceLocator()->get('auditService');
+        $stukiWorkspaceService = $this->getServiceLocator()->get('stukiWorkspaceService');
 
         $revisionEntity = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
             ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
@@ -229,7 +250,7 @@ class IndexController extends AbstractActionController
         $joinTable = $this->getEvent()->getRouteMatch()->getParam('joinTable');
         $revisionEntityId = $this->getEvent()->getRouteMatch()->getParam('revisionEntityId');
 
-        $auditService = $this->getServiceLocator()->get('auditService');
+        $stukiWorkspaceService = $this->getServiceLocator()->get('stukiWorkspaceService');
 
         $revisionEntity = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
             ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);

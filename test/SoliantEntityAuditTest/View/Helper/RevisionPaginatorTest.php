@@ -33,7 +33,7 @@ class RevisionPaginatorTest extends \PHPUnit_Framework_TestCase
         $sm = Bootstrap::getApplication()->getServiceManager();
         $em = Bootstrap::getApplication()->getServiceManager()->get("doctrine.entitymanager.orm_default");
 
-        $helper = $sm->get('viewhelpermanager')->get('auditRevisionPaginator');
+        $helper = $sm->get('viewhelpermanager')->get('stukiRevisionPaginator');
         $revisions = $em->getRepository('StukiWorkspace\Entity\Revision')->findAll();
         $count = sizeof($revisions);
 

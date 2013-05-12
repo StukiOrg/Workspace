@@ -11,7 +11,7 @@ class EntityOptionsTest extends \PHPUnit_Framework_TestCase
     public function testRevisionsAreReturnedInPaginator()
     {
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $helper = $sm->get('viewhelpermanager')->get('auditEntityOptions');
+        $helper = $sm->get('viewhelpermanager')->get('stukiEntityOptions');
 
         $helper('StukiWorkspaceTest\Models\Bootstrap\Song');
         $helper();

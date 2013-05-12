@@ -128,7 +128,7 @@ class LogRevision implements EventSubscriber
             $revision->setApproveTimestamp(new \DateTime());
         }
 
-        $comment = $moduleOptions->getAuditService()->getComment();
+        $comment = $moduleOptions->getStukiWorkspaceService()->getComment();
         $revision->setComment($comment);
 
         $this->revision = $revision;
@@ -266,9 +266,9 @@ class LogRevision implements EventSubscriber
 
         if (!$found) return;  # Entity is not audited
 
-        $auditService = $moduleOptions->getAuditService();
+        $stukiWorkspaceService = $moduleOptions->getStukiWorkspaceService();
 
-        $workspaceRevisionEntity = $auditService->workspaceRevisionEntity($entity);
+        $workspaceRevisionEntity = $stukiWorkspaceService->workspaceRevisionEntity($entity);
         if (!$workspaceRevisionEntity) {
             // Entity does not exist along this workspace, unset
 

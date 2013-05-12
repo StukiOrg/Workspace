@@ -4,7 +4,7 @@ namespace StukiWorkspace;
 
 use Zend\Mvc\MvcEvent
     , StukiWorkspace\Options\ModuleOptions
-    , StukiWorkspace\Service\AuditService
+    , StukiWorkspace\Service\StukiWorkspaceService
     , StukiWorkspace\Loader\AuditAutoloader
     , StukiWorkspace\EventListener\LogRevision
     , StukiWorkspace\View\Helper\DateTimeFormatter
@@ -24,7 +24,7 @@ class Module
                 ),
             ),
 
-            'StukiWorkspace\Loader\AuditAutoloader' => array(
+            'StukiWorkspace\Loader\StukiWorkspaceAutoloader' => array(
                 'namespaces' => array(
                     'StukiWorkspace\Entity' => __DIR__,
                 )
@@ -63,7 +63,7 @@ class Module
                     $auditConfig = new ModuleOptions();
                     $auditConfig->setDefaults($config['audit']);
                     $auditConfig->setEntityManager($serviceManager->get('doctrine.entitymanager.orm_default'));
-                    $auditConfig->setAuditService($serviceManager->get('auditService'));
+                    $auditConfig->setStukiWorkspaceService($serviceManager->get('stukiWorkspaceService'));
 
                     $authenticationServiceAlias = (isset($config['audit']['authenticationService'])) ? $config['audit']['authenticationService']: 'zfcuser_auth_service';
 
@@ -73,8 +73,8 @@ class Module
                     return $auditConfig;
                 },
 
-                'auditService' => function($sm) {
-                    return new AuditService();
+                'stukiWorkspaceService' => function($sm) {
+                    return new StukiWorkspaceService();
                 }
             ),
         );
@@ -92,8 +92,8 @@ class Module
                     return $formatter->setDateTimeFormat($format);
                 },
 
-                'auditService' => function($sm) {
-                    return new AuditService();
+                'stukiWorkspaceService' => function($sm) {
+                    return new StukiWorkspaceService();
                 }
             )
         );

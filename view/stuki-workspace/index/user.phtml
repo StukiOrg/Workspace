@@ -1,17 +1,25 @@
+<a class="btn btn-info pull-right" style="margin-left: 20px;" href="<?=
+    $this->url('stuki-workspace/master');
+?>"><i class="icon-code-fork"></i> Master</a>
+
+<a class="btn btn-info pull-right" href="<?=
+    $this->url('stuki-workspace/firehose');
+?>"><i class="icon-bullseye"></i> Firehose</a>
+
 <?php
 if ($user) {
     $userId = $user->getId();
 ?>
-    <h1>Audit by user <?= $this->escapeHtml($user->getDisplayName()); ?></h1>
+    <h1>Workspace for user <?= $this->escapeHtml($user->getDisplayName()); ?></h1>
 <?php
 } else {
     $userId = null;
 ?>
-<h1>Audit Anonymous Revisions</h1>
+<h1>Workspace Anonymous Revisions</h1>
 <?php
 }
 ?>
-<?php $paginator = $this->auditRevisionPaginator($this->page, array('user' => $userId)); ?>
+<?php $paginator = $this->stukiWorkspacePaginator($this->page, $this->userId); ?>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -28,7 +36,7 @@ if ($user) {
             <th>Entity</th>
             <th>Comment</th>
             <th>User</th>
-            <th>Approved</th>
+            <th>Approval</th>
         </tr>
     </thead>
 
@@ -65,7 +73,7 @@ if ($user) {
             foreach ($revision->getRevisionEntities() as $revisionEntity) {
             ?>
                 <div>
-                    <?= $this->auditRevisionEntityLink($revisionEntity); ?>
+                    <?= $this->stukiRevisionEntityLink($revisionEntity); ?>
                 </div>
             <?php
             }
@@ -96,7 +104,11 @@ if ($user) {
             </td>
 
             <td>
-
+                <?= $this->partial(
+                    'stuki-workspace/index/partial/revision-approve',
+                    array('revision' => $revision)
+                );
+                ?>
             </td>
         </tr>
     <?php

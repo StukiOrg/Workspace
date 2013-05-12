@@ -1,8 +1,16 @@
+<a class="btn btn-info pull-right" style="margin-left: 20px;" href="<?=
+    $this->url('stuki-workspace/master');
+?>"><i class="icon-code-fork"></i> Master</a>
+
+<a class="btn btn-info pull-right" href="<?=
+    $this->url('stuki-workspace/firehose');
+?>"><i class="icon-bullseye"></i> Firehose</a>
+
 <?php
     use Doctrine\ORM\Mapping\ClassMetadataInfo;
 ?>
 
-<h1>stuki-workspace Revision Entity</h1>
+<h1>Workspace Revision Entity</h1>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -11,7 +19,7 @@
             <th>Entity</th>
             <th>Comment</th>
             <th>User</th>
-            <th>Approval</th>
+            <th>Approve</th>
         </tr>
     </thead>
 
@@ -34,7 +42,7 @@
             </td>
 
             <td>
-                <?= $this->auditRevisionEntityLink($revisionEntity); ?>
+                <?= $this->stukiRevisionEntityLink($revisionEntity); ?>
             </td>
 
             <td><?= $this->escapeHtml($this->revisionEntity->getRevision()->getComment()); ?></td>
@@ -82,18 +90,18 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->auditService()->getEntityValues($this->revisionEntity->getAuditEntity()) as $field => $value) { ?>
+        <?php foreach ($this->stukiWorkspaceService()->getEntityValues($this->revisionEntity->getAuditEntity()) as $field => $value) { ?>
             <tr>
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
                 <?php
 
                     // Is this an association?
-                    if (in_array($field, array_keys($this->auditService()->getEntityAssociations($this->revisionEntity->getAuditEntity())))) {
-                        $associationRevisionEntity = $this->auditService()->getAssociationRevisionEntity($this->revisionEntity->getAuditEntity(), $field, $value);
+                    if (in_array($field, array_keys($this->stukiWorkspaceService()->getEntityAssociations($this->revisionEntity->getAuditEntity())))) {
+                        $associationRevisionEntity = $this->stukiWorkspaceService()->getAssociationRevisionEntity($this->revisionEntity->getAuditEntity(), $field, $value);
 
                         if ($associationRevisionEntity) {
-                            echo $this->auditRevisionEntityLink($associationRevisionEntity);
+                            echo $this->stukiRevisionEntityLink($associationRevisionEntity);
                         }
                     }
                     ?>
@@ -104,7 +112,7 @@
         ?>
 
         <?php
-        if ($this->auditService()->getEntityAssociations($this->revisionEntity->getAuditEntity())) {
+        if ($this->stukiWorkspaceService()->getEntityAssociations($this->revisionEntity->getAuditEntity())) {
         ?>
             <tr>
                 <th>Associations</th>
@@ -112,7 +120,7 @@
             </tr>
 
             <?php
-                foreach($this->auditService()->getEntityAssociations($this->revisionEntity->getAuditEntity()) as $field => $value) {
+                foreach($this->stukiWorkspaceService()->getEntityAssociations($this->revisionEntity->getAuditEntity()) as $field => $value) {
             ?>
                     <?php
 
@@ -285,7 +293,7 @@
 <?php
     $first = true;
     $oldSet = false;
-    $paginator = $this->auditRevisionEntityPaginator($page, $this->revisionEntity->getAuditEntity());
+    $paginator = $this->stukiRevisionEntityPaginator($page, $this->revisionEntity->getAuditEntity());
 ?>
 
 <table class="table table-striped table-hover table-bordered ">
@@ -353,7 +361,7 @@
                 </td>
 
                 <td>
-                    <?= $this->auditRevisionEntityLink($rev); ?>
+                    <?= $this->stukiRevisionEntityLink($rev); ?>
                 </td>
 
                 <td><?= $this->escapeHtml($rev->getRevision()->getComment()); ?></td>

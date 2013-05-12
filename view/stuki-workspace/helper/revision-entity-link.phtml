@@ -14,12 +14,12 @@
     }
 ?>">
     <?php
-    if ($options = $this->auditEntityOptions($this->revisionEntity->getTargetEntityClass())) {
+    if ($options = $this->stukiEntityOptions($this->revisionEntity->getTargetEntityClass())) {
         $routeOptions = array_merge($options['defaults'], $this->revisionEntity->getEntityKeys());
     ?>
         <a class="btn btn-info"  href="<?=
             $this->url($options['route'], $routeOptions);
-        ?>"><i class="icon-list"></i></a>
+        ?>"><i class="icon-globe"></i></a>
     <?php
     }
     ?>

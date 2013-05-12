@@ -16,7 +16,7 @@ use StukiWorkspaceTest\Bootstrap
     , Doctrine\ORM\Mapping\Driver\StaticPhpDriver
     , Doctrine\ORM\Mapping\Driver\PhpDriver
     , StukiWorkspace\Options\ModuleOptions
-    , StukiWorkspace\Service\AuditService
+    , StukiWorkspace\Service\StukiWorkspaceService
     , StukiWorkspace\Loader\AuditAutoloader
     , StukiWorkspace\EventListener\LogRevision
     , StukiWorkspace\View\Helper\DateTimeFormatter
@@ -44,7 +44,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $sm = Bootstrap::getApplication()->getServiceManager();
 
         $this->assertInstanceOf('StukiWorkspace\Options\ModuleOptions', $sm->get('auditModuleOptions'));
-        $this->assertInstanceOf('StukiWorkspace\Service\AuditService', $sm->get('auditService'));
+        $this->assertInstanceOf('StukiWorkspace\Service\StukiWorkspaceService', $sm->get('stukiWorkspaceService'));
     }
 
     public function testViewHelperConfig()

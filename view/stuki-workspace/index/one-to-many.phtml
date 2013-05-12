@@ -1,8 +1,13 @@
+<a class="btn btn-info pull-right" href="<?=
+    $this->url('stuki-workspace/firehose');
+?>"><i class="icon-bullseye"></i> Firehose</a>
+
+
 <?php
     use Doctrine\ORM\Mapping\ClassMetadataInfo;
 ?>
 
-<h1>Audit One To Many</h1>
+<h1>Workspace One To Many Relations</h1>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -33,7 +38,7 @@
             </td>
 
             <td>
-                <?= $this->auditRevisionEntityLink($revisionEntity); ?>
+                <?= $this->stukiRevisionEntityLink($revisionEntity); ?>
             </td>
 
             <td><?= $this->escapeHtml($this->revisionEntity->getRevision()->getComment()); ?></td>
@@ -120,7 +125,7 @@
             </td>
 
             <td>
-                <?= $this->auditRevisionEntityLink($association); ?>
+                <?= $this->stukiRevisionEntityLink($association); ?>
             </td>
 
             <td><?= $this->escapeHtml($association->getRevision()->getComment()); ?></td>

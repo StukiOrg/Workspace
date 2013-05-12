@@ -104,7 +104,7 @@ Identifier column values from the audited entity will be added to defaults to ge
 
 ```
     <?php
-        $options = $this->auditEntityOptions($revisionEntity->getTargetEntityClass());
+        $options = $this->stukiEntityOptions($revisionEntity->getTargetEntityClass());
         $routeOptions = array_merge($options['defaults'], $revisionEntity->getEntityKeys());
     ?>
     <a class="btn btn-info" href="<?=
@@ -118,11 +118,11 @@ This is how to map from your application to it's current revision entity:
     <a class="btn btn-info" href="<?=
         $this->url('stuki-workspace/revision-entity',
             array(
-                'revisionEntityId' => $this->auditCurrentRevisionEntity($auditedEntity)->getId()
+                'revisionEntityId' => $this->stukiCurrentRevisionEntity($auditedEntity)->getId()
             )
         );
     ?>">
-        <i class="icon-list"></i>
+        <i class="icon-globe"></i>
     </a>
 ```
 
@@ -130,7 +130,7 @@ This is how to map from your application to it's current revision entity:
 View Helpers
 ------------
 
-Return the audit service.  This is a helper class.  The class is also available via dependency injection factory ```auditService```
+Return the audit service.  This is a helper class.  The class is also available via dependency injection factory ```stukiWorkspaceService```
 This class provides the following:
 
 1. setComment();
@@ -146,7 +146,7 @@ This class provides the following:
     Returns all RevisionEntity entities for the given audited entity or RevisionEntity.
     
 ````
-$view->auditService();
+$view->stukiWorkspaceService();
 ```
 
 Return the latest revision entity for the given entity.
@@ -162,17 +162,17 @@ $view->auditEntityPaginator($page, $entityClassName);
 Return a paginator for all RevisionEntity entities for the given entity or 
 a paginator attached to every RevisionEntity for the given audited entity class.Pass an entity or a class name string.
 ```
-$view->auditRevisionEntityPaginator($page, $entity);
+$view->stukiRevisionEntityPaginator($page, $entity);
 ```
 
 Return a paginator for all Revision entities.
 ```
-$view->auditRevisionPaginator($page);
+$view->stukiRevisionPaginator($page);
 ```
 
 Returns the routing information for an entity by class name
 ```
-$view->auditEntityOptions($entityClassName);
+$view->stukiEntityOptions($entityClassName);
 ```
 
 Titling

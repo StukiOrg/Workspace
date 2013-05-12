@@ -12,7 +12,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
 use StukiWorkspace\Entity\AbstractAudit;
 
-final class stuki-workspacePaginator extends AbstractHelper implements ServiceLocatorAwareInterface
+final class WorkspacePaginator extends AbstractHelper implements ServiceLocatorAwareInterface
 {
     private $serviceLocator;
 
@@ -27,18 +27,24 @@ final class stuki-workspacePaginator extends AbstractHelper implements ServiceLo
         return $this;
     }
 
-    public function __invoke($page, $filter = array())
+    public function __invoke($page, $user, $filter = array())
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-        $auditService = $this->getServiceLocator()->getServiceLocator()->get('auditService');
+#        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
 
         $repository = $entityManager->getRepository('StukiWorkspace\\Entity\\Revision');
 
         $qb = $repository->createQueryBuilder('revision');
-        $qb->orWhere("revision.user = :user");
-        $qb->setParameter('user', $auditModuleOptions->getUser());
-        $qb->orWhere("revision.approve = 'approved'");
+
+        if ($user) {
+            $qb->orWhere("revision.user = :user");
+            $qb->setParameter('user', $user);
+            $qb->orWhere("revision.approve = 'approved'");
+#            die('set alert');
+        } else {
+            $qb->andWhere("revision.user IS NULL");
+        }
         $qb->orderBy('revision.id', 'DESC');
 
         $adapter = new DoctrineAdapter(new ORMPaginator($qb));

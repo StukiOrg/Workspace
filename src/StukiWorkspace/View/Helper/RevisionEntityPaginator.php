@@ -32,14 +32,14 @@ final class RevisionEntityPaginator extends AbstractHelper implements ServiceLoc
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-        $auditService = $this->getServiceLocator()->getServiceLocator()->get('auditService');
+        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
 
         if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys($auditModuleOptions->getAuditedClassNames()))) {
             $auditEntityClass = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
-            $identifiers = $auditService->getEntityIdentifierValues($entity);
+            $identifiers = $stukiWorkspaceService->getEntityIdentifierValues($entity);
         } elseif ($entity instanceof AbstractAudit) {
             $auditEntityClass = get_class($entity);
-            $identifiers = $auditService->getEntityIdentifierValues($entity, true);
+            $identifiers = $stukiWorkspaceService->getEntityIdentifierValues($entity, true);
         } else {
             $auditEntityClass = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $entity);
         }

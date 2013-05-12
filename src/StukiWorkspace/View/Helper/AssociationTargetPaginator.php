@@ -31,9 +31,9 @@ final class AssociationTargetPaginator extends AbstractHelper implements Service
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-        $auditService = $this->getServiceLocator()->getServiceLocator()->get('auditService');
+        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
 
-        foreach($auditService->getEntityAssociations($revisionEntity->getAuditEntity()) as $field => $value) {
+        foreach($stukiWorkspaceService->getEntityAssociations($revisionEntity->getAuditEntity()) as $field => $value) {
             if (isset($value['joinTable']['name']) and $value['joinTable']['name'] == $joinTable) {
                 $mapping = $value;
                 break;

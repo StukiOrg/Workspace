@@ -6,7 +6,7 @@ use Zend\View\Helper\AbstractHelper
     , StukiWorkspace\Entity\AbstractAudit
     ;
 
-class AuditService extends AbstractHelper
+class StukiWorkspaceService extends AbstractHelper
 {
     private $comment;
 
@@ -141,13 +141,13 @@ class AuditService extends AbstractHelper
         $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
 
         $entityManager = $moduleOptions->getEntityManager();
-        $auditService = $moduleOptions->getAuditService();
+        $stukiWorkspaceService = $moduleOptions->getStukiWorkspaceService();
 
         $user = $moduleOptions->getUser();
 
         $revisionEntities = $entityManager->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($entity),
-            'entityKeys' => serialize($auditService->getEntityIdentifierValues($entity)),
+            'entityKeys' => serialize($stukiWorkspaceService->getEntityIdentifierValues($entity)),
         ), array('id' => 'DESC'));
 #echo '<BR><BR><BR>';
         foreach ($revisionEntities as $revisionEntity) {

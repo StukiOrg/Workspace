@@ -31,7 +31,7 @@ final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorA
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-        $auditService = $this->getServiceLocator()->getServiceLocator()->get('auditService');
+#        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
 
         $entityClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $joinTable);
 

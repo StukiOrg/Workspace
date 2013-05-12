@@ -2,7 +2,7 @@
 
 namespace StukiWorkspace\Options;
 use Doctrine\ORM\EntityManager
-    , StukiWorkspace\Service\AuditService
+    , StukiWorkspace\Service\StukiWorkspaceService
     ;
 
 class ModuleOptions
@@ -15,7 +15,7 @@ class ModuleOptions
     private $joinClasses;
     private $user;
     private $entityManager;
-    private $auditService;
+    private $stukiWorkspaceService;
     private $userEntityClassName;
     private $authenticationService;
 
@@ -30,14 +30,14 @@ class ModuleOptions
         $this->setUserEntityClassName(isset($config['userEntityClassName']) ? $config['userEntityClassName']: 'ZfcUserDoctrineORM\\Entity\\User');
     }
 
-    public function getAuditService()
+    public function getStukiWorkspaceService()
     {
-        return $this->auditService;
+        return $this->stukiWorkspaceService;
     }
 
-    public function setAuditService(AuditService $auditService)
+    public function setStukiWorkspaceService(StukiWorkspaceService $stukiWorkspaceService)
     {
-        $this->auditService = $auditService;
+        $this->stukiWorkspaceService = $stukiWorkspaceService;
     }
 
     public function getEntityManager()

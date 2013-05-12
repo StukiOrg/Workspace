@@ -32,11 +32,11 @@ final class CurrentRevisionEntity extends AbstractHelper implements ServiceLocat
     public function __invoke($entity)
     {
         $entityManager = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getEntityManager();
-        $auditService = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getAuditService();
+        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getStukiWorkspaceService();
 
         $revisionEntities = $entityManager->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($entity),
-            'entityKeys' => serialize($auditService->getEntityIdentifierValues($entity)),
+            'entityKeys' => serialize($stukiWorkspaceService->getEntityIdentifierValues($entity)),
         ), array('id' => 'DESC'), 1);
 
         if (sizeof($revisionEntities)) return $revisionEntities[0];

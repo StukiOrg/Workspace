@@ -10,7 +10,7 @@ use Zend\Loader\StandardAutoloader
     , Zend\Code\Generator\PropertyGenerator
     ;
 
-class AuditAutoloader extends StandardAutoloader
+class StukiWorkspaceAutoloader extends StandardAutoloader
 {
     /**
      * Dynamically scope an audit class
@@ -114,7 +114,7 @@ class AuditAutoloader extends StandardAutoloader
         $fields = $auditedClassMetadata->getFieldNames();
         $identifiers = $auditedClassMetadata->getFieldNames();
 
-        $service = \StukiWorkspace\Module::getModuleOptions()->getAuditService();
+        $service = \StukiWorkspace\Module::getModuleOptions()->getStukiWorkspaceService();
 
         // Generate audit entity
         foreach ($fields as $field) {

@@ -94,8 +94,8 @@ class RevisionEntity
     {
         $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
 
-        $auditService = $moduleOptions->getAuditService();
-        $identifiers = $auditService->getEntityIdentifierValues($entity);
+        $stukiWorkspaceService = $moduleOptions->getStukiWorkspaceService();
+        $identifiers = $stukiWorkspaceService->getEntityIdentifierValues($entity);
 
         $this->setAuditEntityClass(get_class($entity));
         $this->setTargetEntityClass($entity->getAuditedEntityClass());

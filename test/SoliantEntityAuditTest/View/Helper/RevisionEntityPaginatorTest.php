@@ -33,7 +33,7 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
         $sm = Bootstrap::getApplication()->getServiceManager();
         $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
-        $helper = $sm->get('viewhelpermanager')->get('auditRevisionEntityPaginator');
+        $helper = $sm->get('viewhelpermanager')->get('stukiRevisionEntityPaginator');
         $revisionEntities = $em->getRepository('StukiWorkspace\Entity\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($this->entity),
             'entityKeys' => serialize(array('id' => $this->entity->getId()))
@@ -55,7 +55,7 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
         $sm = Bootstrap::getApplication()->getServiceManager();
         $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
-        $helper = $sm->get('viewhelpermanager')->get('auditRevisionEntityPaginator');
+        $helper = $sm->get('viewhelpermanager')->get('stukiRevisionEntityPaginator');
         $revisionEntities = $em->getRepository('StukiWorkspace\Entity\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($this->entity),
             'entityKeys' => serialize(array('id' => $this->entity->getId()))
@@ -78,7 +78,7 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
         $sm = Bootstrap::getApplication()->getServiceManager();
         $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
 
-        $helper = $sm->get('viewhelpermanager')->get('auditRevisionEntityPaginator');
+        $helper = $sm->get('viewhelpermanager')->get('stukiRevisionEntityPaginator');
         $revisionEntities = $em->getRepository('StukiWorkspace\Entity\RevisionEntity')->findAll();
 
         $count = sizeof($revisionEntities);

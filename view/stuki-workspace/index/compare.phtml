@@ -16,11 +16,11 @@
         " class="btn btn-primary"><?php echo $this->escapeHtml($revisionEntity_old->getAuditEntity()->getAuditedEntityClass()); ?></a>
         between
 
-            <?= $this->auditRevisionEntityLink($revisionEntity_old); ?>
+            <?= $this->stukiRevisionEntityLink($revisionEntity_old); ?>
 
         and
 
-            <?= $this->auditRevisionEntityLink($revisionEntity_new); ?>
+            <?= $this->stukiRevisionEntityLink($revisionEntity_new); ?>
 
     </caption>
     <thead>
@@ -32,8 +32,8 @@
         </tr>
     </thead>
     <tbody>
-        <?php $oldValues = $this->auditService()->getEntityValues($revisionEntity_old->getAuditEntity()); ?>
-        <?php $newValues = $this->auditService()->getEntityValues($revisionEntity_new->getAuditEntity()); ?>
+        <?php $oldValues = $this->stukiWorkspaceService()->getEntityValues($revisionEntity_old->getAuditEntity()); ?>
+        <?php $newValues = $this->stukiWorkspaceService()->getEntityValues($revisionEntity_new->getAuditEntity()); ?>
 
         <?php foreach ($oldValues as $field => $value): ?>
             <tr>
@@ -108,7 +108,7 @@
             </td>
 
             <td>
-                <?= $this->auditRevisionEntityLink($revisionEntity_old); ?>
+                <?= $this->stukiRevisionEntityLink($revisionEntity_old); ?>
            </td>
 
         </tr>
@@ -119,7 +119,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->auditService()->getEntityValues($revisionEntity_old->getAuditEntity()) as $field => $value): ?>
+        <?php foreach ($this->stukiWorkspaceService()->getEntityValues($revisionEntity_old->getAuditEntity()) as $field => $value): ?>
             <tr>
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
@@ -158,7 +158,7 @@
 
             </td>
             <td>
-                <?= $this->auditRevisionEntityLink($revisionEntity_new); ?>
+                <?= $this->stukiRevisionEntityLink($revisionEntity_new); ?>
             </td>
         </tr>
         <tr>
@@ -167,7 +167,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->auditService()->getEntityValues($revisionEntity_new->getAuditEntity()) as $field => $value): ?>
+        <?php foreach ($this->stukiWorkspaceService()->getEntityValues($revisionEntity_new->getAuditEntity()) as $field => $value): ?>
             <tr>
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
