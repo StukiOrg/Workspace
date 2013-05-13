@@ -15,13 +15,19 @@
             echo 'check-sign';
             break;
         case 'not submitted':
-            echo 'check-empty';
+            echo 'check-empty workspace';
             break;
         default:
             echo '';
             break;
     }
     ?>"></i> <?= ucwords($this->revision->getApprove()); ?></a>
+
+<script>
+$('.icon-check-empty').not('.workspace').live('click', function(event) {
+    alert('clicked');
+});
+</script>
 
 <?php
     if ($this->revision->getApprove() == 'approved') {

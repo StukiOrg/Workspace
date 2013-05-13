@@ -7,12 +7,13 @@
                 ?>" class="btn btn-default">
                     <?php
                         if ($this->user) {
-                            echo $this->gravatar($this->user->getEmail(), array('img_size' => 24));
+                             echo $this->gravatar($this->user->getEmail(), array('img_size' => 18));
                             echo ' ';
                             echo $this->escapeHtml($this->user->getDisplayName());
                         } else {
-                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
-                            echo ' Workspace';
+                            //echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
+
+                            echo '<i class="icon-globe"></i> Workspace';
                         }
                     ?>
                 </a>
