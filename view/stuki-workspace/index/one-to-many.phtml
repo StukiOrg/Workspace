@@ -49,24 +49,10 @@
             <td><?= $this->escapeHtml($this->revisionEntity->getRevision()->getComment()); ?></td>
 
             <td>
-                <a href="<?php
-                    if ($this->revisionEntity->getRevision()->getUser()) {
-                        echo $this->url('stuki-workspace/user', array('userId' => $this->revisionEntity->getRevision()->getUser()->getId()));
-                    } else {
-                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
-                    }
-                ?>" class="btn btn-default">
-                    <?php
-                        if ($this->revisionEntity->getRevision()->getUser()) {
-                            echo $this->gravatar($this->revisionEntity->getRevision()->getUser()->getEmail(), array('img_size' => 24));
-                            echo ' ';
-                            echo $this->escapeHtml($this->revisionEntity->getRevision()->getUser()->getDisplayName());
-                        } else {
-                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
-                            echo ' Stuki Workspace';
-                        }
-                    ?>
-                </a>
+                <?= $this->partial(
+                    'stuki-workspace/index/partial/user-button',
+                    array('user' => $this->revisionEntity->getRevision()->getUser())
+                );?>
             </td>
             <td>
                 <?= $this->partial(
@@ -144,24 +130,10 @@
             <td><?= $this->escapeHtml($association->getRevision()->getComment()); ?></td>
 
             <td>
-                <a href="<?php
-                    if ($association->getRevision()->getUser()) {
-                        echo $this->url('stuki-workspace/user', array('userId' => $association->getRevision()->getUser()->getId()));
-                    } else {
-                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
-                    }
-                ?>" class="btn btn-default">
-                    <?php
-                        if ($association->getRevision()->getUser()) {
-                            echo $this->gravatar($association->getRevision()->getUser()->getEmail(), array('img_size' => 24));
-                            echo ' ';
-                            echo $this->escapeHtml($association->getRevision()->getUser()->getDisplayName());
-                        } else {
-                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
-                            echo ' Stuki Workspace';
-                        }
-                    ?>
-                </a>
+                <?= $this->partial(
+                    'stuki-workspace/index/partial/user-button',
+                    array('user' => $association->getRevision()->getUser())
+                );?>
             </td>
             <td>
                 <?= $this->partial(

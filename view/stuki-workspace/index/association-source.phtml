@@ -68,24 +68,10 @@
             </td>
 
             <td>
-                <a href="<?php
-                    if ($revisionEntity->getRevision()->getUser()) {
-                        echo $this->url('stuki-workspace/user', array('userId' => $revisionEntity->getRevision()->getUser()->getId()));
-                    } else {
-                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
-                    }
-                ?>" class="btn btn-default">
-                    <?php
-                        if ($revisionEntity->getRevision()->getUser()) {
-                            echo $this->gravatar($revisionEntity->getRevision()->getUser()->getEmail(), array('img_size' => 24));
-                            echo ' ';
-                            echo $this->escapeHtml($revisionEntity->getRevision()->getUser()->getDisplayName());
-                        } else {
-                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
-                            echo ' Stuki Workspace';
-                        }
-                    ?>
-                </a>
+                <?= $this->partial(
+                    'stuki-workspace/index/partial/user-button',
+                    array('user' => $revisionEntity->getRevision()->getUser())
+                );?>
             </td>
         </tr>
         <?php

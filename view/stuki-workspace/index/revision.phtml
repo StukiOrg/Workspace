@@ -32,24 +32,10 @@
             <td><?= $this->escapeHtml($this->revision->getComment()); ?></td>
 
             <td>
-                <a href="<?php
-                    if ($this->revision->getUser()) {
-                        echo $this->url('stuki-workspace/user', array('userId' => $this->revision->getUser()->getId()));
-                    } else {
-                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
-                    }
-                ?>" class="btn btn-default">
-                    <?php
-                        if ($this->revision->getUser()) {
-                            echo $this->gravatar($this->revision->getUser()->getEmail(), array('img_size' => 24));
-                            echo ' ';
-                            echo $this->escapeHtml($this->revision->getUser()->getDisplayName());
-                        } else {
-                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
-                            echo ' Stuki Workspace';
-                        }
-                    ?>
-                </a>
+                <?= $this->partial(
+                    'stuki-workspace/index/partial/user-button',
+                    array('user' => $this->revision->getUser())
+                );?>
             </td>
             <td>
                 <?= $this->partial(

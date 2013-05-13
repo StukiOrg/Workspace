@@ -27,24 +27,10 @@
     if ($this->revision->getApprove() == 'approved') {
 ?>
         by
-        <a href="<?php
-            if ($this->revision->getApproveUser()) {
-                echo $this->url('stuki-workspace/user', array('userId' => $revision->getApproveUser()->getId()));
-            } else {
-                echo $this->url('stuki-workspace/user', array('userId' => '0'));
-            }
-        ?>" class="btn btn-default">
-            <?php
-                if ($revision->getApproveUser()) {
-                    echo $this->gravatar($revision->getApproveUser()->getEmail(), array('img_size' => 24));
-                    echo ' ';
-                    echo $this->escapeHtml($revision->getApproveUser()->getDisplayName());
-                } else {
-                    echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
-                    echo ' Stuki Workspace';
-                }
-            ?>
-        </a>
+        <?= $this->partial(
+            'stuki-workspace/index/partial/user-button',
+            array('user' => $this->revision->getApproveUser())
+        );?>
 
         <br><?= $this->StukiDateTimeFormatter($this->revision->getApproveTimestamp()); ?>
 <?php

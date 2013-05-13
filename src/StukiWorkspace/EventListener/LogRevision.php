@@ -249,8 +249,6 @@ class LogRevision implements EventSubscriber
 
     public function postLoad(LifecycleEventArgs $args)
     {
-        return;
-
         $entity = $args->getEntity();
 
         $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
@@ -271,12 +269,8 @@ class LogRevision implements EventSubscriber
         $workspaceRevisionEntity = $stukiWorkspaceService->workspaceRevisionEntity($entity);
         if (!$workspaceRevisionEntity) {
             // Entity does not exist along this workspace, unset
-
-            echo (string)$entity;
-            echo('entity does not exist in workspace');
-
-            unset($entity);
-            throw new \Exception('unset entity');
+return false;
+            throw new \Exception('Entity does not exist in workspace and cannot be unset');
             return false;
 
         }

@@ -84,24 +84,10 @@ Revisions which were automatically approved by Stuki Workspace
             <td><?= $this->escapeHtml($revision->getComment()); ?></td>
 
             <td>
-                <a href="<?php
-                    if ($revision->getUser()) {
-                        echo $this->url('stuki-workspace/user', array('userId' => $revision->getUser()->getId()));
-                    } else {
-                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
-                    }
-                ?>" class="btn btn-default">
-                    <?php
-                        if ($revision->getUser()) {
-                            echo $this->gravatar($revision->getUser()->getEmail(), array('img_size' => 24));
-                            echo ' ';
-                            echo $this->escapeHtml($revision->getUser()->getDisplayName());
-                        } else {
-                            echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
-                            echo ' Stuki Workspace';
-                        }
-                    ?>
-                </a>
+            <?= $this->partial(
+                'stuki-workspace/index/partial/user-button',
+                array('user' => $revision->getUser())
+            );?>
             </td>
 
             <td>

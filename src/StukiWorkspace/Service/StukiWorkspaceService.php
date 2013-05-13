@@ -149,17 +149,13 @@ class StukiWorkspaceService extends AbstractHelper
             'targetEntityClass' => get_class($entity),
             'entityKeys' => serialize($stukiWorkspaceService->getEntityIdentifierValues($entity)),
         ), array('id' => 'DESC'));
-#echo '<BR><BR><BR>';
+
         foreach ($revisionEntities as $revisionEntity) {
             if ($revisionEntity->getRevision()->getUser() == $user) {
-#                echo('user specific');
-#                echo (string)$entity;
                 return $revisionEntity;
             }
 
-            if ($revisionEntity->getRevision()->isApproved()) {
-#                echo('approved');
-#                echo (string)$entity;
+            if ($revisionEntity->getRevision()->getApprove() == 'approved') {
                 return $revisionEntity;
             }
         }
