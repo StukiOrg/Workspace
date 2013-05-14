@@ -23,11 +23,6 @@
     }
     ?>"></i> <?= ucwords($this->revision->getApprove()); ?></a>
 
-<script>
-$('.icon-check-empty').not('.workspace').live('click', function(event) {
-    alert('clicked');
-});
-</script>
 
 <?php
     if ($this->revision->getApprove() == 'approved') {
