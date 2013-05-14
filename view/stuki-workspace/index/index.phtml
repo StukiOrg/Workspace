@@ -1,28 +1,11 @@
-<a class="btn btn-info pull-right" style="margin-left: 20px;" href="<?=
-    $this->url('stuki-workspace/master');
-?>"><i class="icon-code-fork"></i> Master</a>
-
 <a class="btn btn-info pull-right" href="<?=
     $this->url('stuki-workspace/firehose');
 ?>"><i class="icon-bullseye"></i> Firehose</a>
 
 
-<h1>Workspace for
-<a " class="btn btn-default" href="<?php
-    echo $this->url('stuki-workspace/user', array('userId' => $this->user->getId()));
-    ?>">
+<h1>Workspace Master</h1>
 
-    <h3>
-        <?= $this->gravatar($this->user->getEmail(), array('img_size' => 36)); ?>
-        <?= $this->user ?>
-    </h3>
-</a>
-</h1>
-
-
-</h1>
-
-<?php $paginator = $this->stukiWorkspacePaginator($this->page, $this->user->getId()); ?>
+<?php $paginator = $this->stukiRevisionPaginator($this->page, array('approve' => 'approved')); ?>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -30,7 +13,7 @@
             <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'stuki-workspace/pagination/revision', array('route' => 'audit/page'));
+                'stuki-workspace/pagination/revision', array('route' => 'stuki-workspace/page'));
             ?>
             </th>
         </tr>
@@ -47,7 +30,7 @@
         <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'stuki-workspace/pagination/revision', array('route' => 'audit/page'));
+                'stuki-workspace/pagination/revision', array('route' => 'stuki-workspace/page'));
             ?>
         </th>
     </tfoot>
@@ -75,7 +58,6 @@
             <?php
             foreach ($revision->getRevisionEntities() as $revisionEntity) {
             ?>
-                <div>
                     <?= $this->stukiRevisionEntityLink($revisionEntity); ?>
                 </div>
             <?php
@@ -96,7 +78,8 @@
                 <?= $this->partial(
                     'stuki-workspace/index/partial/revision-approve',
                     array('revision' => $revision)
-                );?>
+                );
+                ?>
             </td>
 
         </tr>

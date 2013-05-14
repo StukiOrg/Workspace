@@ -15,7 +15,7 @@ class IndexController extends AbstractActionController
      *
      * @param int $page
      */
-    public function indexAction()
+    public function masterAction()
     {
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $userId = (int)$this->getEvent()->getRouteMatch()->getParam('userId');
@@ -34,17 +34,6 @@ class IndexController extends AbstractActionController
         return array(
             'page' => $page,
             'user' => $user,
-        );
-    }
-
-    /**
-     * Show all revisions on the master workspace
-     */
-    public function masterAction()
-    {
-        $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
-        return array(
-            'page' => $page,
         );
     }
 
