@@ -45,6 +45,7 @@ return array(
             'stukiRevisionEntityLink' => 'StukiWorkspace\View\Helper\RevisionEntityLink',
 
             'stukiWorkspacePaginator' => 'StukiWorkspace\View\Helper\WorkspacePaginator',
+            'stukiFirehosePaginator' => 'StukiWorkspace\View\Helper\FirehosePaginator',
             'stukiRevisionPaginator' => 'StukiWorkspace\View\Helper\RevisionPaginator',
             'stukiRevisionEntityPaginator' => 'StukiWorkspace\View\Helper\RevisionEntityPaginator',
             'stukiAssociationSourcePaginator' => 'StukiWorkspace\View\Helper\AssociationSourcePaginator',
