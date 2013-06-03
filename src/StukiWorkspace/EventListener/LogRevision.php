@@ -25,7 +25,11 @@ class LogRevision implements EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(Events::onFlush, Events::postFlush, Events::postLoad);
+        return array(
+            Events::onFlush,
+            Events::postFlush,
+            Events::onLoad
+        );
     }
 
     private function setEntities($entities)
@@ -247,35 +251,24 @@ class LogRevision implements EventSubscriber
         $this->setEntities($entities);
     }
 
-    public function postLoad(LifecycleEventArgs $args)
+    public function onLoad(OnLoadEventArgs $args)
     {
-        $entity = $args->getEntity();
-
         $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
 
-        // Is the entity audited?
-        $found = false;
-        foreach ($moduleOptions->getAuditedClassNames() as $name => $targetClassOptions) {
-            if ($name == get_class($entity)) {
-                $found = true;
-                break;
-            }
-        }
-
-        if (!$found) return;  # Entity is not audited
+        $entity = $args->getEntity();
+        if (!$entity or !in_array(get_class($entity), array_keys($moduleOptions->getAuditedClassNames())))
+            return;
 
         $stukiWorkspaceService = $moduleOptions->getStukiWorkspaceService();
-
         $workspaceRevisionEntity = $stukiWorkspaceService->workspaceRevisionEntity($entity);
         if (!$workspaceRevisionEntity) {
             // Entity does not exist along this workspace, unset
-return false;
-            throw new \Exception('Entity does not exist in workspace and cannot be unset');
-            return false;
-
+            $args->setEntity(false);
+            return;
         }
 
         $entity->exchangeArray($workspaceRevisionEntity->getAuditEntity()->getArrayCopy());
+        $args->setEntity($entity);
     }
 
     public function postFlush(PostFlushEventArgs $args)
