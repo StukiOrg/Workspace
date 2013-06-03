@@ -5,6 +5,7 @@ namespace StukiWorkspace\EventListener;
 use Doctrine\Common\EventSubscriber
     , Doctrine\ORM\Events
     , Doctrine\ORM\Event\OnFlushEventArgs
+    , Doctrine\ORM\Event\OnLoadEventArgs
     , Doctrine\ORM\Event\PostFlushEventArgs
     , Doctrine\ORM\Event\LifecycleEventArgs
     , StukiWorkspace\Entity\Revision as RevisionEntity
