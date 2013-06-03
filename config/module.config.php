@@ -62,7 +62,7 @@ return array(
                     'route' => '/workspace',
                     'defaults' => array(
                         'controller' => 'audit',
-                        'action'     => 'index',
+                        'action'     => 'master',
                     ),
                 ),
                 'may_terminate' => true,
@@ -70,14 +70,13 @@ return array(
                     'page' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '[/:page]',
+                            'route' => '/page[/:page]',
                             'constraints' => array(
                                 'page' => '[0-9]*',
                             ),
                             'defaults' => array(
                                 'controller' => 'audit',
-                                'action'     => 'index',
-                                'page' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => 'master',
                             ),
                         ),
                     ),
@@ -107,7 +106,7 @@ return array(
                     'firehose' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/firehose',
+                            'route' => '/firehose[/:page]',
                             'defaults' => array(
                                 'controller' => 'audit',
                                 'action'     => 'firehose',

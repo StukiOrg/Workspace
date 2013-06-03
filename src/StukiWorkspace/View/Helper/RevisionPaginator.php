@@ -32,8 +32,6 @@ final class RevisionPaginator extends AbstractHelper implements ServiceLocatorAw
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-#        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
-
 
         $repository = $entityManager->getRepository('StukiWorkspace\\Entity\\Revision');
 
