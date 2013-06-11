@@ -10,6 +10,32 @@ class WorkspaceService extends AbstractHelper
 {
     private $comment;
 
+    static public function __invoke($entity)
+    {
+        $moduleOptions = \Workspace\Module::getModuleOptions();
+
+        $found = false;
+        foreach (array_keys($moduleOptions->getAuditedClassNames() as $workspaceEntityClass) {
+            if ($entity instanceof $workspaceEntityClass) {
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            return $entity;
+        }
+
+        $workspaceService = $moduleOptions->getWorkspaceService();
+        $workspaceRevisionEntity = $workspaceService->workspaceRevisionEntity($entity);
+        if (!$workspaceRevisionEntity) {
+            return false;
+        }
+
+        $entity->exchangeArray($workspaceRevisionEntity->getAuditEntity()->getArrayCopy());
+
+        return $entity;
+    }
+
     /**
      * To add a comment to a revision fetch this object before flushing
      * and set the comment.  The comment will be fetched by the revision
