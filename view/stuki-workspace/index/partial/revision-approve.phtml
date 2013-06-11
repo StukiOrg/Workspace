@@ -1,5 +1,5 @@
 <a href="<?=
-    $this->url('stuki-workspace/revision',
+    $this->url('workspace/revision',
         array('revisionId' => $this->revision->getId())
     );
 ?>" class="btn btn-approve-<?= $this->revision->getApprove(); ?>">
@@ -29,11 +29,11 @@
 ?>
         by
         <?= $this->partial(
-            'stuki-workspace/index/partial/user-button',
+            'workspace/index/partial/user-button',
             array('user' => $this->revision->getApproveUser())
         );?>
 
-        <br><?= $this->StukiDateTimeFormatter($this->revision->getApproveTimestamp()); ?>
+        <br><?= $this->WorkspaceDateTimeFormatter($this->revision->getApproveTimestamp()); ?>
 <?php
     }
 ?>

@@ -1,9 +1,9 @@
 <a class="btn btn-info pull-right" style="margin-left: 20px;" href="<?=
-    $this->url('stuki-workspace/master');
+    $this->url('workspace/master');
 ?>"><i class="icon-code-fork"></i> Master</a>
 
 <a class="btn btn-info pull-right" href="<?=
-    $this->url('stuki-workspace/firehose');
+    $this->url('workspace/firehose');
 ?>"><i class="icon-bullseye"></i> Firehose</a>
 
 
@@ -28,7 +28,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('stuki-workspace/revision',
+                    $this->url('workspace/revision',
                         array(
                             'revisionId' => $this->revisionEntity->getRevision()->getId()
                         )
@@ -37,26 +37,26 @@
 
                     <?= $this->revisionEntity->getRevision()->getId(); ?>
 
-                    @ <?php echo $this->StukiDateTimeFormatter($revisionEntity->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->WorkspaceDateTimeFormatter($revisionEntity->getRevision()->getTimestamp()); ?>
                 </a>
 
             </td>
 
             <td>
-                <?= $this->stukiRevisionEntityLink($revisionEntity); ?>
+                <?= $this->workspaceRevisionEntityLink($revisionEntity); ?>
             </td>
 
             <td><?= $this->escapeHtml($this->revisionEntity->getRevision()->getComment()); ?></td>
 
             <td>
                 <?= $this->partial(
-                    'stuki-workspace/index/partial/user-button',
+                    'workspace/index/partial/user-button',
                     array('user' => $this->revisionEntity->getRevision()->getUser())
                 );?>
             </td>
             <td>
                 <?= $this->partial(
-                    'stuki-workspace/index/partial/revision-approve',
+                    'workspace/index/partial/revision-approve',
                     array('revision' => $this->revisionEntity->getRevision())
                 );
                 ?>
@@ -67,7 +67,7 @@
 
 <?php
 
-    $paginator = $this->stukiOneToManyPaginator(
+    $paginator = $this->workspaceOneToManyPaginator(
         $this->page,
         $this->revisionEntity,
         $this->joinTable,
@@ -81,7 +81,7 @@
             <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'stuki-workspace/pagination/one-to-many', array('route' => 'stuki-workspace/one-to-many'));
+                'workspace/pagination/one-to-many', array('route' => 'workspace/one-to-many'));
             ?>
             </th>
         </tr>
@@ -98,7 +98,7 @@
         <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'stuki-workspace/pagination/one-to-many', array('route' => 'stuki-workspace/one-to-many'));
+                'workspace/pagination/one-to-many', array('route' => 'workspace/one-to-many'));
             ?>
         </th>
     </tfoot>
@@ -109,7 +109,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('stuki-workspace/revision',
+                    $this->url('workspace/revision',
                         array(
                             'revisionId' => $association->getRevision()->getId()
                         )
@@ -118,26 +118,26 @@
 
                     <?= $association->getRevision()->getId(); ?>
 
-                    @ <?php echo $this->StukiDateTimeFormatter($association->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->WorkspaceDateTimeFormatter($association->getRevision()->getTimestamp()); ?>
                 </a>
 
             </td>
 
             <td>
-                <?= $this->stukiRevisionEntityLink($association); ?>
+                <?= $this->workspaceRevisionEntityLink($association); ?>
             </td>
 
             <td><?= $this->escapeHtml($association->getRevision()->getComment()); ?></td>
 
             <td>
                 <?= $this->partial(
-                    'stuki-workspace/index/partial/user-button',
+                    'workspace/index/partial/user-button',
                     array('user' => $association->getRevision()->getUser())
                 );?>
             </td>
             <td>
                 <?= $this->partial(
-                    'stuki-workspace/index/partial/revision-approve',
+                    'workspace/index/partial/revision-approve',
                     array('revision' => $association->getRevision())
                 );
                 ?>

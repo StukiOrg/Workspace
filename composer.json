@@ -4,7 +4,7 @@
     "type": "zf-module",
     "license": "MIT",
     "keywords": [
-    	"workspace",    
+        "workspace",    
         "audit",
         "doctrine"
     ],
@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-0": {
-            "StukiWorkspace": "src/"
+            "Workspace": "src/"
         },
         "classmap": [
             "./Module.php"

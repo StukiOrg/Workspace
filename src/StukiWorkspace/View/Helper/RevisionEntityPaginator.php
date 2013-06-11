@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\View\Helper;
+namespace Workspace\View\Helper;
 
 use Zend\View\Helper\AbstractHelper
     , Doctrine\ORM\EntityManager
@@ -10,7 +10,7 @@ use Zend\View\Helper\AbstractHelper
     , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
     , Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator
     , Zend\Paginator\Paginator
-    , StukiWorkspace\Entity\AbstractAudit
+    , Workspace\Entity\AbstractAudit
     ;
 
 final class RevisionEntityPaginator extends AbstractHelper implements ServiceLocatorAwareInterface
@@ -32,22 +32,22 @@ final class RevisionEntityPaginator extends AbstractHelper implements ServiceLoc
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
+        $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('workspaceService');
 
         if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys($auditModuleOptions->getAuditedClassNames()))) {
-            $auditEntityClass = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
-            $identifiers = $stukiWorkspaceService->getEntityIdentifierValues($entity);
+            $auditEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
+            $identifiers = $workspaceService->getEntityIdentifierValues($entity);
         } elseif ($entity instanceof AbstractAudit) {
             $auditEntityClass = get_class($entity);
-            $identifiers = $stukiWorkspaceService->getEntityIdentifierValues($entity, true);
+            $identifiers = $workspaceService->getEntityIdentifierValues($entity, true);
         } else {
-            $auditEntityClass = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $entity);
+            $auditEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', $entity);
         }
 
         $search = array('auditEntityClass' => $auditEntityClass);
         if (isset($identifiers)) $search['entityKeys'] = serialize($identifiers);
 
-        $queryBuilder = $entityManager->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->createQueryBuilder('rev');
+        $queryBuilder = $entityManager->getRepository('Workspace\\Entity\\RevisionEntity')->createQueryBuilder('rev');
         $queryBuilder->orderBy('rev.id', 'DESC');
         $i = 0;
         foreach ($search as $key => $val) {

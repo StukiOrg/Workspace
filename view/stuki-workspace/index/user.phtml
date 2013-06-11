@@ -1,9 +1,9 @@
 <a class="btn btn-info pull-right" style="margin-left: 20px;" href="<?=
-    $this->url('stuki-workspace/master');
+    $this->url('workspace/master');
 ?>"><i class="icon-code-fork"></i> Master</a>
 
 <a class="btn btn-info pull-right" href="<?=
-    $this->url('stuki-workspace/firehose');
+    $this->url('workspace/firehose');
 ?>"><i class="icon-bullseye"></i> Firehose</a>
 
 <?php
@@ -16,11 +16,11 @@ if ($user) {
     $userId = null;
 ?>
 <h1>Workspace Approved Revisions</h1>
-Revisions which were automatically approved by Stuki Workspace
+Revisions which were automatically approved by Workspace
 <?php
 }
 ?>
-<?php $paginator = $this->stukiWorkspacePaginator($this->page, $this->userId); ?>
+<?php $paginator = $this->workspacePaginator($this->page, $this->userId); ?>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -28,7 +28,7 @@ Revisions which were automatically approved by Stuki Workspace
             <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'stuki-workspace/pagination/revision', array('route' => 'stuki-workspace/page'));
+                'workspace/pagination/revision', array('route' => 'workspace/page'));
             ?>
             </th>
         </tr>
@@ -45,7 +45,7 @@ Revisions which were automatically approved by Stuki Workspace
         <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'stuki-workspace/pagination/revision', array('route' => 'stuki-workspace/page'));
+                'workspace/pagination/revision', array('route' => 'workspace/page'));
             ?>
         </th>
     </tfoot>
@@ -56,7 +56,7 @@ Revisions which were automatically approved by Stuki Workspace
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('stuki-workspace/revision',
+                    $this->url('workspace/revision',
                         array(
                             'revisionId' => $revision->getId()
                         )
@@ -64,7 +64,7 @@ Revisions which were automatically approved by Stuki Workspace
                 ?>">
 
                     <?= $this->escapeHtml($revision->getId());?>
-                    @ <?php echo $this->StukiDateTimeFormatter($revision->getTimestamp()); ?>
+                    @ <?php echo $this->WorkspaceDateTimeFormatter($revision->getTimestamp()); ?>
 
                 </a>
             </td>
@@ -74,7 +74,7 @@ Revisions which were automatically approved by Stuki Workspace
             foreach ($revision->getRevisionEntities() as $revisionEntity) {
             ?>
                 <div>
-                    <?= $this->stukiRevisionEntityLink($revisionEntity); ?>
+                    <?= $this->workspaceRevisionEntityLink($revisionEntity); ?>
                 </div>
             <?php
             }
@@ -85,14 +85,14 @@ Revisions which were automatically approved by Stuki Workspace
 
             <td>
             <?= $this->partial(
-                'stuki-workspace/index/partial/user-button',
+                'workspace/index/partial/user-button',
                 array('user' => $revision->getUser())
             );?>
             </td>
 
             <td>
                 <?= $this->partial(
-                    'stuki-workspace/index/partial/revision-approve',
+                    'workspace/index/partial/revision-approve',
                     array('revision' => $revision)
                 );
                 ?>

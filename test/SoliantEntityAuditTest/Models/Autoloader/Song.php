@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspaceTest\Models\Autoloader;
+namespace WorkspaceTest\Models\Autoloader;
 
 use Doctrine\ORM\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder

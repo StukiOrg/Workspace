@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspaceTest;
+namespace WorkspaceTest;
 
 use Zend\Loader\AutoloaderFactory
     , Zend\Mvc\Service\ServiceManagerConfig

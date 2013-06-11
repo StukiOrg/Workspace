@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\View\Helper;
+namespace Workspace\View\Helper;
 
 use Zend\View\Helper\AbstractHelper
     , Doctrine\ORM\EntityManager
@@ -10,7 +10,7 @@ use Zend\View\Helper\AbstractHelper
     , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
     , Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator
     , Zend\Paginator\Paginator
-    , StukiWorkspace\Entity\AbstractAudit
+    , Workspace\Entity\AbstractAudit
     ;
 
 // Return the latest revision entity for the given entity
@@ -32,11 +32,11 @@ final class CurrentRevisionEntity extends AbstractHelper implements ServiceLocat
     public function __invoke($entity)
     {
         $entityManager = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getEntityManager();
-        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getStukiWorkspaceService();
+        $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getWorkspaceService();
 
-        $revisionEntities = $entityManager->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->findBy(array(
+        $revisionEntities = $entityManager->getRepository('Workspace\\Entity\\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($entity),
-            'entityKeys' => serialize($stukiWorkspaceService->getEntityIdentifierValues($entity)),
+            'entityKeys' => serialize($workspaceService->getEntityIdentifierValues($entity)),
         ), array('id' => 'DESC'), 1);
 
         if (sizeof($revisionEntities)) return $revisionEntities[0];

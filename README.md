@@ -1,4 +1,4 @@
-Stuki Workspace
+Workspace
 ===============
 
 [![Build Status](https://travis-ci.org/StukiOrg/Workspace.png)](https://travis-ci.org/StukiOrg/Workspace)
@@ -17,18 +17,18 @@ This is accomplished by evaluating each entity when it is fetched from the ORM. 
 Install
 =======
 
-Require Stuki Workspace with composer 
+Require Workspace with composer 
 
 ```php
 php composer.phar require "stuki/workspace": "dev-master"
 ```
 
 
-Enable Stuki Workspace in `config/application.config.php`: 
+Enable Workspace in `config/application.config.php`: 
 ```php
 return array(
     'modules' => array(
-        'StukiWorkspace'
+        'Workspace'
         ...
     ),
 ```
@@ -37,20 +37,18 @@ Copy `config/workspace.global.php.dist` to `config/autoload/workspace.global.php
 
 ```php
 return array(
-    'stuki' => array(
-        'workspace' => array(
-            'datetimeFormat' => 'r',
-            'paginatorLimit' => 20,
+    'workspace' => array(
+        'datetimeFormat' => 'r',
+        'paginatorLimit' => 20,
 
-            'tableNamePrefix' => '',
-            'tableNameSuffix' => '_audit',
-            'revisionTableName' => 'Revision',
-            'revisionEntityTableName' => 'RevisionEntity',
+        'tableNamePrefix' => '',
+        'tableNameSuffix' => '_audit',
+        'revisionTableName' => 'Revision',
+        'revisionEntityTableName' => 'RevisionEntity',
 
-            'entities' => array(           
-                'Db\Entity\Song' => array(),
-                'Db\Entity\Performer' => array(),
-            ),
+        'entities' => array(           
+            'Db\Entity\Song' => array(),
+            'Db\Entity\Performer' => array(),
         ),
     ),
 );
@@ -104,7 +102,7 @@ Identifier column values from the audited entity will be added to defaults to ge
 
 ```
     <?php
-        $options = $this->stukiEntityOptions($revisionEntity->getTargetEntityClass());
+        $options = $this->workspaceEntityOptions($revisionEntity->getTargetEntityClass());
         $routeOptions = array_merge($options['defaults'], $revisionEntity->getEntityKeys());
     ?>
     <a class="btn btn-info" href="<?=
@@ -116,9 +114,9 @@ This is how to map from your application to it's current revision entity:
 
 ```
     <a class="btn btn-info" href="<?=
-        $this->url('stuki-workspace/revision-entity',
+        $this->url('workspace/revision-entity',
             array(
-                'revisionEntityId' => $this->stukiCurrentRevisionEntity($auditedEntity)->getId()
+                'revisionEntityId' => $this->workspaceCurrentRevisionEntity($auditedEntity)->getId()
             )
         );
     ?>">
@@ -130,7 +128,7 @@ This is how to map from your application to it's current revision entity:
 View Helpers
 ------------
 
-Return the audit service.  This is a helper class.  The class is also available via dependency injection factory ```stukiWorkspaceService```
+Return the audit service.  This is a helper class.  The class is also available via dependency injection factory ```workspaceService```
 This class provides the following:
 
 1. setComment();
@@ -146,7 +144,7 @@ This class provides the following:
     Returns all RevisionEntity entities for the given audited entity or RevisionEntity.
     
 ````
-$view->stukiWorkspaceService();
+$view->workspaceService();
 ```
 
 Return the latest revision entity for the given entity.
@@ -162,17 +160,17 @@ $view->auditEntityPaginator($page, $entityClassName);
 Return a paginator for all RevisionEntity entities for the given entity or 
 a paginator attached to every RevisionEntity for the given audited entity class.Pass an entity or a class name string.
 ```
-$view->stukiRevisionEntityPaginator($page, $entity);
+$view->workspaceRevisionEntityPaginator($page, $entity);
 ```
 
 Return a paginator for all Revision entities.
 ```
-$view->stukiRevisionPaginator($page);
+$view->workspaceRevisionPaginator($page);
 ```
 
 Returns the routing information for an entity by class name
 ```
-$view->stukiEntityOptions($entityClassName);
+$view->workspaceEntityOptions($entityClassName);
 ```
 
 Titling

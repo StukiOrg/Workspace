@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\View\Helper;
+namespace Workspace\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Doctrine\ORM\EntityManager;
@@ -10,7 +10,7 @@ use Zend\View\Model\ViewModel;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
-use StukiWorkspace\Entity\AbstractAudit;
+use Workspace\Entity\AbstractAudit;
 
 final class WorkspacePaginator extends AbstractHelper implements ServiceLocatorAwareInterface
 {
@@ -31,9 +31,9 @@ final class WorkspacePaginator extends AbstractHelper implements ServiceLocatorA
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-#        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
+#        $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('workspaceService');
 
-        $repository = $entityManager->getRepository('StukiWorkspace\\Entity\\Revision');
+        $repository = $entityManager->getRepository('Workspace\\Entity\\Revision');
 
         $qb = $repository->createQueryBuilder('revision');
 

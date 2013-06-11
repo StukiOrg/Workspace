@@ -1,8 +1,8 @@
 <?php
 
-namespace StukiWorkspace\Options;
+namespace Workspace\Options;
 use Doctrine\ORM\EntityManager
-    , StukiWorkspace\Service\StukiWorkspaceService
+    , Workspace\Service\WorkspaceService
     ;
 
 class ModuleOptions
@@ -15,7 +15,7 @@ class ModuleOptions
     private $joinClasses;
     private $user;
     private $entityManager;
-    private $stukiWorkspaceService;
+    private $workspaceService;
     private $userEntityClassName;
     private $authenticationService;
 
@@ -30,14 +30,14 @@ class ModuleOptions
         $this->setUserEntityClassName(isset($config['userEntityClassName']) ? $config['userEntityClassName']: 'ZfcUserDoctrineORM\\Entity\\User');
     }
 
-    public function getStukiWorkspaceService()
+    public function getWorkspaceService()
     {
-        return $this->stukiWorkspaceService;
+        return $this->workspaceService;
     }
 
-    public function setStukiWorkspaceService(StukiWorkspaceService $stukiWorkspaceService)
+    public function setWorkspaceService(WorkspaceService $workspaceService)
     {
-        $this->stukiWorkspaceService = $stukiWorkspaceService;
+        $this->workspaceService = $workspaceService;
     }
 
     public function getEntityManager()

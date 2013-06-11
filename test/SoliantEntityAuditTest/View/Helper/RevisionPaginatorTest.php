@@ -1,9 +1,9 @@
 <?php
 
-namespace StukiWorkspaceTest\View\Helper;
+namespace WorkspaceTest\View\Helper;
 
-use StukiWorkspaceTest\Bootstrap
-    , StukiWorkspaceTest\Models\Bootstrap\Album
+use WorkspaceTest\Bootstrap
+    , WorkspaceTest\Models\Bootstrap\Album
     ;
 
 class RevisionPaginatorTest extends \PHPUnit_Framework_TestCase
@@ -33,8 +33,8 @@ class RevisionPaginatorTest extends \PHPUnit_Framework_TestCase
         $sm = Bootstrap::getApplication()->getServiceManager();
         $em = Bootstrap::getApplication()->getServiceManager()->get("doctrine.entitymanager.orm_default");
 
-        $helper = $sm->get('viewhelpermanager')->get('stukiRevisionPaginator');
-        $revisions = $em->getRepository('StukiWorkspace\Entity\Revision')->findAll();
+        $helper = $sm->get('viewhelpermanager')->get('workspaceRevisionPaginator');
+        $revisions = $em->getRepository('Workspace\Entity\Revision')->findAll();
         $count = sizeof($revisions);
 
         $paginator = $helper($page = 0);

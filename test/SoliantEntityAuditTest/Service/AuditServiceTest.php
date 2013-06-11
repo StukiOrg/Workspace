@@ -1,20 +1,20 @@
 <?php
 
-namespace StukiWorkspaceTest\Service;
+namespace WorkspaceTest\Service;
 
-use StukiWorkspaceTest\Bootstrap
-    , StukiWorkspaceTest\Models\Bootstrap\Album
+use WorkspaceTest\Bootstrap
+    , WorkspaceTest\Models\Bootstrap\Album
     , Doctrine\Common\Persistence\Mapping\ClassMetadata
     ;
 
-class StukiWorkspaceServiceTest extends \PHPUnit_Framework_TestCase
+class WorkspaceServiceTest extends \PHPUnit_Framework_TestCase
 {
 
     // If we reach this function then the audit driver has worked
     public function testCommentingAndCommentRestting()
     {
-        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
-        $service = \StukiWorkspace\Module::getModuleOptions()->getStukiWorkspaceService();
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
+        $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
 
         $service->setComment('Test comment is reset when read');
         $this->assertEquals('Test comment is reset when read', $service->getComment());
@@ -24,21 +24,21 @@ class StukiWorkspaceServiceTest extends \PHPUnit_Framework_TestCase
     public function testRevisionComment()
     {
         // Inserting data insures we will have a result > 0
-        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
-        $service = \StukiWorkspace\Module::getModuleOptions()->getStukiWorkspaceService();
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
+        $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
 
         $entity = new Album;
         $entity->setTitle('Test 1');
 
         $service->setComment('Test service comment is persisted on revision');
-        $service = \StukiWorkspace\Module::getModuleOptions()->getStukiWorkspaceService();
+        $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
         $this->assertEquals('Test service comment is persisted on revision', $service->getComment());
 
 return;
         $em->persist($entity);
         $em->flush();
 
-        $x = $em->getRepository('StukiWorkspace\\Entity\\Revision')->findAll();
+        $x = $em->getRepository('Workspace\\Entity\\Revision')->findAll();
         print_r($x);
 
         $em->persist($entity);
@@ -54,8 +54,8 @@ return;
 
     public function testGetEntityValues() {
         // Inserting data insures we will have a result > 0
-        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
-        $service = \StukiWorkspace\Module::getModuleOptions()->getStukiWorkspaceService();
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
+        $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
 
         $service->setComment('test 2');
 
@@ -67,8 +67,8 @@ return;
 
     public function testGetRevisionEntities() {
         // Inserting data insures we will have a result > 0
-        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
-        $service = \StukiWorkspace\Module::getModuleOptions()->getStukiWorkspaceService();
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
+        $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
 
         $service->setComment('test 2');
 
@@ -88,8 +88,8 @@ return;
     public function testGetRevisionEntitiesByRevisionEntity()
     {
         // Inserting data insures we will have a result > 0
-        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
-        $service = \StukiWorkspace\Module::getModuleOptions()->getStukiWorkspaceService();
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
+        $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
 
         $service->setComment('test 2');
 
@@ -112,8 +112,8 @@ return;
     public function testGetRevisionEntitiesByEntityClass()
     {
         // Inserting data insures we will have a result > 0
-        $em = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
-        $service = \StukiWorkspace\Module::getModuleOptions()->getStukiWorkspaceService();
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
+        $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
 
         $service->setComment('test 2');
 

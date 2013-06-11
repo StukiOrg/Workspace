@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\Entity;
+namespace Workspace\Entity;
 
 use Doctrine\ORM\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder
@@ -92,10 +92,10 @@ class RevisionEntity
 
     public function setAuditEntity(AbstractAudit $entity)
     {
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+        $moduleOptions = \Workspace\Module::getModuleOptions();
 
-        $stukiWorkspaceService = $moduleOptions->getStukiWorkspaceService();
-        $identifiers = $stukiWorkspaceService->getEntityIdentifierValues($entity);
+        $workspaceService = $moduleOptions->getWorkspaceService();
+        $identifiers = $workspaceService->getEntityIdentifierValues($entity);
 
         $this->setAuditEntityClass(get_class($entity));
         $this->setTargetEntityClass($entity->getAuditedEntityClass());
@@ -106,14 +106,14 @@ class RevisionEntity
 
     public function getAuditEntity()
     {
-        $entityManager = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
+        $entityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
 
         return $entityManager->getRepository($this->getAuditEntityClass())->findOneBy(array('revisionEntity' => $this));
     }
 
     public function getTargetEntity()
     {
-        $entityManager = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
+        $entityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
 
         return $entityManager->getRepository(
             $entityManager

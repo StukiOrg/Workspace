@@ -1,12 +1,12 @@
 <?php
 
-namespace StukiWorkspace;
+namespace Workspace;
 
 return array(
     'doctrine' => array(
         'driver' => array(
             __NAMESPACE__ . '_driver' => array(
-                'class' => 'StukiWorkspace\Mapping\Driver\AuditDriver',
+                'class' => 'Workspace\Mapping\Driver\AuditDriver',
             ),
 
             'orm_default' => array(
@@ -19,7 +19,7 @@ return array(
         'eventmanager' => array(
             'orm_default' => array(
                 'subscribers' => array(
-                    'StukiWorkspace\EventListener\LogRevision',
+                    'Workspace\EventListener\LogRevision',
                 ),
             ),
         ),
@@ -27,7 +27,7 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'audit' => 'StukiWorkspace\Controller\IndexController'
+            'audit' => 'Workspace\Controller\IndexController'
         ),
     ),
 
@@ -39,23 +39,23 @@ return array(
 
     'view_helpers' => array(
         'invokables' => array(
-            'stukiCurrentRevisionEntity' => 'StukiWorkspace\View\Helper\CurrentRevisionEntity',
-            'stukiEntityOptions' => 'StukiWorkspace\View\Helper\EntityOptions',
+            'workspaceCurrentRevisionEntity' => 'Workspace\View\Helper\CurrentRevisionEntity',
+            'workspaceEntityOptions' => 'Workspace\View\Helper\EntityOptions',
 
-            'stukiRevisionEntityLink' => 'StukiWorkspace\View\Helper\RevisionEntityLink',
+            'workspaceRevisionEntityLink' => 'Workspace\View\Helper\RevisionEntityLink',
 
-            'stukiWorkspacePaginator' => 'StukiWorkspace\View\Helper\WorkspacePaginator',
-            'stukiRevisionPaginator' => 'StukiWorkspace\View\Helper\RevisionPaginator',
-            'stukiRevisionEntityPaginator' => 'StukiWorkspace\View\Helper\RevisionEntityPaginator',
-            'stukiAssociationSourcePaginator' => 'StukiWorkspace\View\Helper\AssociationSourcePaginator',
-            'stukiAssociationTargetPaginator' => 'StukiWorkspace\View\Helper\AssociationTargetPaginator',
-            'stukiOneToManyPaginator' => 'StukiWorkspace\View\Helper\OneToManyPaginator',
+            'workspacePaginator' => 'Workspace\View\Helper\WorkspacePaginator',
+            'workspaceRevisionPaginator' => 'Workspace\View\Helper\RevisionPaginator',
+            'workspaceRevisionEntityPaginator' => 'Workspace\View\Helper\RevisionEntityPaginator',
+            'workspaceAssociationSourcePaginator' => 'Workspace\View\Helper\AssociationSourcePaginator',
+            'workspaceAssociationTargetPaginator' => 'Workspace\View\Helper\AssociationTargetPaginator',
+            'workspaceOneToManyPaginator' => 'Workspace\View\Helper\OneToManyPaginator',
         ),
     ),
 
     'router' => array(
         'routes' => array(
-            'stuki-workspace' => array(
+            'workspace' => array(
                 'type' => 'Literal',
                 'priority' => 1000,
                 'options' => array(

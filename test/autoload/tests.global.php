@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspaceTest;
+namespace WorkspaceTest;
 
 return array(
     'audit' => array(
@@ -16,9 +16,9 @@ return array(
         'revisionEntityTableName' => 'RevisionEntity',
 
         'entities' => array(
-            'StukiWorkspaceTest\Models\Bootstrap\Album' => array(),
-            'StukiWorkspaceTest\Models\Bootstrap\Performer' => array(),
-            'StukiWorkspaceTest\Models\Bootstrap\Song' => array(),
+            'WorkspaceTest\Models\Bootstrap\Album' => array(),
+            'WorkspaceTest\Models\Bootstrap\Performer' => array(),
+            'WorkspaceTest\Models\Bootstrap\Song' => array(),
         ),
     ),
 
@@ -35,21 +35,21 @@ return array(
         ),
 
         'driver' => array(
-            'StukiWorkspace_moduleDriver' => array(
-                'class' => 'StukiWorkspace\Mapping\Driver\AuditDriver',
+            'Workspace_moduleDriver' => array(
+                'class' => 'Workspace\Mapping\Driver\AuditDriver',
             ),
 
             __NAMESPACE__ . '_driver' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\StaticPHPDriver',
                 'paths' => array(
-                    __DIR__ . '/../StukiWorkspaceTest/Models/Bootstrap',
+                    __DIR__ . '/../WorkspaceTest/Models/Bootstrap',
                 ),
             ),
 
             'orm_default' => array(
                 'drivers' => array(
                     __NAMESPACE__ . '\Models' => __NAMESPACE__ . '_driver',
-                    'StukiWorkspace\Entity' => 'StukiWorkspace_moduleDriver',
+                    'Workspace\Entity' => 'Workspace_moduleDriver',
                 ),
             ),
         ),

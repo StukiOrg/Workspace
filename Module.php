@@ -1,14 +1,14 @@
 <?php
 
-namespace StukiWorkspace;
+namespace Workspace;
 
 use Zend\Mvc\MvcEvent
-    , StukiWorkspace\Options\ModuleOptions
-    , StukiWorkspace\Service\StukiWorkspaceService
-    , StukiWorkspace\Loader\AuditAutoloader
-    , StukiWorkspace\EventListener\LogRevision
-    , StukiWorkspace\View\Helper\DateTimeFormatter
-    , StukiWorkspace\View\Helper\EntityValues
+    , Workspace\Options\ModuleOptions
+    , Workspace\Service\WorkspaceService
+    , Workspace\Loader\AuditAutoloader
+    , Workspace\EventListener\LogRevision
+    , Workspace\View\Helper\DateTimeFormatter
+    , Workspace\View\Helper\EntityValues
     ;
 
 class Module
@@ -24,9 +24,9 @@ class Module
                 ),
             ),
 
-            'StukiWorkspace\Loader\StukiWorkspaceAutoloader' => array(
+            'Workspace\Loader\WorkspaceAutoloader' => array(
                 'namespaces' => array(
-                    'StukiWorkspace\Entity' => __DIR__,
+                    'Workspace\Entity' => __DIR__,
                 )
             ),
         );
@@ -61,11 +61,11 @@ class Module
                 'auditModuleOptions' => function($serviceManager){
                     $config = $serviceManager->get('Application')->getConfig();
                     $auditConfig = new ModuleOptions();
-                    $auditConfig->setDefaults($config['audit']);
+                    $auditConfig->setDefaults($config['workspace']);
                     $auditConfig->setEntityManager($serviceManager->get('doctrine.entitymanager.orm_default'));
-                    $auditConfig->setStukiWorkspaceService($serviceManager->get('stukiWorkspaceService'));
+                    $auditConfig->setWorkspaceService($serviceManager->get('workspaceService'));
 
-                    $authenticationServiceAlias = (isset($config['audit']['authenticationService'])) ? $config['audit']['authenticationService']: 'zfcuser_auth_service';
+                    $authenticationServiceAlias = (isset($config['workspace']['authenticationService'])) ? $config['workspace']['authenticationService']: 'zfcuser_auth_service';
 
                     $auth = $serviceManager->get($authenticationServiceAlias);
                     $auditConfig->setAuthenticationService($auth);
@@ -73,8 +73,8 @@ class Module
                     return $auditConfig;
                 },
 
-                'stukiWorkspaceService' => function($sm) {
-                    return new StukiWorkspaceService();
+                'workspaceService' => function($sm) {
+                    return new WorkspaceService();
                 }
             ),
         );
@@ -84,7 +84,7 @@ class Module
     {
          return array(
             'factories' => array(
-                'stukiDateTimeFormatter' => function($sm) {
+                'WorkspaceDateTimeFormatter' => function($sm) {
                     $Servicelocator = $sm->getServiceLocator();
                     $config = $Servicelocator->get("Config");
                     $format = $config['audit']['datetimeFormat'];
@@ -92,8 +92,8 @@ class Module
                     return $formatter->setDateTimeFormat($format);
                 },
 
-                'stukiWorkspaceService' => function($sm) {
-                    return new StukiWorkspaceService();
+                'workspaceService' => function($sm) {
+                    return new WorkspaceService();
                 }
             )
         );

@@ -5,7 +5,7 @@
 >
     <testsuites>
         <testsuite name="Entity Audit Tests">
-            <directory>test/StukiWorkspaceTest</directory>
+            <directory>test/WorkspaceTest</directory>
         </testsuite>
     </testsuites>
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace StukiWorkspaceTest\View\Helper;
+namespace WorkspaceTest\View\Helper;
 
-use StukiWorkspaceTest\Bootstrap
-    , StukiWorkspaceTest\Models\Bootstrap\Album
+use WorkspaceTest\Bootstrap
+    , WorkspaceTest\Models\Bootstrap\Album
     ;
 
 class EntityOptionsTest extends \PHPUnit_Framework_TestCase
@@ -11,9 +11,9 @@ class EntityOptionsTest extends \PHPUnit_Framework_TestCase
     public function testRevisionsAreReturnedInPaginator()
     {
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $helper = $sm->get('viewhelpermanager')->get('stukiEntityOptions');
+        $helper = $sm->get('viewhelpermanager')->get('workspaceEntityOptions');
 
-        $helper('StukiWorkspaceTest\Models\Bootstrap\Song');
+        $helper('WorkspaceTest\Models\Bootstrap\Song');
         $helper();
     }
 }

@@ -7,7 +7,7 @@
         Comparing <a href="<?=
 
                     $this->url(
-                        'stuki-workspace/entity',
+                        'workspace/entity',
                         array(
                             'entityClass' => $revisionEntity_old->getAuditEntity()->getAuditedEntityClass(),
                         )
@@ -16,11 +16,11 @@
         " class="btn btn-primary"><?php echo $this->escapeHtml($revisionEntity_old->getAuditEntity()->getAuditedEntityClass()); ?></a>
         between
 
-            <?= $this->stukiRevisionEntityLink($revisionEntity_old); ?>
+            <?= $this->workspaceRevisionEntityLink($revisionEntity_old); ?>
 
         and
 
-            <?= $this->stukiRevisionEntityLink($revisionEntity_new); ?>
+            <?= $this->workspaceRevisionEntityLink($revisionEntity_new); ?>
 
     </caption>
     <thead>
@@ -32,8 +32,8 @@
         </tr>
     </thead>
     <tbody>
-        <?php $oldValues = $this->stukiWorkspaceService()->getEntityValues($revisionEntity_old->getAuditEntity()); ?>
-        <?php $newValues = $this->stukiWorkspaceService()->getEntityValues($revisionEntity_new->getAuditEntity()); ?>
+        <?php $oldValues = $this->workspaceService()->getEntityValues($revisionEntity_old->getAuditEntity()); ?>
+        <?php $newValues = $this->workspaceService()->getEntityValues($revisionEntity_new->getAuditEntity()); ?>
 
         <?php foreach ($oldValues as $field => $value): ?>
             <tr>
@@ -44,7 +44,7 @@
                     ?>
 
                         <?php if ($oldValues[$field] instanceof \DateTime): ?>
-                            <?php echo $this->StukiDateTimeFormatter($oldValues[$field]); ?>
+                            <?php echo $this->WorkspaceDateTimeFormatter($oldValues[$field]); ?>
                         <?php else: ?>
                             <?php echo  $this->escapeHtml($oldValues[$field]); ?>
                         <?php endif; ?></td>
@@ -57,7 +57,7 @@
                     if ($oldValues[$field] == $newValues[$field]){
                     ?>
                         <?php if ($oldValues[$field] instanceof \DateTime): ?>
-                            <?php echo $this->StukiDateTimeFormatter($oldValues[$field]); ?>
+                            <?php echo $this->WorkspaceDateTimeFormatter($oldValues[$field]); ?>
                         <?php else: ?>
                             <?php echo  $this->escapeHtml($oldValues[$field]); ?>
                         <?php endif; ?></td>
@@ -71,7 +71,7 @@
                     ?>
 
                         <?php if ($newValues[$field] instanceof \DateTime): ?>
-                            <?php echo $this->StukiDateTimeFormatter($newValues[$field]); ?>
+                            <?php echo $this->WorkspaceDateTimeFormatter($newValues[$field]); ?>
                         <?php else: ?>
                             <?php echo  $this->escapeHtml($newValues[$field]); ?>
                         <?php endif; ?></td>
@@ -92,7 +92,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('stuki-workspace/revision',
+                    $this->url('workspace/revision',
                         array(
                             'revisionId' => $revisionEntity_old->getRevision()->getId()
                         )
@@ -100,7 +100,7 @@
                 ?>">
 
                     <?= $this->escapeHtml($revisionEntity_old->getRevision()->getId());?>
-                    @ <?php echo $this->StukiDateTimeFormatter($revisionEntity_old->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->WorkspaceDateTimeFormatter($revisionEntity_old->getRevision()->getTimestamp()); ?>
 
                 </a>
 
@@ -108,7 +108,7 @@
             </td>
 
             <td>
-                <?= $this->stukiRevisionEntityLink($revisionEntity_old); ?>
+                <?= $this->workspaceRevisionEntityLink($revisionEntity_old); ?>
            </td>
 
         </tr>
@@ -119,12 +119,12 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->stukiWorkspaceService()->getEntityValues($revisionEntity_old->getAuditEntity()) as $field => $value): ?>
+        <?php foreach ($this->workspaceService()->getEntityValues($revisionEntity_old->getAuditEntity()) as $field => $value): ?>
             <tr>
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
                     <?php if ($value instanceof \DateTime): ?>
-                        <?php echo  $this->StukiDateTimeFormatter($value); ?>
+                        <?php echo  $this->WorkspaceDateTimeFormatter($value); ?>
                     <?php else : ?>
                         <?php  echo $this->escapeHtml($value); ?>
                     <?php endif; ?>
@@ -143,7 +143,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('stuki-workspace/revision',
+                    $this->url('workspace/revision',
                         array(
                             'revisionId' => $revisionEntity_old->getRevision()->getId()
                         )
@@ -151,14 +151,14 @@
                 ?>">
 
                     <?= $this->escapeHtml($revisionEntity_old->getRevision()->getId());?>
-                    @ <?php echo $this->StukiDateTimeFormatter($revisionEntity_old->getRevision()->getTimestamp()); ?>
+                    @ <?php echo $this->WorkspaceDateTimeFormatter($revisionEntity_old->getRevision()->getTimestamp()); ?>
 
                 </a>
 
 
             </td>
             <td>
-                <?= $this->stukiRevisionEntityLink($revisionEntity_new); ?>
+                <?= $this->workspaceRevisionEntityLink($revisionEntity_new); ?>
             </td>
         </tr>
         <tr>
@@ -167,12 +167,12 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->stukiWorkspaceService()->getEntityValues($revisionEntity_new->getAuditEntity()) as $field => $value): ?>
+        <?php foreach ($this->workspaceService()->getEntityValues($revisionEntity_new->getAuditEntity()) as $field => $value): ?>
             <tr>
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
                     <?php if ($value instanceof \DateTime): ?>
-                        <?php echo  $this->StukiDateTimeFormatter($value); ?>
+                        <?php echo  $this->WorkspaceDateTimeFormatter($value); ?>
                     <?php else : ?>
                         <?php  echo $this->escapeHtml($value); ?>
                     <?php endif; ?>

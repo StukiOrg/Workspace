@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspaceTest\Models\Bootstrap;
+namespace WorkspaceTest\Models\Bootstrap;
 
 use Doctrine\ORM\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder

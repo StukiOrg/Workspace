@@ -1,8 +1,8 @@
                 <a href="<?php
                     if ($this->user) {
-                        echo $this->url('stuki-workspace/user', array('userId' => $this->user->getId()));
+                        echo $this->url('workspace/user', array('userId' => $this->user->getId()));
                     } else {
-                        echo $this->url('stuki-workspace/user', array('userId' => '0'));
+                        echo $this->url('workspace/user', array('userId' => '0'));
                     }
                 ?>" class="btn btn-default">
                     <?php
@@ -11,8 +11,6 @@
                             echo ' ';
                             echo $this->escapeHtml($this->user->getDisplayName());
                         } else {
-                            //echo $this->gravatar('stuki.org@gmail.com', array('img_size' => 24));
-
                             echo '<i class="icon-globe"></i> Workspace';
                         }
                     ?>

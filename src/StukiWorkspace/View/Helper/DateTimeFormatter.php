@@ -1,5 +1,5 @@
 <?php
-namespace StukiWorkspace\View\Helper ;
+namespace Workspace\View\Helper ;
 
 
 use Zend\Http\Request;

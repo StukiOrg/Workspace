@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\View\Helper;
+namespace Workspace\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Doctrine\ORM\EntityManager;
@@ -10,7 +10,7 @@ use Zend\View\Model\ViewModel;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
-use StukiWorkspace\Entity\AbstractAudit;
+use Workspace\Entity\AbstractAudit;
 
 final class AssociationSourcePaginator extends AbstractHelper implements ServiceLocatorAwareInterface
 {
@@ -31,16 +31,16 @@ final class AssociationSourcePaginator extends AbstractHelper implements Service
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
+        $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('workspaceService');
 
-        foreach($stukiWorkspaceService->getEntityAssociations($revisionEntity->getAuditEntity()) as $field => $value) {
+        foreach($workspaceService->getEntityAssociations($revisionEntity->getAuditEntity()) as $field => $value) {
             if (isset($value['joinTable']['name']) and $value['joinTable']['name'] == $joinTable) {
                 $mapping = $value;
                 break;
             }
         }
 
-        $repository = $entityManager->getRepository('StukiWorkspace\\Entity\\' . str_replace('\\', '_', $joinTable));
+        $repository = $entityManager->getRepository('Workspace\\Entity\\' . str_replace('\\', '_', $joinTable));
 
         $qb = $repository->createQueryBuilder('association');
         $qb->andWhere('association.sourceRevisionEntity = :var');

@@ -1,19 +1,19 @@
 <?php
 
-namespace StukiWorkspaceTest\Service;
+namespace WorkspaceTest\Service;
 
-use StukiWorkspaceTest\Bootstrap
-    , StukiWorkspaceTest\Models\LogRevision\Album
-    , StukiWorkspaceTest\Models\LogRevision\Song
-    , StukiWorkspaceTest\Models\LogRevision\Performer
+use WorkspaceTest\Bootstrap
+    , WorkspaceTest\Models\LogRevision\Album
+    , WorkspaceTest\Models\LogRevision\Song
+    , WorkspaceTest\Models\LogRevision\Performer
     , Doctrine\Common\Persistence\Mapping\ClassMetadata
     , Doctrine\ORM\Tools\Setup
     , Doctrine\ORM\EntityManager
     , Doctrine\ORM\Mapping\Driver\StaticPHPDriver
     , Doctrine\ORM\Mapping\Driver\XmlDriver
     , Doctrine\ORM\Mapping\Driver\DriverChain
-    , StukiWorkspace\Mapping\Driver\AuditDriver
-    , StukiWorkspace\EventListener\LogRevision
+    , Workspace\Mapping\Driver\AuditDriver
+    , Workspace\EventListener\LogRevision
     , Doctrine\ORM\Tools\SchemaTool
     ;
 
@@ -24,9 +24,9 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_oldEntityManager = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
-        $this->_oldAuditedClassNames = \StukiWorkspace\Module::getModuleOptions()->getAuditedClassNames();
-        $this->_oldJoinClasses = \StukiWorkspace\Module::getModuleOptions()->resetJoinClasses();
+        $this->_oldEntityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
+        $this->_oldAuditedClassNames = \Workspace\Module::getModuleOptions()->getAuditedClassNames();
+        $this->_oldJoinClasses = \Workspace\Module::getModuleOptions()->resetJoinClasses();
 
         $isDevMode = false;
 
@@ -39,13 +39,13 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
             , 'ZfcUser\Entity');
         $chain->addDriver(new XmlDriver(__DIR__ . '/../../../vendor/zf-commons/zfc-user-doctrine-orm/config/xml/zfcuserdoctrineorm')
             , 'ZfcUserDoctrineORM\Entity');
-        $chain->addDriver(new StaticPHPDriver(__DIR__ . "/../Models"), 'StukiWorkspaceTest\Models\LogRevision');
-        $chain->addDriver(new AuditDriver('.'), 'StukiWorkspace\Entity');
+        $chain->addDriver(new StaticPHPDriver(__DIR__ . "/../Models"), 'WorkspaceTest\Models\LogRevision');
+        $chain->addDriver(new AuditDriver('.'), 'Workspace\Entity');
 
         $config->setMetadataDriverImpl($chain);
 
         // Replace entity manager
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+        $moduleOptions = \Workspace\Module::getModuleOptions();
 
         $conn = array(
             'driver' => 'pdo_sqlite',
@@ -53,10 +53,10 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
         );
 
         $moduleOptions->setAuditedClassNames(array(
-            'StukiWorkspaceTest\Models\LogRevision\Album' => array(),
-            'StukiWorkspaceTest\Models\LogRevision\Performer' => array(),
-            'StukiWorkspaceTest\Models\LogRevision\Song' => array(),
-            'StukiWorkspaceTest\Models\LogRevision\SingleCoverArt' => array(),
+            'WorkspaceTest\Models\LogRevision\Album' => array(),
+            'WorkspaceTest\Models\LogRevision\Performer' => array(),
+            'WorkspaceTest\Models\LogRevision\Song' => array(),
+            'WorkspaceTest\Models\LogRevision\SingleCoverArt' => array(),
         ));
 
         $entityManager = EntityManager::create($conn, $config);
@@ -113,7 +113,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
         $this->_em->flush();
 
 
-        $persistedSong = $this->_em->getRepository('StukiWorkspaceTest\Models\LogRevision\Song')->find($song->getId());
+        $persistedSong = $this->_em->getRepository('WorkspaceTest\Models\LogRevision\Song')->find($song->getId());
 
         $this->assertEquals($song, $persistedSong);
         $this->assertEquals($album, $persistedSong->getAlbum());
@@ -137,13 +137,13 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
 
         $this->_em->flush();
 
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+        $moduleOptions = \Workspace\Module::getModuleOptions();
         $this->assertGreaterThan(0, sizeof($moduleOptions->getJoinClasses()));
 
-        $manyToManys = $this->_em->getRepository('StukiWorkspace\Entity\performer_album')->findAll();
+        $manyToManys = $this->_em->getRepository('Workspace\Entity\performer_album')->findAll();
         $manyToMany = reset($manyToManys);
 
-        $this->assertInstanceOf('StukiWorkspace\Entity\performer_album', $manyToMany);
+        $this->assertInstanceOf('Workspace\Entity\performer_album', $manyToMany);
 #        $manyToManyValues = $manyToMany->getArrayCopy();
 
         $this->assertEquals($album->getId(), $manyToMany->getSourceRevisionEntity()->getTargetEntity()->getId());
@@ -180,7 +180,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
 
         $this->_em->flush();
 
-        $manyToManys = $this->_em->getRepository('StukiWorkspace\Entity\performer_album')->findAll();
+        $manyToManys = $this->_em->getRepository('Workspace\Entity\performer_album')->findAll();
 
         $this->assertEquals(array(), $manyToManys);
 
@@ -189,9 +189,9 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         // Replace entity manager
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+        $moduleOptions = \Workspace\Module::getModuleOptions();
         $moduleOptions->setEntityManager($this->_oldEntityManager);
-        \StukiWorkspace\Module::getModuleOptions()->setAuditedClassNames($this->_oldAuditedClassNames);
-        \StukiWorkspace\Module::getModuleOptions()->resetJoinClasses($this->_oldJoinClasses);
+        \Workspace\Module::getModuleOptions()->setAuditedClassNames($this->_oldAuditedClassNames);
+        \Workspace\Module::getModuleOptions()->resetJoinClasses($this->_oldJoinClasses);
     }
 }

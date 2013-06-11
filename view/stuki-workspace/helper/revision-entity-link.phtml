@@ -14,7 +14,7 @@
     }
 ?>">
     <?php
-    if ($options = $this->stukiEntityOptions($this->revisionEntity->getTargetEntityClass())) {
+    if ($options = $this->workspaceEntityOptions($this->revisionEntity->getTargetEntityClass())) {
         $routeOptions = array_merge($options['defaults'], $this->revisionEntity->getEntityKeys());
     ?>
         <a class="workspace btn btn-info"  href="<?=
@@ -40,7 +40,7 @@
 ?>"
     href="<?=
         $this->url(
-            'stuki-workspace/revision-entity',
+            'workspace/revision-entity',
             array(
                 'revisionEntityId' => $this->revisionEntity->getId(),
             )

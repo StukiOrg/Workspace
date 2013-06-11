@@ -1,10 +1,10 @@
 <a class="btn btn-info pull-right" href="<?=
-    $this->url('stuki-workspace/master');
+    $this->url('workspace/master');
 ?>"><i class="icon-code-fork"></i> Master</a>
 
 <h1>Workspace Firehose</h1>
 
-<?php $paginator = $this->stukiRevisionPaginator($this->page); ?>
+<?php $paginator = $this->workspaceRevisionPaginator($this->page); ?>
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -12,7 +12,7 @@
             <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'stuki-workspace/pagination/firehose', array('route' => 'stuki-workspace/firehose'));
+                'workspace/pagination/firehose', array('route' => 'workspace/firehose'));
             ?>
             </th>
         </tr>
@@ -29,7 +29,7 @@
         <th colspan="4">
             <?php echo $this->paginationControl($paginator,
                 'Sliding',
-                'stuki-workspace/pagination/firehose', array('route' => 'stuki-workspace/firehose'));
+                'workspace/pagination/firehose', array('route' => 'workspace/firehose'));
             ?>
         </th>
     </tfoot>
@@ -40,7 +40,7 @@
         <tr>
             <td>
                 <a href="<?=
-                    $this->url('stuki-workspace/revision',
+                    $this->url('workspace/revision',
                         array(
                             'revisionId' => $revision->getId()
                         )
@@ -48,7 +48,7 @@
                 ?>">
 
                     <?= $this->escapeHtml($revision->getId());?>
-                    @ <?php echo $this->StukiDateTimeFormatter($revision->getTimestamp()); ?>
+                    @ <?php echo $this->WorkspaceDateTimeFormatter($revision->getTimestamp()); ?>
 
                 </a>
             </td>
@@ -58,7 +58,7 @@
             foreach ($revision->getRevisionEntities() as $revisionEntity) {
             ?>
                 <div>
-                    <?= $this->stukiRevisionEntityLink($revisionEntity); ?>
+                    <?= $this->workspaceRevisionEntityLink($revisionEntity); ?>
                 </div>
             <?php
             }
@@ -69,14 +69,14 @@
 
             <td>
                 <?= $this->partial(
-                    'stuki-workspace/index/partial/user-button',
+                    'workspace/index/partial/user-button',
                     array('user' => $revision->getUser())
                 );?>
             </td>
 
             <td>
                 <?= $this->partial(
-                    'stuki-workspace/index/partial/revision-approve',
+                    'workspace/index/partial/revision-approve',
                     array('revision' => $revision)
                 );
                 ?>

@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\EventListener;
+namespace Workspace\EventListener;
 
 use Doctrine\Common\EventSubscriber
     , Doctrine\ORM\Events
@@ -8,12 +8,14 @@ use Doctrine\Common\EventSubscriber
     , Doctrine\ORM\Event\OnLoadEventArgs
     , Doctrine\ORM\Event\PostFlushEventArgs
     , Doctrine\ORM\Event\LifecycleEventArgs
-    , StukiWorkspace\Entity\Revision as RevisionEntity
-    , StukiWorkspace\Options\ModuleOptions
-    , StukiWorkspace\Entity\RevisionEntity as RevisionEntityEntity
+    , Workspace\Entity\Revision as RevisionEntity
+    , Workspace\Options\ModuleOptions
+    , Workspace\Entity\RevisionEntity as RevisionEntityEntity
     , Zend\Code\Reflection\ClassReflection
     , Doctrine\ORM\PersistentCollection
     ;
+
+use \Doctrine\ORM\CancelLoadEntitiyException;
 
 class LogRevision implements EventSubscriber
 {
@@ -28,8 +30,7 @@ class LogRevision implements EventSubscriber
     {
         return array(
             Events::onFlush,
-            Events::postFlush,
-            Events::onLoad
+            Events::postFlush
         );
     }
 
@@ -124,7 +125,7 @@ class LogRevision implements EventSubscriber
         if ($this->revision) return;
 
         $revision = new RevisionEntity();
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+        $moduleOptions = \Workspace\Module::getModuleOptions();
         if ($moduleOptions->getUser()) {
             $revision->setUser($moduleOptions->getUser());
         } else {
@@ -133,7 +134,7 @@ class LogRevision implements EventSubscriber
             $revision->setApproveTimestamp(new \DateTime());
         }
 
-        $comment = $moduleOptions->getStukiWorkspaceService()->getComment();
+        $comment = $moduleOptions->getWorkspaceService()->getComment();
         $revision->setComment($comment);
 
         $this->revision = $revision;
@@ -172,11 +173,11 @@ class LogRevision implements EventSubscriber
     {
         $auditEntities = array();
 
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+        $moduleOptions = \Workspace\Module::getModuleOptions();
         if (!in_array(get_class($entity), array_keys($moduleOptions->getAuditedClassNames())))
             return array();
 
-        $auditEntityClass = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
+        $auditEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
         $auditEntity = new $auditEntityClass();
         $auditEntity->exchangeArray($this->getClassProperties($entity));
 
@@ -252,32 +253,12 @@ class LogRevision implements EventSubscriber
         $this->setEntities($entities);
     }
 
-    public function onLoad(OnLoadEventArgs $args)
-    {
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
-
-        $entity = $args->getEntity();
-        if (!$entity or !in_array(get_class($entity), array_keys($moduleOptions->getAuditedClassNames())))
-            return;
-
-        $stukiWorkspaceService = $moduleOptions->getStukiWorkspaceService();
-        $workspaceRevisionEntity = $stukiWorkspaceService->workspaceRevisionEntity($entity);
-        if (!$workspaceRevisionEntity) {
-            // Entity does not exist along this workspace, unset
-            $args->setEntity(false);
-            return;
-        }
-
-        $entity->exchangeArray($workspaceRevisionEntity->getAuditEntity()->getArrayCopy());
-        $args->setEntity($entity);
-    }
-
     public function postFlush(PostFlushEventArgs $args)
     {
         if ($this->getEntities() and !$this->getInAuditTransaction()) {
             $this->setInAuditTransaction(true);
 
-            $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+            $moduleOptions = \Workspace\Module::getModuleOptions();
             $entityManager = $moduleOptions->getEntityManager();
             $entityManager->beginTransaction();
 
@@ -304,7 +285,7 @@ class LogRevision implements EventSubscriber
 
                 if (!$mapping['isOwningSide']) continue;
 
-                $joinClassName = "StukiWorkspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
+                $joinClassName = "Workspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
                 $moduleOptions->addJoinClass($joinClassName, $mapping);
 
                 foreach ($this->many2many as $map) {
@@ -316,7 +297,7 @@ class LogRevision implements EventSubscriber
                     $audit = new $joinClassName();
 
                     // Get current inverse revision entity
-                    $revisionEntities = $entityManager->getRepository('StukiWorkspace\\Entity\\RevisionEntity')
+                    $revisionEntities = $entityManager->getRepository('Workspace\\Entity\\RevisionEntity')
                         ->findBy(array(
                             'targetEntityClass' => get_class($element),
                             'entityKeys' => serialize(array('id' => $element->getId())),

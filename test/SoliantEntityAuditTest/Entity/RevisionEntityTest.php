@@ -1,11 +1,11 @@
 <?php
 
-namespace StukiWorkspaceTest\Entity;
+namespace WorkspaceTest\Entity;
 
-use StukiWorkspaceTest\Bootstrap
-    , StukiWorkspace\Entity\Revision
+use WorkspaceTest\Bootstrap
+    , Workspace\Entity\Revision
     , Doctrine\Common\Persistence\Mapping\ClassMetadata
-    , StukiWorkspaceTest\Models\Bootstrap\Album
+    , WorkspaceTest\Models\Bootstrap\Album
     ;
 
 class RevisionEntityTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class RevisionEntityTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('INS', $revisionEntity->getRevisionType());
         $this->assertEquals($entity, $revisionEntity->getTargetEntity());
-        $this->assertEquals('StukiWorkspaceTest\Models\Bootstrap\Album', $revisionEntity->getTargetEntityClass());
+        $this->assertEquals('WorkspaceTest\Models\Bootstrap\Album', $revisionEntity->getTargetEntityClass());
 
     }
 }

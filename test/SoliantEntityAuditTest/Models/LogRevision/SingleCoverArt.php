@@ -3,7 +3,7 @@
 // This is just a stub so a new many to many can be
 // discovered after bootstrapping
 
-namespace StukiWorkspaceTest\Models\LogRevision;
+namespace WorkspaceTest\Models\LogRevision;
 
 use Doctrine\ORM\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder

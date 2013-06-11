@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\Loader;
+namespace Workspace\Loader;
 
 use Zend\Loader\StandardAutoloader
     , Zend\ServiceManager\ServiceManager
@@ -10,7 +10,7 @@ use Zend\Loader\StandardAutoloader
     , Zend\Code\Generator\PropertyGenerator
     ;
 
-class StukiWorkspaceAutoloader extends StandardAutoloader
+class WorkspaceAutoloader extends StandardAutoloader
 {
     /**
      * Dynamically scope an audit class
@@ -20,7 +20,7 @@ class StukiWorkspaceAutoloader extends StandardAutoloader
      */
     public function loadClass($className, $type)
     {
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+        $moduleOptions = \Workspace\Module::getModuleOptions();
         if (!$moduleOptions) return;
         $entityManager = $moduleOptions->getEntityManager();
 
@@ -31,7 +31,7 @@ class StukiWorkspaceAutoloader extends StandardAutoloader
 
         if (in_array($className, array_keys($joinClasses))) {
 
-            $auditClass->setNamespaceName("StukiWorkspace\\Entity");
+            $auditClass->setNamespaceName("Workspace\\Entity");
             $auditClass->setName($className);
             $auditClass->setExtendedClass('AbstractAudit');
 
@@ -98,7 +98,7 @@ class StukiWorkspaceAutoloader extends StandardAutoloader
         #FIXME:  why is this sent work outside the set namespace?
         foreach($moduleOptions->getAuditedClassNames() as $targetClass => $targetClassOptions) {
 
-             $auditClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $targetClass);
+             $auditClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $targetClass);
 
              if ($auditClassName == $className) {
                  $currentClass = $targetClass;
@@ -114,7 +114,7 @@ class StukiWorkspaceAutoloader extends StandardAutoloader
         $fields = $auditedClassMetadata->getFieldNames();
         $identifiers = $auditedClassMetadata->getFieldNames();
 
-        $service = \StukiWorkspace\Module::getModuleOptions()->getStukiWorkspaceService();
+        $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
 
         // Generate audit entity
         foreach ($fields as $field) {
@@ -163,7 +163,7 @@ class StukiWorkspaceAutoloader extends StandardAutoloader
             " return '" .  addslashes($currentClass) . "';"
         );
 
-        $auditClass->setNamespaceName("StukiWorkspace\\Entity");
+        $auditClass->setNamespaceName("Workspace\\Entity");
         $auditClass->setName(str_replace('\\', '_', $currentClass));
         $auditClass->setExtendedClass('AbstractAudit');
 
@@ -172,7 +172,7 @@ class StukiWorkspaceAutoloader extends StandardAutoloader
 
             foreach ($auditedClassMetadata->getAssociationMappings() as $mapping) {
                 if (isset($mapping['joinTable']['name'])) {
-                    $auditJoinTableClassName = "StukiWorkspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
+                    $auditJoinTableClassName = "Workspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
                     $auditEntities[] = $auditJoinTableClassName;
                     $moduleOptions->addJoinClass($auditJoinTableClassName, $mapping);
                 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\Controller;
+namespace Workspace\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController
  , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
@@ -20,16 +20,16 @@ class IndexController extends AbstractActionController
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $userId = (int)$this->getEvent()->getRouteMatch()->getParam('userId');
 
-        if (!$userId and \StukiWorkspace\Module::getModuleOptions()->getUser()) {
-            $userId = \StukiWorkspace\Module::getModuleOptions()->getUser()->getId();
+        if (!$userId and \Workspace\Module::getModuleOptions()->getUser()) {
+            $userId = \Workspace\Module::getModuleOptions()->getUser()->getId();
             if ($userId) {
-                $user = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-                    ->getRepository(\StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
+                $user = \Workspace\Module::getModuleOptions()->getEntityManager()
+                    ->getRepository(\Workspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
             }
         }
 
         if (!isset($user))
-            return $this->plugin('redirect')->toRoute('stuki-workspace/master');
+            return $this->plugin('redirect')->toRoute('workspace/master');
 
         return array(
             'page' => $page,
@@ -59,8 +59,8 @@ class IndexController extends AbstractActionController
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $userId = (int)$this->getEvent()->getRouteMatch()->getParam('userId');
 
-        $user = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-            ->getRepository(\StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
+        $user = \Workspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository(\Workspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
 
         return array(
             'userId' => $userId,
@@ -79,12 +79,12 @@ class IndexController extends AbstractActionController
     {
         $revisionId = (int)$this->getEvent()->getRouteMatch()->getParam('revisionId');
 
-        $revision = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('StukiWorkspace\\Entity\\Revision')
+        $revision = \Workspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('Workspace\\Entity\\Revision')
             ->find($revisionId);
 
         if (!$revision)
-            return $this->plugin('redirect')->toRoute('stuki-workspace');
+            return $this->plugin('redirect')->toRoute('workspace');
 
         return array(
             'revision' => $revision,
@@ -101,19 +101,19 @@ class IndexController extends AbstractActionController
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $revisionEntityId = (int) $this->getEvent()->getRouteMatch()->getParam('revisionEntityId');
 
-        $revisionEntity = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
+        $revisionEntity = \Workspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('Workspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
-            return $this->plugin('redirect')->toRoute('stuki-workspace');
+            return $this->plugin('redirect')->toRoute('workspace');
 
-        $repository = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity');
+        $repository = \Workspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('Workspace\\Entity\\RevisionEntity');
 
         return array(
             'page' => $page,
             'revisionEntity' => $revisionEntity,
-            'stukiWorkspaceService' => $this->getServiceLocator()->get('stukiWorkspaceService'),
+            'workspaceService' => $this->getServiceLocator()->get('workspaceService'),
         );
     }
 
@@ -149,13 +149,13 @@ class IndexController extends AbstractActionController
         $revisionEntityId_old = $this->getRequest()->getPost()->get('revisionEntityId_old');
         $revisionEntityId_new = $this->getRequest()->getPost()->get('revisionEntityId_new');
 
-        $revisionEntity_old = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId_old);
-        $revisionEntity_new = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId_new);
+        $revisionEntity_old = \Workspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('Workspace\\Entity\\RevisionEntity')->find($revisionEntityId_old);
+        $revisionEntity_new = \Workspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('Workspace\\Entity\\RevisionEntity')->find($revisionEntityId_new);
 
         if (!$revisionEntity_old and !$revisionEntity_new)
-            return $this->plugin('redirect')->toRoute('stuki-workspace');
+            return $this->plugin('redirect')->toRoute('workspace');
 
         return array(
             'revisionEntity_old' => $revisionEntity_old,
@@ -173,13 +173,13 @@ class IndexController extends AbstractActionController
         $revisionEntityId = $this->getEvent()->getRouteMatch()->getParam('revisionEntityId');
         $mappedBy = $this->getEvent()->getRouteMatch()->getParam('mappedBy');
 
-        $stukiWorkspaceService = $this->getServiceLocator()->get('stukiWorkspaceService');
+        $workspaceService = $this->getServiceLocator()->get('workspaceService');
 
         $revisionEntity = $moduleOptions->getEntityManager()
-            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
+            ->getRepository('Workspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
-            return $this->plugin('redirect')->toRoute('stuki-workspace');
+            return $this->plugin('redirect')->toRoute('workspace');
 
         return array(
             'revisionEntity' => $revisionEntity,
@@ -206,13 +206,13 @@ class IndexController extends AbstractActionController
         $joinTable = $this->getEvent()->getRouteMatch()->getParam('joinTable');
         $revisionEntityId = $this->getEvent()->getRouteMatch()->getParam('revisionEntityId');
 
-        $stukiWorkspaceService = $this->getServiceLocator()->get('stukiWorkspaceService');
+        $workspaceService = $this->getServiceLocator()->get('workspaceService');
 
-        $revisionEntity = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
+        $revisionEntity = \Workspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('Workspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
-            return $this->plugin('redirect')->toRoute('stuki-workspace');
+            return $this->plugin('redirect')->toRoute('workspace');
 
         return array(
             'revisionEntity' => $revisionEntity,
@@ -234,7 +234,7 @@ class IndexController extends AbstractActionController
 
         foreach ($moduleOptions->getAuditedClassNames()
             as $className => $route) {
-            $auditClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $className);
+            $auditClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $className);
             $x = new $auditClassName;
         }
         $joinClasses = $moduleOptions->getJoinClasses();
@@ -243,13 +243,13 @@ class IndexController extends AbstractActionController
         $joinTable = $this->getEvent()->getRouteMatch()->getParam('joinTable');
         $revisionEntityId = $this->getEvent()->getRouteMatch()->getParam('revisionEntityId');
 
-        $stukiWorkspaceService = $this->getServiceLocator()->get('stukiWorkspaceService');
+        $workspaceService = $this->getServiceLocator()->get('workspaceService');
 
-        $revisionEntity = \StukiWorkspace\Module::getModuleOptions()->getEntityManager()
-            ->getRepository('StukiWorkspace\\Entity\\RevisionEntity')->find($revisionEntityId);
+        $revisionEntity = \Workspace\Module::getModuleOptions()->getEntityManager()
+            ->getRepository('Workspace\\Entity\\RevisionEntity')->find($revisionEntityId);
 
         if (!$revisionEntity)
-            return $this->plugin('redirect')->toRoute('stuki-workspace');
+            return $this->plugin('redirect')->toRoute('workspace');
 
         return array(
             'revisionEntity' => $revisionEntity,
@@ -269,7 +269,7 @@ class IndexController extends AbstractActionController
 
         foreach ($moduleOptions->getAuditedClassNames()
             as $className => $route) {
-            $auditClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $className);
+            $auditClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $className);
             $x = new $auditClassName;
         }
     }

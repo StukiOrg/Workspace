@@ -1,10 +1,10 @@
 <?php
 
-namespace StukiWorkspaceTest\Options;
+namespace WorkspaceTest\Options;
 
-use StukiWorkspace\Options\ModuleOptions
-    , StukiWorkspace\Tests\Util\ServiceManagerFactory
-    , StukiWorkspaceTest\Bootstrap
+use Workspace\Options\ModuleOptions
+    , Workspace\Tests\Util\ServiceManagerFactory
+    , WorkspaceTest\Bootstrap
     ;
 
 class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('revisionEntity', $moduleOptions->getRevisionEntityFieldName());
         $moduleOptions->setUserEntityClassName($serviceManager->get('zfcuser_module_options')->getUserEntityClass());
         $moduleOptions->setAuthenticationService('ZfcUserDoctrineORM\\Entity\\User');
-        $moduleOptions->setStukiWorkspaceService($serviceManager->get('stukiWorkspaceService'));
+        $moduleOptions->setWorkspaceService($serviceManager->get('workspaceService'));
     }
 
     public function testModuleOptionsAuditedEntityClasses()
@@ -51,7 +51,7 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $moduleOptions = clone $serviceManager->get('auditModuleOptions');
         $moduleOptions->setDefaults(array());
 
-        $userClass = \StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName();
+        $userClass = \Workspace\Module::getModuleOptions()->getUserEntityClassName();
         $user = new $userClass;
 
         $user->setEmail('test');

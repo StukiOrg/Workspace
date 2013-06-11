@@ -1,16 +1,16 @@
 <?php
 
-namespace StukiWorkspaceTest\Loader;
+namespace WorkspaceTest\Loader;
 
-use StukiWorkspaceTest\Bootstrap
-    , StukiWorkspaceTest\Models\Autoloader\Album
+use WorkspaceTest\Bootstrap
+    , WorkspaceTest\Models\Autoloader\Album
     , Doctrine\Common\Persistence\Mapping\ClassMetadata
     , Doctrine\ORM\Tools\Setup
     , Doctrine\ORM\EntityManager
     , Doctrine\ORM\Mapping\Driver\StaticPHPDriver
     , Doctrine\ORM\Mapping\Driver\XmlDriver
     , Doctrine\ORM\Mapping\Driver\DriverChain
-    , StukiWorkspace\Mapping\Driver\AuditDriver
+    , Workspace\Mapping\Driver\AuditDriver
     , Doctrine\ORM\Tools\SchemaTool
     ;
 
@@ -22,8 +22,8 @@ class AuditAutoloaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_oldEntityManager = \StukiWorkspace\Module::getModuleOptions()->getEntityManager();
-        $this->_oldAuditedClassNames = \StukiWorkspace\Module::getModuleOptions()->getAuditedClassNames();
+        $this->_oldEntityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
+        $this->_oldAuditedClassNames = \Workspace\Module::getModuleOptions()->getAuditedClassNames();
 
 
         $isDevMode = true;
@@ -36,15 +36,15 @@ class AuditAutoloaderTest extends \PHPUnit_Framework_TestCase
             , 'ZfcUser\Entity');
         $chain->addDriver(new XmlDriver(__DIR__ . '/../../../vendor/zf-commons/zfc-user-doctrine-orm/config/xml/zfcuserdoctrineorm')
             , 'ZfcUserDoctrineORM\Entity');
-        $chain->addDriver(new StaticPHPDriver(__DIR__ . "/../Models"), 'StukiWorkspaceTest\Models\Autoloader');
-        $chain->addDriver(new AuditDriver('.'), 'StukiWorkspace\Entity');
+        $chain->addDriver(new StaticPHPDriver(__DIR__ . "/../Models"), 'WorkspaceTest\Models\Autoloader');
+        $chain->addDriver(new AuditDriver('.'), 'Workspace\Entity');
 
         // Replace entity manager
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+        $moduleOptions = \Workspace\Module::getModuleOptions();
         $moduleOptions->setAuditedClassNames(array(
-            'StukiWorkspaceTest\Models\Autoloader\Album' => array(),
-            'StukiWorkspaceTest\Models\Autoloader\Performer' => array(),
-            'StukiWorkspaceTest\Models\Autoloader\Song' => array(),
+            'WorkspaceTest\Models\Autoloader\Album' => array(),
+            'WorkspaceTest\Models\Autoloader\Performer' => array(),
+            'WorkspaceTest\Models\Autoloader\Song' => array(),
         ));
 
 
@@ -95,8 +95,8 @@ class AuditAutoloaderTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         // Replace entity manager
-        $moduleOptions = \StukiWorkspace\Module::getModuleOptions();
+        $moduleOptions = \Workspace\Module::getModuleOptions();
         $moduleOptions->setEntityManager($this->_oldEntityManager);
-        \StukiWorkspace\Module::getModuleOptions()->setAuditedClassNames($this->_oldAuditedClassNames);
+        \Workspace\Module::getModuleOptions()->setAuditedClassNames($this->_oldAuditedClassNames);
     }
 }

@@ -1,15 +1,15 @@
 <?php
 
-namespace StukiWorkspaceTest\Controller;
+namespace WorkspaceTest\Controller;
 
-use StukiWorkspaceTest\Bootstrap
-    , StukiWorkspace\Controller\IndexController
+use WorkspaceTest\Bootstrap
+    , Workspace\Controller\IndexController
     , Zend\Mvc\Router\Http\TreeRouteStack as HttpRouter
     , Zend\Http\Request
     , Zend\Http\Response
     , Zend\Mvc\MvcEvent
     , Zend\Mvc\Router\RouteMatch
-    , StukiWorkspaceTest\Models\Bootstrap\Album
+    , WorkspaceTest\Models\Bootstrap\Album
     ;
 
 class IndexControllerTest extends \PHPUnit_Framework_TestCase
@@ -117,7 +117,7 @@ class IndexControllerTest extends \PHPUnit_Framework_TestCase
     {
         $this->routeMatch->setParam('action', 'entity');
         $this->routeMatch->setParam('controller', 'audit');
-        $this->routeMatch->setParam('entity', 'StukiWorkspaceTest\Models\Bootstrap\Album');
+        $this->routeMatch->setParam('entity', 'WorkspaceTest\Models\Bootstrap\Album');
         $this->routeMatch->setParam('page', 0);
 
         $result   = $this->controller->dispatch($this->request);

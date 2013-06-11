@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\Entity;
+namespace Workspace\Entity;
 
 abstract class AbstractAudit
 {

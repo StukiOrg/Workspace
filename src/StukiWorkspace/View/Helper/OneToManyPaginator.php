@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\View\Helper;
+namespace Workspace\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Doctrine\ORM\EntityManager;
@@ -10,7 +10,7 @@ use Zend\View\Model\ViewModel;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
-use StukiWorkspace\Entity\AbstractAudit;
+use Workspace\Entity\AbstractAudit;
 
 final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorAwareInterface
 {
@@ -31,13 +31,13 @@ final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorA
     {
         $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
         $entityManager = $auditModuleOptions->getEntityManager();
-        $stukiWorkspaceService = $this->getServiceLocator()->getServiceLocator()->get('stukiWorkspaceService');
+        $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('workspaceService');
 
-        $entityClassName = 'StukiWorkspace\\Entity\\' . str_replace('\\', '_', $joinTable);
+        $entityClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $joinTable);
 
         $query = $entityManager->createQuery("
             SELECT e
-            FROM StukiWorkspace\Entity\RevisionEntity e
+            FROM Workspace\Entity\RevisionEntity e
             JOIN e.revision r
             WHERE e.id IN (
                 SELECT re.id

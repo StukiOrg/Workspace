@@ -1,9 +1,9 @@
 <a class="btn btn-info pull-right" style="margin-left: 20px;" href="<?=
-    $this->url('stuki-workspace/master');
+    $this->url('workspace/master');
 ?>"><i class="icon-code-fork"></i> Master</a>
 
 <a class="btn btn-info pull-right" href="<?=
-    $this->url('stuki-workspace/firehose');
+    $this->url('workspace/firehose');
 ?>"><i class="icon-bullseye"></i> Firehose</a>
 
 <h1>Workspace Revision</h1>
@@ -26,20 +26,20 @@
             <td>
                 <?= $this->escapeHtml($this->revision->getId());?>
 
-                @ <?php echo $this->StukiDateTimeFormatter($this->revision->getTimestamp()); ?>
+                @ <?php echo $this->WorkspaceDateTimeFormatter($this->revision->getTimestamp()); ?>
             </td>
 
             <td><?= $this->escapeHtml($this->revision->getComment()); ?></td>
 
             <td>
                 <?= $this->partial(
-                    'stuki-workspace/index/partial/user-button',
+                    'workspace/index/partial/user-button',
                     array('user' => $this->revision->getUser())
                 );?>
             </td>
             <td>
                 <?= $this->partial(
-                    'stuki-workspace/index/partial/revision-approve',
+                    'workspace/index/partial/revision-approve',
                     array('revision' => $this->revision)
                 );
                 ?>
@@ -53,7 +53,7 @@
 foreach ($this->revision->getRevisionEntities() as $revisionEntity) {
 ?>
 
-<?= $this->stukiRevisionEntityLink($revisionEntity); ?>
+<?= $this->workspaceRevisionEntityLink($revisionEntity); ?>
 
 <table class="table table-striped table-hover table-bordered ">
     <thead>
@@ -63,12 +63,12 @@ foreach ($this->revision->getRevisionEntities() as $revisionEntity) {
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->stukiWorkspaceService()->getEntityValues($revisionEntity->getAuditEntity()) as $field => $value): ?>
+        <?php foreach ($this->workspaceService()->getEntityValues($revisionEntity->getAuditEntity()) as $field => $value): ?>
             <tr>
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
                     <?php if ($value instanceof \DateTime): ?>
-                        <?php echo  $this->StukiDateTimeFormatter($value); ?>
+                        <?php echo  $this->WorkspaceDateTimeFormatter($value); ?>
                     <?php else : ?>
                         <?php  echo $this->escapeHtml($value); ?>
                     <?php endif; ?>

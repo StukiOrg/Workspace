@@ -1,9 +1,9 @@
 <?php
 
-namespace StukiWorkspaceTest\Entity;
+namespace WorkspaceTest\Entity;
 
-use StukiWorkspaceTest\Bootstrap
-    , StukiWorkspace\Entity\Revision
+use WorkspaceTest\Bootstrap
+    , Workspace\Entity\Revision
     , Doctrine\Common\Persistence\Mapping\ClassMetadata
     ;
 
@@ -17,7 +17,7 @@ class RevisionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertLessThanOrEqual(new \DateTime(), $entity->getTimestamp());
 
-        $userClass = \StukiWorkspace\Module::getModuleOptions()->getUserEntityClassName();
+        $userClass = \Workspace\Module::getModuleOptions()->getUserEntityClassName();
         $user = new $userClass;
 
         $this->assertEquals($entity, $entity->setUser($user));

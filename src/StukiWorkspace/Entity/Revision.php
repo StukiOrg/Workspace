@@ -1,6 +1,6 @@
 <?php
 
-namespace StukiWorkspace\Entity;
+namespace Workspace\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 

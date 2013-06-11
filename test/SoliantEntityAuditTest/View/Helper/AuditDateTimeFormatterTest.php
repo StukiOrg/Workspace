@@ -1,16 +1,16 @@
 <?php
 
-namespace StukiWorkspaceTest\View\Helper;
+namespace WorkspaceTest\View\Helper;
 
-use StukiWorkspaceTest\Bootstrap
+use WorkspaceTest\Bootstrap
     ;
 
-class StukiDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
+class WorkspaceDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 {
     public function testFormatter()
     {
         $sm = Bootstrap::getApplication()->getServiceManager();
-        $helper = $sm->get('viewhelpermanager')->get('stukiDateTimeFormatter');
+        $helper = $sm->get('viewhelpermanager')->get('WorkspaceDateTimeFormatter');
 
         $now = new \DateTime();
         $helper->setDateTimeFormat('U');
