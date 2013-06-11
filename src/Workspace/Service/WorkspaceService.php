@@ -2,20 +2,38 @@
 
 namespace Workspace\Service;
 
-use Zend\View\Helper\AbstractHelper
-    , Workspace\Entity\AbstractAudit
-    ;
+use Zend\View\Helper\AbstractHelper;
+use Workspace\Entity\AbstractAudit;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class WorkspaceService extends AbstractHelper
 {
     private $comment;
 
-    static public function __invoke($entity)
+    static public function filterArrayCollection(ArrayCollection $entities)
     {
+        $return = new ArrayCollection;
+
+        foreach ($entities as $entity) {
+            if ($entity = self::filter($entity)) {
+                $return->add($entity);
+            }
+        }
+
+        return $return;
+    }
+
+    // Return the current workspace entity for the given entity
+    static public function filter($entity)
+    {
+        if ($entity instanceof ArrayCollection) {
+            return self::filterArrayCollection();
+        }
+
         $moduleOptions = \Workspace\Module::getModuleOptions();
 
         $found = false;
-        foreach (array_keys($moduleOptions->getAuditedClassNames() as $workspaceEntityClass) {
+        foreach (array_keys($moduleOptions->getAuditedClassNames()) as $workspaceEntityClass) {
             if ($entity instanceof $workspaceEntityClass) {
                 $found = true;
                 break;
