@@ -14,7 +14,7 @@
 
 
 return array(
-    'audit' => array(
+    'workspace' => array(
         'datetimeFormat' => 'r',
         'paginatorLimit' => 20,
 
@@ -40,16 +40,16 @@ return array(
         'authenticationService' => 'zfcuser_auth_service',
         
         'tableNamePrefix' => '',
-        'tableNameSuffix' => '_audit',
+        'tableNameSuffix' => '_workspace',
         'revisionTableName' => 'Revision',
         'revisionEntityTableName' => 'RevisionEntity',
               
         /*
-         * Entities to audit are specified as array keys
+         * Entities to workspace are specified as array keys
             
             'Db\Entity\song' => array(),
         
-         * You may optionally specify a route to the data the entity audits
+         * You may optionally specify a route to the data for each entity 
         
             'Db\Entity\song' => array(
                 'route' => 'default',
@@ -61,7 +61,7 @@ return array(
             
          * When using a route the entity keys will be appended to the default
          * to generate the target route.  These routes will be linked along-side
-         * revision entitites so you can browse your application from audit.
+         * revision entitites so you can browse your application from workspace.
          *
          * So if you have this route in your routing tables the id field will 
          * populate from the entity keys to create a url using $view->url

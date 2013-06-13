@@ -13,7 +13,7 @@ use Zend\Loader\StandardAutoloader
 class WorkspaceAutoloader extends StandardAutoloader
 {
     /**
-     * Dynamically scope an audit class
+     * Dynamically scope an workspace class
      *
      * @param  string $className
      * @return false|string
@@ -24,69 +24,69 @@ class WorkspaceAutoloader extends StandardAutoloader
         if (!$moduleOptions) return;
         $entityManager = $moduleOptions->getEntityManager();
 
-        $auditClass = new ClassGenerator();
+        $workspaceClass = new ClassGenerator();
 
         //  Build a discovered many to many join class
         $joinClasses = $moduleOptions->getJoinClasses();
 
         if (in_array($className, array_keys($joinClasses))) {
 
-            $auditClass->setNamespaceName("Workspace\\Entity");
-            $auditClass->setName($className);
-            $auditClass->setExtendedClass('AbstractAudit');
+            $workspaceClass->setNamespaceName("Workspace\\Entity");
+            $workspaceClass->setName($className);
+            $workspaceClass->setExtendedClass('AbstractWorkspace');
 
-            $auditClass->addProperty('id', null, PropertyGenerator::FLAG_PROTECTED);
+            $workspaceClass->addProperty('id', null, PropertyGenerator::FLAG_PROTECTED);
 
-            $auditClass->addProperty('targetRevisionEntity', null, PropertyGenerator::FLAG_PROTECTED);
-            $auditClass->addProperty('sourceRevisionEntity', null, PropertyGenerator::FLAG_PROTECTED);
+            $workspaceClass->addProperty('targetRevisionEntity', null, PropertyGenerator::FLAG_PROTECTED);
+            $workspaceClass->addProperty('sourceRevisionEntity', null, PropertyGenerator::FLAG_PROTECTED);
 
-            $auditClass->addMethod(
+            $workspaceClass->addMethod(
                 'getTargetRevisionEntity', array(),
                 MethodGenerator::FLAG_PUBLIC,
                 'return $this->targetRevisionEntity;'
             );
 
-            $auditClass->addMethod(
+            $workspaceClass->addMethod(
                 'getSourceRevisionEntity', array(),
                 MethodGenerator::FLAG_PUBLIC,
                 'return $this->sourceRevisionEntity;'
             );
 
-            $auditClass->addMethod(
+            $workspaceClass->addMethod(
                 'getId', array(),
                 MethodGenerator::FLAG_PUBLIC,
                 'return $this->id;'
             );
 
-            $auditClass->addMethod(
+            $workspaceClass->addMethod(
                 'setTargetRevisionEntity', array('value'),
                 MethodGenerator::FLAG_PUBLIC,
                 '$this->targetRevisionEntity = $value;' . "\n" .
                     'return $this;'
             );
 
-            $auditClass->addMethod(
+            $workspaceClass->addMethod(
                 'setSourceRevisionEntity', array('value'),
                 MethodGenerator::FLAG_PUBLIC,
                 '$this->sourceRevisionEntity = $value;' . "\n" .
                     'return $this;'
             );
 
-#            print_r($auditClass->generate());
+#            print_r($workspaceClass->generate());
 #            die();
-            eval($auditClass->generate());
+            eval($workspaceClass->generate());
             return;
         }
 
         // Add revision reference getter and setter
-        $auditClass->addProperty($moduleOptions->getRevisionEntityFieldName(), null, PropertyGenerator::FLAG_PROTECTED);
-        $auditClass->addMethod(
+        $workspaceClass->addProperty($moduleOptions->getRevisionEntityFieldName(), null, PropertyGenerator::FLAG_PROTECTED);
+        $workspaceClass->addMethod(
             'get' . $moduleOptions->getRevisionEntityFieldName(),
             array(),
             MethodGenerator::FLAG_PUBLIC,
             " return \$this->" .  $moduleOptions->getRevisionEntityFieldName() . ";");
 
-        $auditClass->addMethod(
+        $workspaceClass->addMethod(
             'set' . $moduleOptions->getRevisionEntityFieldName(),
             array('value'),
             MethodGenerator::FLAG_PUBLIC,
@@ -96,42 +96,42 @@ class WorkspaceAutoloader extends StandardAutoloader
 
         // Verify this autoloader is used for target class
         #FIXME:  why is this sent work outside the set namespace?
-        foreach($moduleOptions->getAuditedClassNames() as $targetClass => $targetClassOptions) {
+        foreach($moduleOptions->getWorkspaceClassNames() as $targetClass => $targetClassOptions) {
 
-             $auditClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $targetClass);
+             $workspaceClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $targetClass);
 
-             if ($auditClassName == $className) {
+             if ($workspaceClassName == $className) {
                  $currentClass = $targetClass;
              }
-             $autoloadClasses[] = $auditClassName;
+             $autoloadClasses[] = $workspaceClassName;
         }
         if (!in_array($className, $autoloadClasses)) return;
 
         // Get fields from target entity
         $metadataFactory = $entityManager->getMetadataFactory();
 
-        $auditedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
-        $fields = $auditedClassMetadata->getFieldNames();
-        $identifiers = $auditedClassMetadata->getFieldNames();
+        $workspaceedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
+        $fields = $workspaceedClassMetadata->getFieldNames();
+        $identifiers = $workspaceedClassMetadata->getFieldNames();
 
         $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
 
-        // Generate audit entity
+        // Generate workspace entity
         foreach ($fields as $field) {
-            $auditClass->addProperty($field, null, PropertyGenerator::FLAG_PROTECTED);
+            $workspaceClass->addProperty($field, null, PropertyGenerator::FLAG_PROTECTED);
         }
 
-        foreach ($auditedClassMetadata->getAssociationNames() as $associationName) {
-            $auditClass->addProperty($associationName, null, PropertyGenerator::FLAG_PROTECTED);
+        foreach ($workspaceedClassMetadata->getAssociationNames() as $associationName) {
+            $workspaceClass->addProperty($associationName, null, PropertyGenerator::FLAG_PROTECTED);
             $fields[] = $associationName;
         }
 
 
-        $auditClass->addMethod(
+        $workspaceClass->addMethod(
             'getAssociationMappings',
             array(),
             MethodGenerator::FLAG_PUBLIC,
-            "return unserialize('" . serialize($auditedClassMetadata->getAssociationMappings()) . "');"
+            "return unserialize('" . serialize($workspaceedClassMetadata->getAssociationMappings()) . "');"
         );
 
         // Add exchange array method
@@ -141,50 +141,50 @@ class WorkspaceAutoloader extends StandardAutoloader
             $arrayCopy[] = "    \"$fieldName\"" . ' => $this->' . $fieldName;
         }
 
-        $auditClass->addMethod(
+        $workspaceClass->addMethod(
             'getArrayCopy',
             array(),
             MethodGenerator::FLAG_PUBLIC,
             "return array(\n" . implode(",\n", $arrayCopy) . "\n);"
         );
 
-        $auditClass->addMethod(
+        $workspaceClass->addMethod(
             'exchangeArray',
             array('data'),
             MethodGenerator::FLAG_PUBLIC,
             implode("\n", $setters)
         );
 
-        // Add function to return the entity class this entity audits
-        $auditClass->addMethod(
-            'getAuditedEntityClass',
+        // Add function to return the entity class this entity workspaces
+        $workspaceClass->addMethod(
+            'getWorkspaceEntityClass',
             array(),
             MethodGenerator::FLAG_PUBLIC,
             " return '" .  addslashes($currentClass) . "';"
         );
 
-        $auditClass->setNamespaceName("Workspace\\Entity");
-        $auditClass->setName(str_replace('\\', '_', $currentClass));
-        $auditClass->setExtendedClass('AbstractAudit');
+        $workspaceClass->setNamespaceName("Workspace\\Entity");
+        $workspaceClass->setName(str_replace('\\', '_', $currentClass));
+        $workspaceClass->setExtendedClass('AbstractWorkspace');
 
-        #    $auditedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
-        $auditedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
+        #    $workspaceedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
+        $workspaceedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
 
-            foreach ($auditedClassMetadata->getAssociationMappings() as $mapping) {
+            foreach ($workspaceedClassMetadata->getAssociationMappings() as $mapping) {
                 if (isset($mapping['joinTable']['name'])) {
-                    $auditJoinTableClassName = "Workspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
-                    $auditEntities[] = $auditJoinTableClassName;
-                    $moduleOptions->addJoinClass($auditJoinTableClassName, $mapping);
+                    $workspaceJoinTableClassName = "Workspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
+                    $workspaceEntities[] = $workspaceJoinTableClassName;
+                    $moduleOptions->addJoinClass($workspaceJoinTableClassName, $mapping);
                 }
             }
 
-#        if ($auditClass->getName() == 'AppleConnect_Entity_UserAuthenticationLog') {
+#        if ($workspaceClass->getName() == 'AppleConnect_Entity_UserAuthenticationLog') {
 #            echo '<pre>';
-#            echo($auditClass->generate());
+#            echo($workspaceClass->generate());
 #            die();
 #        }
 
-        eval($auditClass->generate());
+        eval($workspaceClass->generate());
 
 #            die();
 

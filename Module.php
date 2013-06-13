@@ -5,7 +5,6 @@ namespace Workspace;
 use Zend\Mvc\MvcEvent
     , Workspace\Options\ModuleOptions
     , Workspace\Service\WorkspaceService
-    , Workspace\Loader\AuditAutoloader
     , Workspace\EventListener\LogRevision
     , Workspace\View\Helper\DateTimeFormatter
     , Workspace\View\Helper\EntityValues
@@ -34,7 +33,7 @@ class Module
 
     public function onBootstrap(MvcEvent $e)
     {
-        $moduleOptions = $e->getApplication()->getServiceManager()->get('auditModuleOptions');
+        $moduleOptions = $e->getApplication()->getServiceManager()->get('workspaceModuleOptions');
 
         self::setModuleOptions($moduleOptions);
     }
@@ -58,19 +57,19 @@ class Module
     {
         return array(
             'factories' => array(
-                'auditModuleOptions' => function($serviceManager){
+                'workspaceModuleOptions' => function($serviceManager){
                     $config = $serviceManager->get('Application')->getConfig();
-                    $auditConfig = new ModuleOptions();
-                    $auditConfig->setDefaults($config['workspace']);
-                    $auditConfig->setEntityManager($serviceManager->get('doctrine.entitymanager.orm_default'));
-                    $auditConfig->setWorkspaceService($serviceManager->get('workspaceService'));
+                    $workspaceConfig = new ModuleOptions();
+                    $workspaceConfig->setDefaults($config['workspace']);
+                    $workspaceConfig->setEntityManager($serviceManager->get('doctrine.entitymanager.orm_default'));
+                    $workspaceConfig->setWorkspaceService($serviceManager->get('workspaceService'));
 
                     $authenticationServiceAlias = (isset($config['workspace']['authenticationService'])) ? $config['workspace']['authenticationService']: 'zfcuser_auth_service';
 
                     $auth = $serviceManager->get($authenticationServiceAlias);
-                    $auditConfig->setAuthenticationService($auth);
+                    $workspaceConfig->setAuthenticationService($auth);
 
-                    return $auditConfig;
+                    return $workspaceConfig;
                 },
 
                 'workspaceService' => function($sm) {
@@ -87,7 +86,7 @@ class Module
                 'WorkspaceDateTimeFormatter' => function($sm) {
                     $Servicelocator = $sm->getServiceLocator();
                     $config = $Servicelocator->get("Config");
-                    $format = $config['audit']['datetimeFormat'];
+                    $format = $config['workspace']['datetimeFormat'];
                     $formatter = new DateTimeFormatter();
                     return $formatter->setDateTimeFormat($format);
                 },

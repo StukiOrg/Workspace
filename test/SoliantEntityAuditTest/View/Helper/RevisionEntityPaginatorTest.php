@@ -49,7 +49,7 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($count, $paginatedcount);
     }
 
-    public function testPaginatorCanAcceptAuditClass()
+    public function testPaginatorCanAcceptWorkspaceClass()
     {
 
         $sm = Bootstrap::getApplication()->getServiceManager();
@@ -62,7 +62,7 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
         ));
         $count = sizeof($revisionEntities);
 
-        $paginator = $helper($page = 0, array_shift($revisionEntities)->getAuditEntity());
+        $paginator = $helper($page = 0, array_shift($revisionEntities)->getWorkspaceEntity());
         $paginatedcount = 0;
         foreach ($paginator as $row)
             $paginatedcount ++;
@@ -72,7 +72,7 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testPaginatorCanAcceptAuditedClassName()
+    public function testPaginatorCanAcceptWorkspaceedClassName()
     {
 
         $sm = Bootstrap::getApplication()->getServiceManager();

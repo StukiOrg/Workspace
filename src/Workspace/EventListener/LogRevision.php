@@ -23,7 +23,7 @@ class LogRevision implements EventSubscriber
     private $entities;
     private $reexchangeEntities;
     private $collections;
-    private $inAuditTransaction;
+    private $inWorkspaceTransaction;
     private $many2many;
 
     public function getSubscribedEvents()
@@ -97,15 +97,15 @@ class LogRevision implements EventSubscriber
         return $this->collections;
     }
 
-    public function setInAuditTransaction($setting)
+    public function setInWorkspaceTransaction($setting)
     {
-        $this->inAuditTransaction = $setting;
+        $this->inWorkspaceTransaction = $setting;
         return $this;
     }
 
-    public function getInAuditTransaction()
+    public function getInWorkspaceTransaction()
     {
-        return $this->inAuditTransaction;
+        return $this->inWorkspaceTransaction;
     }
 
     private function getRevision()
@@ -119,7 +119,7 @@ class LogRevision implements EventSubscriber
         return $this;
     }
 
-    // You must flush the revision for the compound audit key to work
+    // You must flush the revision for the compound workspace key to work
     private function buildRevision()
     {
         if ($this->revision) return;
@@ -140,16 +140,16 @@ class LogRevision implements EventSubscriber
         $this->revision = $revision;
     }
 
-    // Reflect audited entity properties
+    // Reflect workspaceed entity properties
     private function getClassProperties($entity)
     {
         $properties = array();
 
-        $reflectedAuditedEntity = new ClassReflection($entity);
+        $reflectedWorkspaceedEntity = new ClassReflection($entity);
 
         // Get mapping from metadata
 
-        foreach($reflectedAuditedEntity->getProperties() as $property) {
+        foreach($reflectedWorkspaceedEntity->getProperties() as $property) {
             $property->setAccessible(true);
             $value = $property->getValue($entity);
 
@@ -169,17 +169,17 @@ class LogRevision implements EventSubscriber
         return $properties;
     }
 
-    private function auditEntity($entity, $revisionType)
+    private function workspaceEntity($entity, $revisionType)
     {
-        $auditEntities = array();
+        $workspaceEntities = array();
 
         $moduleOptions = \Workspace\Module::getModuleOptions();
-        if (!in_array(get_class($entity), array_keys($moduleOptions->getAuditedClassNames())))
+        if (!in_array(get_class($entity), array_keys($moduleOptions->getWorkspaceedClassNames())))
             return array();
 
-        $auditEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
-        $auditEntity = new $auditEntityClass();
-        $auditEntity->exchangeArray($this->getClassProperties($entity));
+        $workspaceEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
+        $workspaceEntity = new $workspaceEntityClass();
+        $workspaceEntity->exchangeArray($this->getClassProperties($entity));
 
         $revisionEntity = new RevisionEntityEntity();
         $revisionEntity->setRevision($this->getRevision());
@@ -190,20 +190,20 @@ class LogRevision implements EventSubscriber
         $this->addRevisionEntity($revisionEntity);
 
         $revisionEntitySetter = 'set' . $moduleOptions->getRevisionEntityFieldName();
-        $auditEntity->$revisionEntitySetter($revisionEntity);
+        $workspaceEntity->$revisionEntitySetter($revisionEntity);
 
         // Re-exchange data after flush to map generated fields
         if ($revisionType ==  'INS' or $revisionType ==  'UPD') {
             $this->addReexchangeEntity(array(
-                'auditEntity' => $auditEntity,
+                'workspaceEntity' => $workspaceEntity,
                 'entity' => $entity,
                 'revisionEntity' => $revisionEntity,
             ));
         } else {
-            $revisionEntity->setAuditEntity($auditEntity);
+            $revisionEntity->setWorkspaceEntity($workspaceEntity);
         }
 
-        $auditEntities[] = $auditEntity;
+        $workspaceEntities[] = $workspaceEntity;
 
         // Map many to many
         foreach ($this->getClassProperties($entity) as $key => $value) {
@@ -217,7 +217,7 @@ class LogRevision implements EventSubscriber
             }
         }
 
-        return $auditEntities;
+        return $workspaceEntities;
     }
 
     public function onFlush(OnFlushEventArgs $eventArgs)
@@ -227,15 +227,15 @@ class LogRevision implements EventSubscriber
         $this->buildRevision();
 
         foreach ($eventArgs->getEntityManager()->getUnitOfWork()->getScheduledEntityInsertions() AS $entity) {
-            $entities = array_merge($entities, $this->auditEntity($entity, 'INS'));
+            $entities = array_merge($entities, $this->workspaceEntity($entity, 'INS'));
         }
 
         foreach ($eventArgs->getEntityManager()->getUnitOfWork()->getScheduledEntityUpdates() AS $entity) {
-            $entities = array_merge($entities, $this->auditEntity($entity, 'UPD'));
+            $entities = array_merge($entities, $this->workspaceEntity($entity, 'UPD'));
         }
 
         foreach ($eventArgs->getEntityManager()->getUnitOfWork()->getScheduledEntityDeletions() AS $entity) {
-            $entities = array_merge($entities, $this->auditEntity($entity, 'DEL'));
+            $entities = array_merge($entities, $this->workspaceEntity($entity, 'DEL'));
         }
 
         foreach ($eventArgs->getEntityManager()->getUnitOfWork()->getScheduledCollectionDeletions() AS $collectionToDelete) {
@@ -255,8 +255,8 @@ class LogRevision implements EventSubscriber
 
     public function postFlush(PostFlushEventArgs $args)
     {
-        if ($this->getEntities() and !$this->getInAuditTransaction()) {
-            $this->setInAuditTransaction(true);
+        if ($this->getEntities() and !$this->getInWorkspaceTransaction()) {
+            $this->setInWorkspaceTransaction(true);
 
             $moduleOptions = \Workspace\Module::getModuleOptions();
             $entityManager = $moduleOptions->getEntityManager();
@@ -265,8 +265,8 @@ class LogRevision implements EventSubscriber
             // Insert entites will trigger key generation and must be
             // re-exchanged (delete entites go out of scope)
             foreach ($this->getReexchangeEntities() as $entityMap) {
-                $entityMap['auditEntity']->exchangeArray($this->getClassProperties($entityMap['entity']));
-                $entityMap['revisionEntity']->setAuditEntity($entityMap['auditEntity']);
+                $entityMap['workspaceEntity']->exchangeArray($this->getClassProperties($entityMap['entity']));
+                $entityMap['revisionEntity']->setWorkspaceEntity($entityMap['workspaceEntity']);
             }
 
             // Flush revision and revisionEntities
@@ -294,7 +294,7 @@ class LogRevision implements EventSubscriber
                 }
 
                 foreach ($value->getSnapshot() as $element) {
-                    $audit = new $joinClassName();
+                    $workspace = new $joinClassName();
 
                     // Get current inverse revision entity
                     $revisionEntities = $entityManager->getRepository('Workspace\\Entity\\RevisionEntity')
@@ -305,10 +305,10 @@ class LogRevision implements EventSubscriber
 
                     $inverseRevisionEntity = reset($revisionEntities);
 
-                    $audit->setTargetRevisionEntity($revisionEntity);
-                    $audit->setSourceRevisionEntity($inverseRevisionEntity);
+                    $workspace->setTargetRevisionEntity($revisionEntity);
+                    $workspace->setSourceRevisionEntity($inverseRevisionEntity);
 
-                    $entityManager->persist($audit);
+                    $entityManager->persist($workspace);
                 }
             }
 
@@ -319,7 +319,7 @@ class LogRevision implements EventSubscriber
             $this->resetReexchangeEntities();
             $this->resetRevision();
             $this->resetRevisionEntities();
-            $this->setInAuditTransaction(false);
+            $this->setInWorkspaceTransaction(false);
         }
     }
 }

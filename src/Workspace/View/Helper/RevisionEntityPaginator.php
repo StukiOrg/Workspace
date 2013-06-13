@@ -10,7 +10,7 @@ use Zend\View\Helper\AbstractHelper
     , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
     , Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator
     , Zend\Paginator\Paginator
-    , Workspace\Entity\AbstractAudit
+    , Workspace\Entity\AbstractWorkspace
     ;
 
 final class RevisionEntityPaginator extends AbstractHelper implements ServiceLocatorAwareInterface
@@ -30,21 +30,21 @@ final class RevisionEntityPaginator extends AbstractHelper implements ServiceLoc
 
     public function __invoke($page, $entity)
     {
-        $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
-        $entityManager = $auditModuleOptions->getEntityManager();
+        $workspaceModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('workspaceModuleOptions');
+        $entityManager = $workspaceModuleOptions->getEntityManager();
         $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('workspaceService');
 
-        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys($auditModuleOptions->getAuditedClassNames()))) {
-            $auditEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
+        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys($workspaceModuleOptions->getWorkspaceedClassNames()))) {
+            $workspaceEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
             $identifiers = $workspaceService->getEntityIdentifierValues($entity);
-        } elseif ($entity instanceof AbstractAudit) {
-            $auditEntityClass = get_class($entity);
+        } elseif ($entity instanceof AbstractWorkspace) {
+            $workspaceEntityClass = get_class($entity);
             $identifiers = $workspaceService->getEntityIdentifierValues($entity, true);
         } else {
-            $auditEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', $entity);
+            $workspaceEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', $entity);
         }
 
-        $search = array('auditEntityClass' => $auditEntityClass);
+        $search = array('workspaceEntityClass' => $workspaceEntityClass);
         if (isset($identifiers)) $search['entityKeys'] = serialize($identifiers);
 
         $queryBuilder = $entityManager->getRepository('Workspace\\Entity\\RevisionEntity')->createQueryBuilder('rev');
@@ -58,7 +58,7 @@ final class RevisionEntityPaginator extends AbstractHelper implements ServiceLoc
 
         $adapter = new DoctrineAdapter(new ORMPaginator($queryBuilder));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage($auditModuleOptions->getPaginatorLimit());
+        $paginator->setDefaultItemCountPerPage($workspaceModuleOptions->getPaginatorLimit());
         $paginator->setCurrentPageNumber($page);
 
         return $paginator;

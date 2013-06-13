@@ -10,7 +10,7 @@ use WorkspaceTest\Bootstrap
 class RevisionTest extends \PHPUnit_Framework_TestCase
 {
 
-    // If we reach this function then the audit driver has worked
+    // If we reach this function then the workspace driver has worked
     public function testGettersAndSetters()
     {
         $entity = new Revision;

@@ -10,7 +10,7 @@ use Zend\View\Model\ViewModel;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
-use Workspace\Entity\AbstractAudit;
+use Workspace\Entity\AbstractWorkspace;
 
 final class AssociationSourcePaginator extends AbstractHelper implements ServiceLocatorAwareInterface
 {
@@ -29,11 +29,11 @@ final class AssociationSourcePaginator extends AbstractHelper implements Service
 
     public function __invoke($page, $revisionEntity, $joinTable)
     {
-        $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
-        $entityManager = $auditModuleOptions->getEntityManager();
+        $workspaceModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('workspaceModuleOptions');
+        $entityManager = $workspaceModuleOptions->getEntityManager();
         $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('workspaceService');
 
-        foreach($workspaceService->getEntityAssociations($revisionEntity->getAuditEntity()) as $field => $value) {
+        foreach($workspaceService->getEntityAssociations($revisionEntity->getWorkspaceEntity()) as $field => $value) {
             if (isset($value['joinTable']['name']) and $value['joinTable']['name'] == $joinTable) {
                 $mapping = $value;
                 break;
@@ -48,7 +48,7 @@ final class AssociationSourcePaginator extends AbstractHelper implements Service
 
         $adapter = new DoctrineAdapter(new ORMPaginator($qb));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage($auditModuleOptions->getPaginatorLimit());
+        $paginator->setDefaultItemCountPerPage($workspaceModuleOptions->getPaginatorLimit());
 
         $paginator->setCurrentPageNumber($page);
 

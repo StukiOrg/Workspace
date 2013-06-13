@@ -10,20 +10,20 @@ use WorkspaceTest\Bootstrap
     , Doctrine\ORM\Mapping\Driver\StaticPHPDriver
     , Doctrine\ORM\Mapping\Driver\XmlDriver
     , Doctrine\ORM\Mapping\Driver\DriverChain
-    , Workspace\Mapping\Driver\AuditDriver
+    , Workspace\Mapping\Driver\WorkspaceDriver
     , Doctrine\ORM\Tools\SchemaTool
     ;
 
-class AuditAutoloaderTest extends \PHPUnit_Framework_TestCase
+class WorkspaceAutoloaderTest extends \PHPUnit_Framework_TestCase
 {
     private $_em;
     private $_oldEntityManager;
-    private $_oldAuditedClassNames;
+    private $_oldWorkspaceedClassNames;
 
     public function setUp()
     {
         $this->_oldEntityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
-        $this->_oldAuditedClassNames = \Workspace\Module::getModuleOptions()->getAuditedClassNames();
+        $this->_oldWorkspaceedClassNames = \Workspace\Module::getModuleOptions()->getWorkspaceedClassNames();
 
 
         $isDevMode = true;
@@ -37,11 +37,11 @@ class AuditAutoloaderTest extends \PHPUnit_Framework_TestCase
         $chain->addDriver(new XmlDriver(__DIR__ . '/../../../vendor/zf-commons/zfc-user-doctrine-orm/config/xml/zfcuserdoctrineorm')
             , 'ZfcUserDoctrineORM\Entity');
         $chain->addDriver(new StaticPHPDriver(__DIR__ . "/../Models"), 'WorkspaceTest\Models\Autoloader');
-        $chain->addDriver(new AuditDriver('.'), 'Workspace\Entity');
+        $chain->addDriver(new WorkspaceDriver('.'), 'Workspace\Entity');
 
         // Replace entity manager
         $moduleOptions = \Workspace\Module::getModuleOptions();
-        $moduleOptions->setAuditedClassNames(array(
+        $moduleOptions->setWorkspaceedClassNames(array(
             'WorkspaceTest\Models\Autoloader\Album' => array(),
             'WorkspaceTest\Models\Autoloader\Performer' => array(),
             'WorkspaceTest\Models\Autoloader\Song' => array(),
@@ -71,8 +71,8 @@ class AuditAutoloaderTest extends \PHPUnit_Framework_TestCase
     }
 
 /*
-    // If we reach this function then the audit driver has worked
-    public function testAuditCreateUpdateDelete()
+    // If we reach this function then the workspace driver has worked
+    public function testWorkspaceCreateUpdateDelete()
     {
         $album = new Album;
         $album->setTitle('Test entity lifecycle: CREATE');
@@ -97,6 +97,6 @@ class AuditAutoloaderTest extends \PHPUnit_Framework_TestCase
         // Replace entity manager
         $moduleOptions = \Workspace\Module::getModuleOptions();
         $moduleOptions->setEntityManager($this->_oldEntityManager);
-        \Workspace\Module::getModuleOptions()->setAuditedClassNames($this->_oldAuditedClassNames);
+        \Workspace\Module::getModuleOptions()->setWorkspaceedClassNames($this->_oldWorkspaceedClassNames);
     }
 }

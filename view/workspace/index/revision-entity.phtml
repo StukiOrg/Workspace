@@ -76,7 +76,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->workspaceService()->getEntityValues($this->revisionEntity->getAuditEntity()) as $field => $value) {
+        <?php foreach ($this->workspaceService()->getEntityValues($this->revisionEntity->getWorkspaceEntity()) as $field => $value) {
             if ($field == 'password') continue;
             ?>
             <tr>
@@ -85,8 +85,8 @@
                 <?php
 
                     // Is this an association?
-                    if (in_array($field, array_keys($this->workspaceService()->getEntityAssociations($this->revisionEntity->getAuditEntity())))) {
-                        $associationRevisionEntity = $this->workspaceService()->getAssociationRevisionEntity($this->revisionEntity->getAuditEntity(), $field, $value);
+                    if (in_array($field, array_keys($this->workspaceService()->getEntityAssociations($this->revisionEntity->getWorkspaceEntity())))) {
+                        $associationRevisionEntity = $this->workspaceService()->getAssociationRevisionEntity($this->revisionEntity->getWorkspaceEntity(), $field, $value);
 
                         if ($associationRevisionEntity) {
                             echo $this->workspaceRevisionEntityLink($associationRevisionEntity);
@@ -106,7 +106,7 @@
         ?>
 
         <?php
-        if ($this->workspaceService()->getEntityAssociations($this->revisionEntity->getAuditEntity())) {
+        if ($this->workspaceService()->getEntityAssociations($this->revisionEntity->getWorkspaceEntity())) {
         ?>
             <tr>
                 <th>Associations</th>
@@ -114,7 +114,7 @@
             </tr>
 
             <?php
-                foreach($this->workspaceService()->getEntityAssociations($this->revisionEntity->getAuditEntity()) as $field => $value) {
+                foreach($this->workspaceService()->getEntityAssociations($this->revisionEntity->getWorkspaceEntity()) as $field => $value) {
             ?>
                     <?php
 
@@ -128,7 +128,7 @@
                             break;
 
                         case ClassMetadataInfo::ONE_TO_MANY: # 4
-                            // Verify an audit class exists for this field
+                            // Verify an workspace class exists for this field
                             if (!class_exists('Workspace\\Entity\\' . str_replace('\\', '_', $value['targetEntity'])))
                                 continue;
 
@@ -287,7 +287,7 @@
 <?php
     $first = true;
     $oldSet = false;
-    $paginator = $this->workspaceRevisionEntityPaginator($page, $this->revisionEntity->getAuditEntity());
+    $paginator = $this->workspaceRevisionEntityPaginator($page, $this->revisionEntity->getWorkspaceEntity());
 ?>
 
 <table class="table table-striped table-hover table-bordered ">
@@ -401,7 +401,7 @@
             $this->url(
                 'workspace/entity',
                 array(
-                    'entityClass' => $this->revisionEntity->getAuditEntity()->getAuditedEntityClass(),
+                    'entityClass' => $this->revisionEntity->getWorkspaceEntity()->getWorkspaceedEntityClass(),
                 )
             );?>
-    " class="workspace btn btn-primary">All Revisons for <?= $this->escapeHtml($this->revisionEntity->getAuditEntity()->getAuditedEntityClass()); ?></a>
+    " class="workspace btn btn-primary">All Revisons for <?= $this->escapeHtml($this->revisionEntity->getWorkspaceEntity()->getWorkspaceedEntityClass()); ?></a>

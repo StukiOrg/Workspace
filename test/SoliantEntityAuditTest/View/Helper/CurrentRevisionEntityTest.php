@@ -13,7 +13,7 @@ class CurrentRevisionEntityTest extends \PHPUnit_Framework_TestCase
         $sm = Bootstrap::getApplication()->getServiceManager();
         $em = \Workspace\Module::getModuleOptions()->getEntityManager();
 
-        $helper = $sm->get('viewhelpermanager')->get('auditCurrentRevisionEntity');
+        $helper = $sm->get('viewhelpermanager')->get('workspaceCurrentRevisionEntity');
 
         $entity = new Album();
         $entity->setTitle('Test CurrentRevisionEntity View Helper returns revision with more than two entities');
@@ -34,7 +34,7 @@ class CurrentRevisionEntityTest extends \PHPUnit_Framework_TestCase
         $sm = Bootstrap::getApplication()->getServiceManager();
         $em = \Workspace\Module::getModuleOptions()->getEntityManager();
 
-        $helper = $sm->get('viewhelpermanager')->get('auditCurrentRevisionEntity');
+        $helper = $sm->get('viewhelpermanager')->get('workspaceCurrentRevisionEntity');
 
         $entity = new Album();
 

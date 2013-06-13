@@ -10,7 +10,7 @@ use WorkspaceTest\Bootstrap
 class WorkspaceServiceTest extends \PHPUnit_Framework_TestCase
 {
 
-    // If we reach this function then the audit driver has worked
+    // If we reach this function then the workspace driver has worked
     public function testCommentingAndCommentRestting()
     {
         $em = \Workspace\Module::getModuleOptions()->getEntityManager();
@@ -44,7 +44,7 @@ return;
         $em->persist($entity);
         $em->flush();
 
-        $helper = Bootstrap::getApplication()->getServiceManager()->get('viewhelpermanager')->get('auditCurrentRevisionEntity');
+        $helper = Bootstrap::getApplication()->getServiceManager()->get('viewhelpermanager')->get('workspaceCurrentRevisionEntity');
         $lastEntityRevision = $helper($entity);
 
         print_r($lastEntityRevision->getRevision());die();
@@ -105,7 +105,7 @@ return;
 
         $serviceEntities = $service->getRevisionEntities($entity);
 
-        $this->assertEquals(2, sizeof($service->getRevisionEntities(array_shift($serviceEntities)->getAuditEntity())));
+        $this->assertEquals(2, sizeof($service->getRevisionEntities(array_shift($serviceEntities)->getWorkspaceEntity())));
 
     }
 

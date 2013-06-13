@@ -10,7 +10,7 @@ use Zend\View\Model\ViewModel;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
-use Workspace\Entity\AbstractAudit;
+use Workspace\Entity\AbstractWorkspace;
 
 final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorAwareInterface
 {
@@ -29,8 +29,8 @@ final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorA
 
     public function __invoke($page, $revisionEntity, $joinTable, $mappedBy)
     {
-        $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
-        $entityManager = $auditModuleOptions->getEntityManager();
+        $workspaceModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('workspaceModuleOptions');
+        $entityManager = $workspaceModuleOptions->getEntityManager();
         $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('workspaceService');
 
         $entityClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $joinTable);
@@ -51,7 +51,7 @@ final class OneToManyPaginator extends AbstractHelper implements ServiceLocatorA
 
         $adapter = new DoctrineAdapter(new ORMPaginator($query));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage($auditModuleOptions->getPaginatorLimit());
+        $paginator->setDefaultItemCountPerPage($workspaceModuleOptions->getPaginatorLimit());
 
         $paginator->setCurrentPageNumber($page);
 

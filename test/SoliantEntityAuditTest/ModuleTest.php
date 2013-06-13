@@ -17,7 +17,7 @@ use WorkspaceTest\Bootstrap
     , Doctrine\ORM\Mapping\Driver\PhpDriver
     , Workspace\Options\ModuleOptions
     , Workspace\Service\WorkspaceService
-    , Workspace\Loader\AuditAutoloader
+    , Workspace\Loader\WorkspaceAutoloader
     , Workspace\EventListener\LogRevision
     , Workspace\View\Helper\DateTimeFormatter
     , Workspace\View\Helper\EntityValues
@@ -43,7 +43,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     {
         $sm = Bootstrap::getApplication()->getServiceManager();
 
-        $this->assertInstanceOf('Workspace\Options\ModuleOptions', $sm->get('auditModuleOptions'));
+        $this->assertInstanceOf('Workspace\Options\ModuleOptions', $sm->get('workspaceModuleOptions'));
         $this->assertInstanceOf('Workspace\Service\WorkspaceService', $sm->get('workspaceService'));
     }
 

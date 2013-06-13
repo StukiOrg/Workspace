@@ -40,7 +40,7 @@ class IndexControllerTest extends \PHPUnit_Framework_TestCase
     public function testIndexActionCanBeAccessed()
     {
         $this->routeMatch->setParam('action', 'index');
-        $this->routeMatch->setParam('controller', 'audit');
+        $this->routeMatch->setParam('controller', 'workspace');
 
         $result   = $this->controller->dispatch($this->request);
         $response = $this->controller->getResponse();
@@ -51,7 +51,7 @@ class IndexControllerTest extends \PHPUnit_Framework_TestCase
     public function testUserActionCanBeAccessed()
     {
         $this->routeMatch->setParam('action', 'user');
-        $this->routeMatch->setParam('controller', 'audit');
+        $this->routeMatch->setParam('controller', 'workspace');
         $this->routeMatch->setParam('userId', 1);
         $this->routeMatch->setParam('page', 0);
 
@@ -72,12 +72,12 @@ class IndexControllerTest extends \PHPUnit_Framework_TestCase
         $em->persist($entity);
         $em->flush();
 
-        $helper = $sm->get('viewhelpermanager')->get('auditCurrentRevisionEntity');
+        $helper = $sm->get('viewhelpermanager')->get('workspaceCurrentRevisionEntity');
 
         $revisionEntity = $helper($entity);
 
         $this->routeMatch->setParam('action', 'revision');
-        $this->routeMatch->setParam('controller', 'audit');
+        $this->routeMatch->setParam('controller', 'workspace');
         $this->routeMatch->setParam('revisionId', $revisionEntity->getRevision()->getId());
 
         $result   = $this->controller->dispatch($this->request);
@@ -98,13 +98,13 @@ class IndexControllerTest extends \PHPUnit_Framework_TestCase
         $em->persist($entity);
         $em->flush();
 
-        $helper = $sm->get('viewhelpermanager')->get('auditCurrentRevisionEntity');
+        $helper = $sm->get('viewhelpermanager')->get('workspaceCurrentRevisionEntity');
         $revisionEntity = $helper($entity);
 
         if (!$revisionEntity) die('helper did not return current revision entity');
 
         $this->routeMatch->setParam('action', 'revision-entity');
-        $this->routeMatch->setParam('controller', 'audit');
+        $this->routeMatch->setParam('controller', 'workspace');
         $this->routeMatch->setParam('revisionEntityId', $revisionEntity->getId());
 
         $result   = $this->controller->dispatch($this->request);
@@ -116,7 +116,7 @@ class IndexControllerTest extends \PHPUnit_Framework_TestCase
     public function testEntityActionCanBeAccessed()
     {
         $this->routeMatch->setParam('action', 'entity');
-        $this->routeMatch->setParam('controller', 'audit');
+        $this->routeMatch->setParam('controller', 'workspace');
         $this->routeMatch->setParam('entity', 'WorkspaceTest\Models\Bootstrap\Album');
         $this->routeMatch->setParam('page', 0);
 
@@ -129,7 +129,7 @@ class IndexControllerTest extends \PHPUnit_Framework_TestCase
     public function testCompareActionCanBeAccessed()
     {
         $this->routeMatch->setParam('action', 'compare');
-        $this->routeMatch->setParam('controller', 'audit');
+        $this->routeMatch->setParam('controller', 'workspace');
         $this->request->getPost()->set('revisionEntityId_old', 1);
         $this->request->getPost()->set('revisionEntityId_new', 2);
 

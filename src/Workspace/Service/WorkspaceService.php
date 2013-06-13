@@ -3,7 +3,7 @@
 namespace Workspace\Service;
 
 use Zend\View\Helper\AbstractHelper;
-use Workspace\Entity\AbstractAudit;
+use Workspace\Entity\AbstractWorkspace;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class WorkspaceService extends AbstractHelper
@@ -26,6 +26,8 @@ class WorkspaceService extends AbstractHelper
     // Return the current workspace entity for the given entity
     static public function filter($entity)
     {
+        return $entity;
+
         if ($entity instanceof ArrayCollection) {
             return self::filterArrayCollection();
         }
@@ -33,7 +35,7 @@ class WorkspaceService extends AbstractHelper
         $moduleOptions = \Workspace\Module::getModuleOptions();
 
         $found = false;
-        foreach (array_keys($moduleOptions->getAuditedClassNames()) as $workspaceEntityClass) {
+        foreach (array_keys($moduleOptions->getWorkspaceedClassNames()) as $workspaceEntityClass) {
             if ($entity instanceof $workspaceEntityClass) {
                 $found = true;
                 break;
@@ -49,7 +51,7 @@ class WorkspaceService extends AbstractHelper
             return false;
         }
 
-        $entity->exchangeArray($workspaceRevisionEntity->getAuditEntity()->getArrayCopy());
+        $entity->exchangeArray($workspaceRevisionEntity->getWorkspaceEntity()->getArrayCopy());
 
         return $entity;
     }
@@ -92,7 +94,7 @@ class WorkspaceService extends AbstractHelper
     }
 
 
-    public function getEntityAssociations(AbstractAudit $entity)
+    public function getEntityAssociations(AbstractWorkspace $entity)
     {
         $associations = array();
         foreach ($entity->getAssociationMappings() as $mapping) {
@@ -105,7 +107,7 @@ class WorkspaceService extends AbstractHelper
     /**
      * Find a mapping to the given field for 1:many
      */
-    public function getAssociationRevisionEntity(AbstractAudit $entity, $field, $value) {
+    public function getAssociationRevisionEntity(AbstractWorkspace $entity, $field, $value) {
         $em = \Workspace\Module::getModuleOptions()->getEntityManager();
 
         foreach ($entity->getAssociationMappings() as $mapping) {
@@ -139,7 +141,7 @@ class WorkspaceService extends AbstractHelper
         $entityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
         $metadataFactory = $entityManager->getMetadataFactory();
 
-        // Get entity metadata - Audited entities will always have composite keys
+        // Get entity metadata - Workspaceed entities will always have composite keys
         $metadata = $metadataFactory->getMetadataFor(get_class($entity));
         $values = $metadata->getIdentifierValues($entity);
 
@@ -155,7 +157,7 @@ class WorkspaceService extends AbstractHelper
     }
 
     /**
-     * Pass an audited entity or the audit entity
+     * Pass an workspaceed entity or the workspace entity
      * and return a collection of RevisionEntity s
      * for that record
      */
@@ -163,17 +165,17 @@ class WorkspaceService extends AbstractHelper
     {
         $entityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
 
-        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys(\Workspace\Module::getModuleOptions()->getAuditedClassNames()))) {
-            $auditEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
+        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys(\Workspace\Module::getModuleOptions()->getWorkspaceedClassNames()))) {
+            $workspaceEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
             $identifiers = $this->getEntityIdentifierValues($entity);
-        } elseif ($entity instanceof AbstractAudit) {
-            $auditEntityClass = get_class($entity);
+        } elseif ($entity instanceof AbstractWorkspace) {
+            $workspaceEntityClass = get_class($entity);
             $identifiers = $this->getEntityIdentifierValues($entity, true);
         } else {
-            $auditEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', $entity);
+            $workspaceEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', $entity);
         }
 
-        $search = array('auditEntityClass' => $auditEntityClass);
+        $search = array('workspaceEntityClass' => $workspaceEntityClass);
         if (isset($identifiers)) $search['entityKeys'] = serialize($identifiers);
 
         return $entityManager->getRepository('Workspace\\Entity\\RevisionEntity')

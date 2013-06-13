@@ -11,7 +11,7 @@ class ModuleOptions
     private $suffix;
     private $revisionTableName;
     private $revisionEntityTableName;
-    private $auditedClassNames;
+    private $workspaceedClassNames;
     private $joinClasses;
     private $user;
     private $entityManager;
@@ -23,8 +23,8 @@ class ModuleOptions
     {
         $this->setPaginatorLimit(isset($config['tableNamePrefix']) ? $config['paginatorLimit']: 20);
         $this->setTableNamePrefix(isset($config['tableNamePrefix']) ? $config['tableNamePrefix']: null);
-        $this->setTableNameSuffix(isset($config['tableNameSuffix']) ? $config['tableNameSuffix']: '_audit');
-        $this->setAuditedClassNames(isset($config['entities']) ? $config['entities']: array());
+        $this->setTableNameSuffix(isset($config['tableNameSuffix']) ? $config['tableNameSuffix']: '_workspace');
+        $this->setWorkspaceClassNames(isset($config['entities']) ? $config['entities']: array());
         $this->setRevisionTableName(isset($config['revisionTableName']) ? $config['revisionTableName']: 'Revision');
         $this->setRevisionEntityTableName(isset($config['revisionEntityTableName']) ? $config['revisionEntityTableName']: 'RevisionEntity');
         $this->setUserEntityClassName(isset($config['userEntityClassName']) ? $config['userEntityClassName']: 'ZfcUserDoctrineORM\\Entity\\User');
@@ -72,9 +72,9 @@ class ModuleOptions
         return $this;
     }
 
-    public function addJoinClass($fullyQualifiedAuditClassName, $mapping)
+    public function addJoinClass($fullyQualifiedWorkspaceClassName, $mapping)
     {
-        $this->joinClasses[$fullyQualifiedAuditClassName] = $mapping;
+        $this->joinClasses[$fullyQualifiedWorkspaceClassName] = $mapping;
         return $this;
     }
 
@@ -156,15 +156,15 @@ class ModuleOptions
         return $this;
     }
 
-    public function getAuditedClassNames()
+    public function getWorkspaceClassNames()
     {
-        if (!$this->auditedClassNames) $this->setAuditedClassNames(array());
-        return $this->auditedClassNames;
+        if (!$this->workspaceedClassNames) $this->setWorkspaceClassNames(array());
+        return $this->workspaceedClassNames;
     }
 
-    public function setAuditedClassNames(array $classes)
+    public function setWorkspaceClassNames(array $classes)
     {
-        $this->auditedClassNames = $classes;
+        $this->workspaceedClassNames = $classes;
         return $this;
     }
 

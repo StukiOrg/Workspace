@@ -2,10 +2,9 @@
 
 namespace Workspace\Entity;
 
-use Doctrine\ORM\Mapping\ClassMetadata
-    , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder
-    , Zend\Code\Reflection\ClassReflection;
-    ;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
+use Zend\Code\Reflection\ClassReflection;
 
 class RevisionEntity
 {
@@ -17,16 +16,16 @@ class RevisionEntity
     // An array of primary keys
     private $entityKeys;
 
-    // The name of the audit entity
-    private $auditEntityClass;
+    // The name of the workspace entity
+    private $workspaceEntityClass;
 
-    // The name of the entity which is audited
+    // The name of the entity which is workspaceed
     private $targetEntityClass;
 
     // The type of action, INS, UPD, DEL
     private $revisionType;
 
-    // Fetched from entity::getAuditTitle() if exists
+    // Fetched from entity::getWorkspaceTitle() if exists
     private $title;
 
     public function getId()
@@ -40,14 +39,14 @@ class RevisionEntity
         return $this;
     }
 
-    public function getAuditEntityClass()
+    public function getWorkspaceEntityClass()
     {
-        return $this->auditEntityClass;
+        return $this->workspaceEntityClass;
     }
 
-    public function setAuditEntityClass($value)
+    public function setWorkspaceEntityClass($value)
     {
-        $this->auditEntityClass = $value;
+        $this->workspaceEntityClass = $value;
         return $this;
     }
 
@@ -90,25 +89,25 @@ class RevisionEntity
         return $this;
     }
 
-    public function setAuditEntity(AbstractAudit $entity)
+    public function setWorkspaceEntity(AbstractWorkspace $entity)
     {
         $moduleOptions = \Workspace\Module::getModuleOptions();
 
         $workspaceService = $moduleOptions->getWorkspaceService();
         $identifiers = $workspaceService->getEntityIdentifierValues($entity);
 
-        $this->setAuditEntityClass(get_class($entity));
-        $this->setTargetEntityClass($entity->getAuditedEntityClass());
+        $this->setWorkspaceEntityClass(get_class($entity));
+        $this->setTargetEntityClass($entity->getWorkspaceedEntityClass());
         $this->setEntityKeys($identifiers);
 
         return $this;
     }
 
-    public function getAuditEntity()
+    public function getWorkspaceEntity()
     {
         $entityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
 
-        return $entityManager->getRepository($this->getAuditEntityClass())->findOneBy(array('revisionEntity' => $this));
+        return $entityManager->getRepository($this->getWorkspaceEntityClass())->findOneBy(array('revisionEntity' => $this));
     }
 
     public function getTargetEntity()
@@ -117,8 +116,8 @@ class RevisionEntity
 
         return $entityManager->getRepository(
             $entityManager
-                ->getRepository($this->getAuditEntityClass())
-                    ->findOneBy($this->getEntityKeys())->getAuditedEntityClass()
+                ->getRepository($this->getWorkspaceEntityClass())
+                    ->findOneBy($this->getEntityKeys())->getWorkspaceedEntityClass()
             )->findOneBy($this->getEntityKeys());
     }
 

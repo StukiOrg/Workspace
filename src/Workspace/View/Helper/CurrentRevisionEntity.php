@@ -10,7 +10,7 @@ use Zend\View\Helper\AbstractHelper
     , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
     , Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator
     , Zend\Paginator\Paginator
-    , Workspace\Entity\AbstractAudit
+    , Workspace\Entity\AbstractWorkspace
     ;
 
 // Return the latest revision entity for the given entity
@@ -31,8 +31,8 @@ final class CurrentRevisionEntity extends AbstractHelper implements ServiceLocat
 
     public function __invoke($entity)
     {
-        $entityManager = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getEntityManager();
-        $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions')->getWorkspaceService();
+        $entityManager = $this->getServiceLocator()->getServiceLocator()->get('workspaceModuleOptions')->getEntityManager();
+        $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('workspaceModuleOptions')->getWorkspaceService();
 
         $revisionEntities = $entityManager->getRepository('Workspace\\Entity\\RevisionEntity')->findBy(array(
             'targetEntityClass' => get_class($entity),

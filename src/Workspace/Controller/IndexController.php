@@ -96,7 +96,7 @@ class IndexController extends AbstractActionController
      */
     public function revisionEntityAction()
     {
-        $this->mapAllAuditedClasses();
+        $this->mapAllWorkspaceClasses();
 
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $revisionEntityId = (int) $this->getEvent()->getRouteMatch()->getParam('revisionEntityId');
@@ -118,7 +118,7 @@ class IndexController extends AbstractActionController
     }
 
     /**
-     * Lists revisions for the supplied entity.  Takes an audited entity class or audit class
+     * Lists revisions for the supplied entity.  Takes a workspace entity class or workspace class
      *
      * @param string $className
      * @param string $id
@@ -166,7 +166,7 @@ class IndexController extends AbstractActionController
     public function oneToManyAction()
     {
         $moduleOptions = $this->getServiceLocator()
-            ->get('auditModuleOptions');
+            ->get('workspaceModuleOptions');
 
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $joinTable = $this->getEvent()->getRouteMatch()->getParam('joinTable');
@@ -192,13 +192,13 @@ class IndexController extends AbstractActionController
 
     public function associationSourceAction()
     {
-        // When an association is requested all audit metadata must
+        // When an association is requested all workspace metadata must
         // be loaded in order to create the necessary join table
         // information
         $moduleOptions = $this->getServiceLocator()
-            ->get('auditModuleOptions');
+            ->get('workspaceModuleOptions');
 
-        $this->mapAllAuditedClasses();
+        $this->mapAllWorkspaceClasses();
 
         $joinClasses = $moduleOptions->getJoinClasses();
 
@@ -224,18 +224,18 @@ class IndexController extends AbstractActionController
 
     public function associationTargetAction()
     {
-        // When an association is requested all audit metadata must
+        // When an association is requested all workspace metadata must
         // be loaded in order to create the necessary join table
         // information
         $moduleOptions = $this->getServiceLocator()
-            ->get('auditModuleOptions');
+            ->get('workspaceModuleOptions');
 
-        $this->mapAllAuditedClasses();
+        $this->mapAllWorkspaceClasses();
 
-        foreach ($moduleOptions->getAuditedClassNames()
+        foreach ($moduleOptions->getWorkspaceClassNames()
             as $className => $route) {
-            $auditClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $className);
-            $x = new $auditClassName;
+            $workspaceClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $className);
+            $x = new $workspaceClassName;
         }
         $joinClasses = $moduleOptions->getJoinClasses();
 
@@ -259,18 +259,18 @@ class IndexController extends AbstractActionController
 
     }
 
-    private function mapAllAuditedClasses() {
-
-        // When an association is requested all audit metadata must
+    private function mapAllWorkspaceClasses()
+    {
+        // When an association is requested all workspace metadata must
         // be loaded in order to create the necessary join table
         // information
         $moduleOptions = $this->getServiceLocator()
-            ->get('auditModuleOptions');
+            ->get('workspaceModuleOptions');
 
-        foreach ($moduleOptions->getAuditedClassNames()
+        foreach ($moduleOptions->getWorkspaceClassNames()
             as $className => $route) {
-            $auditClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $className);
-            $x = new $auditClassName;
+            $workspaceClassName = 'Workspace\\Entity\\' . str_replace('\\', '_', $className);
+            $x = new $workspaceClassName;
         }
     }
 

@@ -10,7 +10,7 @@ use Zend\View\Helper\AbstractHelper
     , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
     , Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator
     , Zend\Paginator\Paginator
-    , Workspace\Entity\AbstractAudit
+    , Workspace\Entity\AbstractWorkspace
     ;
 
 final class RevisionPaginator extends AbstractHelper implements ServiceLocatorAwareInterface
@@ -30,8 +30,8 @@ final class RevisionPaginator extends AbstractHelper implements ServiceLocatorAw
 
     public function __invoke($page, $filter = array())
     {
-        $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
-        $entityManager = $auditModuleOptions->getEntityManager();
+        $workspaceModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('workspaceModuleOptions');
+        $entityManager = $workspaceModuleOptions->getEntityManager();
 
         $repository = $entityManager->getRepository('Workspace\\Entity\\Revision');
 
@@ -50,7 +50,7 @@ final class RevisionPaginator extends AbstractHelper implements ServiceLocatorAw
 
         $adapter = new DoctrineAdapter(new ORMPaginator($qb));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage($auditModuleOptions->getPaginatorLimit());
+        $paginator->setDefaultItemCountPerPage($workspaceModuleOptions->getPaginatorLimit());
 
         $paginator->setCurrentPageNumber($page);
 

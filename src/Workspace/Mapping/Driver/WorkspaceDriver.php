@@ -7,7 +7,7 @@ use Doctrine\Common\Persistence\Mapping\ClassMetadata
     , Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder
     ;
 
-final class AuditDriver implements MappingDriver
+final class WorkspaceDriver implements MappingDriver
 {
     /**
      * Loads the metadata for the specified class into the provided container.
@@ -26,7 +26,7 @@ final class AuditDriver implements MappingDriver
             $builder->createField('id', 'integer')->isPrimaryKey()->generatedValue()->build();
             $builder->addManyToOne('revision', 'Workspace\\Entity\\Revision', 'revisionEntities');
             $builder->addField('entityKeys', 'string');
-            $builder->addField('auditEntityClass', 'string');
+            $builder->addField('workspaceEntityClass', 'string');
             $builder->addField('targetEntityClass', 'string');
             $builder->addField('revisionType', 'string');
             $builder->addField('title', 'string', array('nullable' => true));
@@ -64,9 +64,9 @@ final class AuditDriver implements MappingDriver
             return;
         }
 
-#        $builder->createField('audit_id', 'integer')->isPrimaryKey()->generatedValue()->build();
+#        $builder->createField('workspace_id', 'integer')->isPrimaryKey()->generatedValue()->build();
         $identifiers = array();
-#        $metadata->setIdentifier(array('audit_id'));
+#        $metadata->setIdentifier(array('workspace_id'));
 
         //  Build a discovered many to many join class
         $joinClasses = $moduleOptions->getJoinClasses();
@@ -83,23 +83,23 @@ final class AuditDriver implements MappingDriver
         }
 
 
-        // Get the entity this entity audits
+        // Get the entity this entity workspaces
         $metadataClassName = $metadata->getName();
         $metadataClass = new $metadataClassName();
 
-        $auditedClassMetadata = $metadataFactory->getMetadataFor($metadataClass->getAuditedEntityClass());
+        $workspaceClassMetadata = $metadataFactory->getMetadataFor($metadataClass->getWorkspaceEntityClass());
 
         $builder->addManyToOne($moduleOptions->getRevisionEntityFieldName(), 'Workspace\\Entity\\RevisionEntity');
-# Compound keys removed in favor of auditId (audit_id)
+# Compound keys removed in favor of simple id
         $identifiers[] = $moduleOptions->getRevisionEntityFieldName();
 
-        // Add fields from target to audit entity
-        foreach ($auditedClassMetadata->getFieldNames() as $fieldName) {
-            $builder->addField($fieldName, $auditedClassMetadata->getTypeOfField($fieldName), array('nullable' => true));
-            if ($auditedClassMetadata->isIdentifier($fieldName)) $identifiers[] = $fieldName;
+        // Add fields from target to workspace entity
+        foreach ($workspaceClassMetadata->getFieldNames() as $fieldName) {
+            $builder->addField($fieldName, $workspaceClassMetadata->getTypeOfField($fieldName), array('nullable' => true));
+            if ($workspaceClassMetadata->isIdentifier($fieldName)) $identifiers[] = $fieldName;
         }
 
-        foreach ($auditedClassMetadata->getAssociationMappings() as $mapping) {
+        foreach ($workspaceClassMetadata->getAssociationMappings() as $mapping) {
             if (!$mapping['isOwningSide']) continue;
 
             if (isset($mapping['joinTable'])) {
@@ -120,7 +120,7 @@ final class AuditDriver implements MappingDriver
 
         }
 
-        $metadata->setTableName($moduleOptions->getTableNamePrefix() . $auditedClassMetadata->getTableName() . $moduleOptions->getTableNameSuffix());
+        $metadata->setTableName($moduleOptions->getTableNamePrefix() . $workspaceClassMetadata->getTableName() . $moduleOptions->getTableNameSuffix());
         $metadata->setIdentifier($identifiers);
 
         return;
@@ -137,27 +137,27 @@ final class AuditDriver implements MappingDriver
         $entityManager = $moduleOptions->getEntityManager();
         $metadataFactory = $entityManager->getMetadataFactory();
 
-        $auditEntities = array();
-        foreach ($moduleOptions->getAuditedClassNames() as $name => $targetClassOptions) {
-            $auditClassName = "Workspace\\Entity\\" . str_replace('\\', '_', $name);
-            $auditEntities[] = $auditClassName;
-            $auditedClassMetadata = $metadataFactory->getMetadataFor($name);
+        $workspaceEntities = array();
+        foreach ($moduleOptions->getWorkspaceClassNames() as $name => $targetClassOptions) {
+            $workspaceClassName = "Workspace\\Entity\\" . str_replace('\\', '_', $name);
+            $workspaceEntities[] = $workspaceClassName;
+            $workspaceClassMetadata = $metadataFactory->getMetadataFor($name);
 
             // FIXME:  done in autoloader
-            foreach ($auditedClassMetadata->getAssociationMappings() as $mapping) {
+            foreach ($workspaceClassMetadata->getAssociationMappings() as $mapping) {
                 if (isset($mapping['joinTable']['name'])) {
-                    $auditJoinTableClassName = "Workspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
-                    $auditEntities[] = $auditJoinTableClassName;
-                    $moduleOptions->addJoinClass($auditJoinTableClassName, $mapping);
+                    $workspaceJoinTableClassName = "Workspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
+                    $workspaceEntities[] = $workspaceJoinTableClassName;
+                    $moduleOptions->addJoinClass($workspaceJoinTableClassName, $mapping);
                 }
             }
         }
 
         // Add revision (manage here rather than separate namespace)
-        $auditEntities[] = 'Workspace\\Entity\\Revision';
-        $auditEntities[] = 'Workspace\\Entity\\RevisionEntity';
+        $workspaceEntities[] = 'Workspace\\Entity\\Revision';
+        $workspaceEntities[] = 'Workspace\\Entity\\RevisionEntity';
 
-        return $auditEntities;
+        return $workspaceEntities;
     }
 
     /**

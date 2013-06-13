@@ -10,7 +10,7 @@ use Zend\View\Helper\AbstractHelper
     , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
     , Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator
     , Zend\Paginator\Paginator
-    , Workspace\Entity\AbstractAudit
+    , Workspace\Entity\AbstractWorkspace
     ;
 
 final class EntityOptions extends AbstractHelper implements ServiceLocatorAwareInterface
@@ -30,11 +30,11 @@ final class EntityOptions extends AbstractHelper implements ServiceLocatorAwareI
 
     public function __invoke($entityClass = null)
     {
-        $auditModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('auditModuleOptions');
-        $auditedClassNames = $auditModuleOptions->getAuditedClassNames();
+        $workspaceModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('workspaceModuleOptions');
+        $workspaceedClassNames = $workspaceModuleOptions->getWorkspaceedClassNames();
 
-        if ($entityClass) return $auditedClassNames[$entityClass];
+        if ($entityClass) return $workspaceedClassNames[$entityClass];
 
-        return $auditedClassNames;
+        return $workspaceedClassNames;
     }
 }

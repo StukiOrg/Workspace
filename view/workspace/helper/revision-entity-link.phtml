@@ -47,7 +47,7 @@
         );?>"
     >
 
-    <?= $this->escapeHtml(substr($this->revisionEntity->getAuditEntity()->getAuditedEntityClass(), strrpos($this->revisionEntity->getAuditEntity()->getAuditedEntityClass(), '\\') + 1)); ?>:
+    <?= $this->escapeHtml(substr($this->revisionEntity->getWorkspaceEntity()->getWorkspaceedEntityClass(), strrpos($this->revisionEntity->getWorkspaceEntity()->getWorkspaceedEntityClass(), '\\') + 1)); ?>:
 
     <?php
     if ($this->revisionEntity->getTitle()) {

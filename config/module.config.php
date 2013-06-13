@@ -6,7 +6,7 @@ return array(
     'doctrine' => array(
         'driver' => array(
             __NAMESPACE__ . '_driver' => array(
-                'class' => 'Workspace\Mapping\Driver\AuditDriver',
+                'class' => 'Workspace\Mapping\Driver\WorkspaceDriver',
             ),
 
             'orm_default' => array(
@@ -27,7 +27,7 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'audit' => 'Workspace\Controller\IndexController'
+            'workspace' => 'Workspace\Controller\IndexController'
         ),
     ),
 
@@ -61,7 +61,7 @@ return array(
                 'options' => array(
                     'route' => '/workspace',
                     'defaults' => array(
-                        'controller' => 'audit',
+                        'controller' => 'workspace',
                         'action'     => 'master',
                     ),
                 ),
@@ -75,7 +75,7 @@ return array(
                                 'page' => '[0-9]*',
                             ),
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'master',
                             ),
                         ),
@@ -88,7 +88,7 @@ return array(
                                 'userId' => '[0-9]*',
                             ),
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'user',
                             ),
                         ),
@@ -98,7 +98,7 @@ return array(
                         'options' => array(
                             'route' => '/master',
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'master',
                             ),
                         ),
@@ -108,7 +108,7 @@ return array(
                         'options' => array(
                             'route' => '/firehose[/:page]',
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'firehose',
                             ),
                         ),
@@ -121,7 +121,7 @@ return array(
                                 'revisionId' => '[0-9]*',
                             ),
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'revision',
                                 'revisionId' => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ),
@@ -136,7 +136,7 @@ return array(
                                 'page' => '[0-9]*',
                             ),
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'revisionEntity',
                             ),
                         ),
@@ -150,7 +150,7 @@ return array(
                                 'page' => '[0-9]*',
                             ),
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'one-to-many',
                             ),
                         ),
@@ -164,7 +164,7 @@ return array(
                                 'page' => '[0-9]*',
                             ),
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'association-target',
                             ),
                         ),
@@ -178,7 +178,7 @@ return array(
                                 'page' => '[0-9]*',
                             ),
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'association-source',
                             ),
                         ),
@@ -188,7 +188,7 @@ return array(
                         'options' => array(
                             'route' => '/entity[/:entityClass][/:page]',
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action'     => 'entity',
                             ),
                         ),
@@ -198,7 +198,7 @@ return array(
                         'options' => array(
                             'route' => '/compare',
                             'defaults' => array(
-                                'controller' => 'audit',
+                                'controller' => 'workspace',
                                 'action' => 'compare',
                             ),
                         ),

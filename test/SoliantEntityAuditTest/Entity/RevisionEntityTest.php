@@ -11,7 +11,7 @@ use WorkspaceTest\Bootstrap
 class RevisionEntityTest extends \PHPUnit_Framework_TestCase
 {
 
-    // If we reach this function then the audit driver has worked
+    // If we reach this function then the workspace driver has worked
     public function testGettersAndSetters()
     {        $em = Bootstrap::getApplication()->getServiceManager()->get("doctrine.entitymanager.orm_default");
         $sm = Bootstrap::getApplication()->getServiceManager();
@@ -22,7 +22,7 @@ class RevisionEntityTest extends \PHPUnit_Framework_TestCase
         $em->persist($entity);
         $em->flush();
 
-        $helper = $sm->get('viewhelpermanager')->get('auditCurrentRevisionEntity');
+        $helper = $sm->get('viewhelpermanager')->get('workspaceCurrentRevisionEntity');
 
         $revisionEntity = $helper($entity);
 

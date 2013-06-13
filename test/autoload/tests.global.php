@@ -3,7 +3,7 @@
 namespace WorkspaceTest;
 
 return array(
-    'audit' => array(
+    'workspace' => array(
         'datetimeFormat' => 'r',
         'paginatorLimit' => 999999,
 
@@ -11,7 +11,7 @@ return array(
         'authenticationService' => 'zfcuser_auth_service',
 
         'tableNamePrefix' => '',
-        'tableNameSuffix' => '_audit',
+        'tableNameSuffix' => '_workspace',
         'revisionTableName' => 'Revision',
         'revisionEntityTableName' => 'RevisionEntity',
 
@@ -36,7 +36,7 @@ return array(
 
         'driver' => array(
             'Workspace_moduleDriver' => array(
-                'class' => 'Workspace\Mapping\Driver\AuditDriver',
+                'class' => 'Workspace\Mapping\Driver\WorkspaceDriver',
             ),
 
             __NAMESPACE__ . '_driver' => array(

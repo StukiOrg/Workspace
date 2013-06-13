@@ -2,6 +2,6 @@
 
 namespace Workspace\Entity;
 
-abstract class AbstractAudit
+abstract class AbstractWorkspace
 {
 }

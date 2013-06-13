@@ -12,7 +12,7 @@ use WorkspaceTest\Bootstrap
     , Doctrine\ORM\Mapping\Driver\StaticPHPDriver
     , Doctrine\ORM\Mapping\Driver\XmlDriver
     , Doctrine\ORM\Mapping\Driver\DriverChain
-    , Workspace\Mapping\Driver\AuditDriver
+    , Workspace\Mapping\Driver\WorkspaceDriver
     , Workspace\EventListener\LogRevision
     , Doctrine\ORM\Tools\SchemaTool
     ;
@@ -25,7 +25,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_oldEntityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
-        $this->_oldAuditedClassNames = \Workspace\Module::getModuleOptions()->getAuditedClassNames();
+        $this->_oldWorkspaceedClassNames = \Workspace\Module::getModuleOptions()->getWorkspaceedClassNames();
         $this->_oldJoinClasses = \Workspace\Module::getModuleOptions()->resetJoinClasses();
 
         $isDevMode = false;
@@ -40,7 +40,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
         $chain->addDriver(new XmlDriver(__DIR__ . '/../../../vendor/zf-commons/zfc-user-doctrine-orm/config/xml/zfcuserdoctrineorm')
             , 'ZfcUserDoctrineORM\Entity');
         $chain->addDriver(new StaticPHPDriver(__DIR__ . "/../Models"), 'WorkspaceTest\Models\LogRevision');
-        $chain->addDriver(new AuditDriver('.'), 'Workspace\Entity');
+        $chain->addDriver(new WorkspaceDriver('.'), 'Workspace\Entity');
 
         $config->setMetadataDriverImpl($chain);
 
@@ -52,7 +52,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
             'memory' => true,
         );
 
-        $moduleOptions->setAuditedClassNames(array(
+        $moduleOptions->setWorkspaceedClassNames(array(
             'WorkspaceTest\Models\LogRevision\Album' => array(),
             'WorkspaceTest\Models\LogRevision\Performer' => array(),
             'WorkspaceTest\Models\LogRevision\Song' => array(),
@@ -63,7 +63,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
         $moduleOptions->setEntityManager($entityManager);
         $schemaTool = new SchemaTool($entityManager);
 
-        // Add auditing listener
+        // Add workspaceing listener
         $entityManager->getEventManager()->addEventSubscriber(new LogRevision());
 
         $sql = $schemaTool->getUpdateSchemaSql($entityManager->getMetadataFactory()->getAllMetadata());
@@ -75,8 +75,8 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    // If we reach this function then the audit driver has worked
-    public function testAuditCreateUpdateDelete()
+    // If we reach this function then the workspace driver has worked
+    public function testWorkspaceCreateUpdateDelete()
     {
         $album = new Album;
         $album->setTitle('Test entity lifecycle: CREATE');
@@ -96,13 +96,13 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true);
     }
 
-    public function testOneToManyAudit()
+    public function testOneToManyWorkspace()
     {
         $album = new Album;
-        $album->setTitle('Test One To Many Audit');
+        $album->setTitle('Test One To Many Workspace');
 
         $song = new Song;
-        $song->setTitle('Test one to many audit song > album');
+        $song->setTitle('Test one to many workspace song > album');
 
         $song->setAlbum($album);
         $album->getSongs()->add($song);
@@ -119,13 +119,13 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($album, $persistedSong->getAlbum());
     }
 
-    public function testManyToManyAudit()
+    public function testManyToManyWorkspace()
     {
         $album = new Album;
-        $album->setTitle('Test Many To Many Audit');
+        $album->setTitle('Test Many To Many Workspace');
 
         $performer = new Performer;
-        $performer->setName('Test many to many audit');
+        $performer->setName('Test many to many workspace');
 
         $this->_em->persist($album);
         $this->_em->persist($performer);
@@ -150,10 +150,10 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($performer->getId(), $manyToMany->getTargetRevisionEntity()->getTargetEntity()->getId());
     }
 
-    public function testAuditDeleteEntity()
+    public function testWorkspaceDeleteEntity()
     {
         $album = new Album;
-        $album->setTitle('test audit delete entity');
+        $album->setTitle('test workspace delete entity');
         $this->_em->persist($album);
 
         $this->_em->flush();
@@ -191,7 +191,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
         // Replace entity manager
         $moduleOptions = \Workspace\Module::getModuleOptions();
         $moduleOptions->setEntityManager($this->_oldEntityManager);
-        \Workspace\Module::getModuleOptions()->setAuditedClassNames($this->_oldAuditedClassNames);
+        \Workspace\Module::getModuleOptions()->setWorkspaceedClassNames($this->_oldWorkspaceedClassNames);
         \Workspace\Module::getModuleOptions()->resetJoinClasses($this->_oldJoinClasses);
     }
 }

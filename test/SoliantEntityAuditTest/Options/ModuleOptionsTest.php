@@ -16,12 +16,12 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $serviceManager = Bootstrap::getApplication()->getServiceManager();
 
         // For testing do not modify the di instance
-        $moduleOptions = clone $serviceManager->get('auditModuleOptions');
+        $moduleOptions = clone $serviceManager->get('workspaceModuleOptions');
         $moduleOptions->setDefaults(array());
 
         $this->assertEquals(20, $moduleOptions->getPaginatorLimit());
         $this->assertEquals('', $moduleOptions->getTableNamePrefix());
-        $this->assertEquals('_audit', $moduleOptions->getTableNameSuffix());
+        $this->assertEquals('_workspace', $moduleOptions->getTableNameSuffix());
         $this->assertEquals('Revision', $moduleOptions->getRevisionTableName());
         $this->assertEquals('RevisionEntity', $moduleOptions->getRevisionEntityTableName());
         $this->assertEquals('revision', $moduleOptions->getRevisionFieldName());
@@ -31,16 +31,16 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $moduleOptions->setWorkspaceService($serviceManager->get('workspaceService'));
     }
 
-    public function testModuleOptionsAuditedEntityClasses()
+    public function testModuleOptionsWorkspaceedEntityClasses()
     {
         $serviceManager = Bootstrap::getApplication()->getServiceManager();
 
         // For testing do not modify the di instance
-        $moduleOptions = clone $serviceManager->get('auditModuleOptions');
+        $moduleOptions = clone $serviceManager->get('workspaceModuleOptions');
         $moduleOptions->setDefaults(array());
 
-        $moduleOptions->setAuditedClassNames(array('Test1', 'Test2'));
-        $this->assertEquals($moduleOptions->getAuditedClassNames(), array('Test1', 'Test2'));
+        $moduleOptions->setWorkspaceedClassNames(array('Test1', 'Test2'));
+        $this->assertEquals($moduleOptions->getWorkspaceedClassNames(), array('Test1', 'Test2'));
     }
 
     public function testSetUser()
@@ -48,7 +48,7 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $serviceManager = Bootstrap::getApplication()->getServiceManager();
 
         $em = Bootstrap::getApplication()->getServiceManager()->get("doctrine.entitymanager.orm_default");
-        $moduleOptions = clone $serviceManager->get('auditModuleOptions');
+        $moduleOptions = clone $serviceManager->get('workspaceModuleOptions');
         $moduleOptions->setDefaults(array());
 
         $userClass = \Workspace\Module::getModuleOptions()->getUserEntityClassName();
@@ -70,7 +70,7 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
     {
         $serviceManager = Bootstrap::getApplication()->getServiceManager();
 
-        $moduleOptions = clone $serviceManager->get('auditModuleOptions');
+        $moduleOptions = clone $serviceManager->get('workspaceModuleOptions');
         $moduleOptions->setDefaults(array());
 
         $this->assertEquals($moduleOptions, $moduleOptions->addJoinClass('test', array()));

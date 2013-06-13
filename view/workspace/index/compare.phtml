@@ -1,5 +1,5 @@
 <h1>
-    Audit Comparission
+    Workspace Comparission
 </h1>
 
 <table  class="table table-striped table-hover table-bordered ">
@@ -9,11 +9,11 @@
                     $this->url(
                         'workspace/entity',
                         array(
-                            'entityClass' => $revisionEntity_old->getAuditEntity()->getAuditedEntityClass(),
+                            'entityClass' => $revisionEntity_old->getWorkspaceEntity()->getWorkspaceedEntityClass(),
                         )
                     );?>
 
-        " class="btn btn-primary"><?php echo $this->escapeHtml($revisionEntity_old->getAuditEntity()->getAuditedEntityClass()); ?></a>
+        " class="btn btn-primary"><?php echo $this->escapeHtml($revisionEntity_old->getWorkspaceEntity()->getWorkspaceedEntityClass()); ?></a>
         between
 
             <?= $this->workspaceRevisionEntityLink($revisionEntity_old); ?>
@@ -32,8 +32,8 @@
         </tr>
     </thead>
     <tbody>
-        <?php $oldValues = $this->workspaceService()->getEntityValues($revisionEntity_old->getAuditEntity()); ?>
-        <?php $newValues = $this->workspaceService()->getEntityValues($revisionEntity_new->getAuditEntity()); ?>
+        <?php $oldValues = $this->workspaceService()->getEntityValues($revisionEntity_old->getWorkspaceEntity()); ?>
+        <?php $newValues = $this->workspaceService()->getEntityValues($revisionEntity_new->getWorkspaceEntity()); ?>
 
         <?php foreach ($oldValues as $field => $value): ?>
             <tr>
@@ -119,7 +119,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->workspaceService()->getEntityValues($revisionEntity_old->getAuditEntity()) as $field => $value): ?>
+        <?php foreach ($this->workspaceService()->getEntityValues($revisionEntity_old->getWorkspaceEntity()) as $field => $value): ?>
             <tr>
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
@@ -167,7 +167,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->workspaceService()->getEntityValues($revisionEntity_new->getAuditEntity()) as $field => $value): ?>
+        <?php foreach ($this->workspaceService()->getEntityValues($revisionEntity_new->getWorkspaceEntity()) as $field => $value): ?>
             <tr>
                 <td><?php  echo $this->escapeHtml($field); ?></td>
                 <td>
