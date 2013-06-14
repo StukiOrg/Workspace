@@ -18,12 +18,12 @@ class WorkspaceAutoloaderTest extends \PHPUnit_Framework_TestCase
 {
     private $_em;
     private $_oldEntityManager;
-    private $_oldWorkspaceedClassNames;
+    private $_oldWorkspaceClassNames;
 
     public function setUp()
     {
         $this->_oldEntityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
-        $this->_oldWorkspaceedClassNames = \Workspace\Module::getModuleOptions()->getWorkspaceedClassNames();
+        $this->_oldWorkspaceClassNames = \Workspace\Module::getModuleOptions()->getWorkspaceClassNames();
 
 
         $isDevMode = true;
@@ -41,7 +41,7 @@ class WorkspaceAutoloaderTest extends \PHPUnit_Framework_TestCase
 
         // Replace entity manager
         $moduleOptions = \Workspace\Module::getModuleOptions();
-        $moduleOptions->setWorkspaceedClassNames(array(
+        $moduleOptions->setWorkspaceClassNames(array(
             'WorkspaceTest\Models\Autoloader\Album' => array(),
             'WorkspaceTest\Models\Autoloader\Performer' => array(),
             'WorkspaceTest\Models\Autoloader\Song' => array(),
@@ -97,6 +97,6 @@ class WorkspaceAutoloaderTest extends \PHPUnit_Framework_TestCase
         // Replace entity manager
         $moduleOptions = \Workspace\Module::getModuleOptions();
         $moduleOptions->setEntityManager($this->_oldEntityManager);
-        \Workspace\Module::getModuleOptions()->setWorkspaceedClassNames($this->_oldWorkspaceedClassNames);
+        \Workspace\Module::getModuleOptions()->setWorkspaceClassNames($this->_oldWorkspaceClassNames);
     }
 }

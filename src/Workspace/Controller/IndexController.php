@@ -20,6 +20,7 @@ class IndexController extends AbstractActionController
         $page = (int)$this->getEvent()->getRouteMatch()->getParam('page');
         $userId = (int)$this->getEvent()->getRouteMatch()->getParam('userId');
 
+        $user = null;
         if (!$userId and \Workspace\Module::getModuleOptions()->getUser()) {
             $userId = \Workspace\Module::getModuleOptions()->getUser()->getId();
             if ($userId) {
@@ -27,9 +28,6 @@ class IndexController extends AbstractActionController
                     ->getRepository(\Workspace\Module::getModuleOptions()->getUserEntityClassName())->find($userId);
             }
         }
-
-        if (!isset($user))
-            return $this->plugin('redirect')->toRoute('workspace/master');
 
         return array(
             'page' => $page,

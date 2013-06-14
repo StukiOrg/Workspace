@@ -25,7 +25,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_oldEntityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
-        $this->_oldWorkspaceedClassNames = \Workspace\Module::getModuleOptions()->getWorkspaceedClassNames();
+        $this->_oldWorkspaceClassNames = \Workspace\Module::getModuleOptions()->getWorkspaceClassNames();
         $this->_oldJoinClasses = \Workspace\Module::getModuleOptions()->resetJoinClasses();
 
         $isDevMode = false;
@@ -52,7 +52,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
             'memory' => true,
         );
 
-        $moduleOptions->setWorkspaceedClassNames(array(
+        $moduleOptions->setWorkspaceClassNames(array(
             'WorkspaceTest\Models\LogRevision\Album' => array(),
             'WorkspaceTest\Models\LogRevision\Performer' => array(),
             'WorkspaceTest\Models\LogRevision\Song' => array(),
@@ -191,7 +191,7 @@ class LogRevisionTest extends \PHPUnit_Framework_TestCase
         // Replace entity manager
         $moduleOptions = \Workspace\Module::getModuleOptions();
         $moduleOptions->setEntityManager($this->_oldEntityManager);
-        \Workspace\Module::getModuleOptions()->setWorkspaceedClassNames($this->_oldWorkspaceedClassNames);
+        \Workspace\Module::getModuleOptions()->setWorkspaceClassNames($this->_oldWorkspaceClassNames);
         \Workspace\Module::getModuleOptions()->resetJoinClasses($this->_oldJoinClasses);
     }
 }

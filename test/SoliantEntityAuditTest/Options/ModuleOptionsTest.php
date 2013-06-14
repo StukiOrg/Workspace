@@ -31,7 +31,7 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $moduleOptions->setWorkspaceService($serviceManager->get('workspaceService'));
     }
 
-    public function testModuleOptionsWorkspaceedEntityClasses()
+    public function testModuleOptionsWorkspaceEntityClasses()
     {
         $serviceManager = Bootstrap::getApplication()->getServiceManager();
 
@@ -39,8 +39,8 @@ class ModuleOptionsTest extends \PHPUnit_Framework_TestCase
         $moduleOptions = clone $serviceManager->get('workspaceModuleOptions');
         $moduleOptions->setDefaults(array());
 
-        $moduleOptions->setWorkspaceedClassNames(array('Test1', 'Test2'));
-        $this->assertEquals($moduleOptions->getWorkspaceedClassNames(), array('Test1', 'Test2'));
+        $moduleOptions->setWorkspaceClassNames(array('Test1', 'Test2'));
+        $this->assertEquals($moduleOptions->getWorkspaceClassNames(), array('Test1', 'Test2'));
     }
 
     public function testSetUser()

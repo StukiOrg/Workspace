@@ -72,7 +72,7 @@ class RevisionEntityPaginatorTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testPaginatorCanAcceptWorkspaceedClassName()
+    public function testPaginatorCanAcceptWorkspaceClassName()
     {
 
         $sm = Bootstrap::getApplication()->getServiceManager();

@@ -34,7 +34,7 @@ final class RevisionEntityPaginator extends AbstractHelper implements ServiceLoc
         $entityManager = $workspaceModuleOptions->getEntityManager();
         $workspaceService = $this->getServiceLocator()->getServiceLocator()->get('workspaceService');
 
-        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys($workspaceModuleOptions->getWorkspaceedClassNames()))) {
+        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys($workspaceModuleOptions->getWorkspaceClassNames()))) {
             $workspaceEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
             $identifiers = $workspaceService->getEntityIdentifierValues($entity);
         } elseif ($entity instanceof AbstractWorkspace) {

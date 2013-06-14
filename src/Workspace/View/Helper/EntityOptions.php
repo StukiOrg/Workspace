@@ -31,7 +31,7 @@ final class EntityOptions extends AbstractHelper implements ServiceLocatorAwareI
     public function __invoke($entityClass = null)
     {
         $workspaceModuleOptions = $this->getServiceLocator()->getServiceLocator()->get('workspaceModuleOptions');
-        $workspaceedClassNames = $workspaceModuleOptions->getWorkspaceedClassNames();
+        $workspaceedClassNames = $workspaceModuleOptions->getWorkspaceClassNames();
 
         if ($entityClass) return $workspaceedClassNames[$entityClass];
 

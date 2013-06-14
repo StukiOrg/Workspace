@@ -1,11 +1,4 @@
-<a class="btn btn-info pull-right" style="margin-left: 20px;" href="<?=
-    $this->url('workspace/master');
-?>"><i class="icon-code-fork"></i> Master</a>
-
-<a class="btn btn-info pull-right" href="<?=
-    $this->url('workspace/firehose');
-?>"><i class="icon-bullseye"></i> Firehose</a>
-
+<?= $this->partial('workspace/index/partial/navigation'); ?>
 
 <?php
     use Doctrine\ORM\Mapping\ClassMetadataInfo;

@@ -1,3 +1,5 @@
+<?= $this->partial('workspace/index/partial/navigation'); ?>
+
 <h1>
     Workspace Comparission
 </h1>
@@ -9,11 +11,11 @@
                     $this->url(
                         'workspace/entity',
                         array(
-                            'entityClass' => $revisionEntity_old->getWorkspaceEntity()->getWorkspaceedEntityClass(),
+                            'entityClass' => $revisionEntity_old->getWorkspaceEntity()->getWorkspaceEntityClass(),
                         )
                     );?>
 
-        " class="btn btn-primary"><?php echo $this->escapeHtml($revisionEntity_old->getWorkspaceEntity()->getWorkspaceedEntityClass()); ?></a>
+        " class="btn btn-primary"><?php echo $this->escapeHtml($revisionEntity_old->getWorkspaceEntity()->getWorkspaceEntityClass()); ?></a>
         between
 
             <?= $this->workspaceRevisionEntityLink($revisionEntity_old); ?>

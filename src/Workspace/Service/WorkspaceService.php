@@ -35,7 +35,7 @@ class WorkspaceService extends AbstractHelper
         $moduleOptions = \Workspace\Module::getModuleOptions();
 
         $found = false;
-        foreach (array_keys($moduleOptions->getWorkspaceedClassNames()) as $workspaceEntityClass) {
+        foreach (array_keys($moduleOptions->getWorkspaceClassNames()) as $workspaceEntityClass) {
             if ($entity instanceof $workspaceEntityClass) {
                 $found = true;
                 break;
@@ -141,7 +141,7 @@ class WorkspaceService extends AbstractHelper
         $entityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
         $metadataFactory = $entityManager->getMetadataFactory();
 
-        // Get entity metadata - Workspaceed entities will always have composite keys
+        // Get entity metadata - Workspace entities will always have composite keys
         $metadata = $metadataFactory->getMetadataFor(get_class($entity));
         $values = $metadata->getIdentifierValues($entity);
 
@@ -165,7 +165,7 @@ class WorkspaceService extends AbstractHelper
     {
         $entityManager = \Workspace\Module::getModuleOptions()->getEntityManager();
 
-        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys(\Workspace\Module::getModuleOptions()->getWorkspaceedClassNames()))) {
+        if (gettype($entity) != 'string' and in_array(get_class($entity), array_keys(\Workspace\Module::getModuleOptions()->getWorkspaceClassNames()))) {
             $workspaceEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));
             $identifiers = $this->getEntityIdentifierValues($entity);
         } elseif ($entity instanceof AbstractWorkspace) {
@@ -205,5 +205,11 @@ class WorkspaceService extends AbstractHelper
                 return $revisionEntity;
             }
         }
+    }
+
+    public function getUser()
+    {
+        $moduleOptions = \Workspace\Module::getModuleOptions();
+        return $moduleOptions->getUser();
     }
 }

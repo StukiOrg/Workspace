@@ -1,0 +1,17 @@
+<a class="workspace btn btn-default pull-right" style="margin-left: 20px;" href="<?=
+    $this->url('workspace/master');
+?>"><i class="icon-code-fork"></i> Master</a>
+
+<a class="workspace btn btn-default pull-right" href="<?=
+    $this->url('workspace/firehose');
+?>"><i class="icon-bullseye"></i> Firehose</a>
+
+<span class="pull-right">
+<?php
+    if ($this->workspaceService()->getUser()) {
+        echo $this->partial(
+            'workspace/index/partial/user-button',
+            array('user' => $this->workspaceService()->getUser()));
+    }
+?>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>

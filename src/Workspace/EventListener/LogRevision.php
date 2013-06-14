@@ -145,11 +145,11 @@ class LogRevision implements EventSubscriber
     {
         $properties = array();
 
-        $reflectedWorkspaceedEntity = new ClassReflection($entity);
+        $reflectedWorkspaceEntity = new ClassReflection($entity);
 
         // Get mapping from metadata
 
-        foreach($reflectedWorkspaceedEntity->getProperties() as $property) {
+        foreach($reflectedWorkspaceEntity->getProperties() as $property) {
             $property->setAccessible(true);
             $value = $property->getValue($entity);
 
@@ -174,7 +174,7 @@ class LogRevision implements EventSubscriber
         $workspaceEntities = array();
 
         $moduleOptions = \Workspace\Module::getModuleOptions();
-        if (!in_array(get_class($entity), array_keys($moduleOptions->getWorkspaceedClassNames())))
+        if (!in_array(get_class($entity), array_keys($moduleOptions->getWorkspaceClassNames())))
             return array();
 
         $workspaceEntityClass = 'Workspace\\Entity\\' . str_replace('\\', '_', get_class($entity));

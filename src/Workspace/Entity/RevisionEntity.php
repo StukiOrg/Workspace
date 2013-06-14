@@ -97,7 +97,7 @@ class RevisionEntity
         $identifiers = $workspaceService->getEntityIdentifierValues($entity);
 
         $this->setWorkspaceEntityClass(get_class($entity));
-        $this->setTargetEntityClass($entity->getWorkspaceedEntityClass());
+        $this->setTargetEntityClass($entity->getWorkspaceEntityClass());
         $this->setEntityKeys($identifiers);
 
         return $this;
@@ -117,7 +117,7 @@ class RevisionEntity
         return $entityManager->getRepository(
             $entityManager
                 ->getRepository($this->getWorkspaceEntityClass())
-                    ->findOneBy($this->getEntityKeys())->getWorkspaceedEntityClass()
+                    ->findOneBy($this->getEntityKeys())->getWorkspaceEntityClass()
             )->findOneBy($this->getEntityKeys());
     }
 
