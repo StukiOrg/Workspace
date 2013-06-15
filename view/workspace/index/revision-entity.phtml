@@ -39,7 +39,9 @@
                 <?= $this->workspaceRevisionEntityLink($revisionEntity); ?>
             </td>
 
-            <td><?= $this->escapeHtml($this->revisionEntity->getRevision()->getComment()); ?></td>
+            <td>
+                <?= $this->escapeHtml($this->revisionEntity->getRevision()->getComment()); ?>
+            </td>
 
             <td>
                 <?= $this->partial(
@@ -53,6 +55,11 @@
                     'workspace/index/partial/revision-approve',
                     array('revision' => $this->revisionEntity->getRevision())
                 );
+                ?>
+                <?=
+                    $this->partial('workspace/index/partial/editcomment-button', array(
+                        'revision' => $this->revisionEntity->getRevision(),
+                    ));
                 ?>
             </td>
         </tr>

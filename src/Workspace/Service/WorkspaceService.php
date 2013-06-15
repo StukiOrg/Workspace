@@ -10,7 +10,7 @@ class WorkspaceService extends AbstractHelper
 {
     private $comment;
 
-    static public function filterArrayCollection(ArrayCollection $entities)
+    static public function filterArray($entities)
     {
         $return = new ArrayCollection;
 
@@ -26,10 +26,8 @@ class WorkspaceService extends AbstractHelper
     // Return the current workspace entity for the given entity
     static public function filter($entity)
     {
-        return $entity;
-
-        if ($entity instanceof ArrayCollection) {
-            return self::filterArrayCollection();
+        if ($entity instanceof ArrayCollection or is_array($entity)) {
+            return self::filterArray($entity);
         }
 
         $moduleOptions = \Workspace\Module::getModuleOptions();

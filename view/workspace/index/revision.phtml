@@ -37,6 +37,11 @@
                     array('revision' => $this->revision)
                 );
                 ?>
+                <?=
+                    $this->partial('workspace/index/partial/editcomment-button', array(
+                        'revision' => $this->revision,
+                    ));
+                ?>
             </td>
         </tr>
     </tbody>

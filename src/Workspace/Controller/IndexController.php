@@ -2,11 +2,12 @@
 
 namespace Workspace\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController
- , DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter
- , Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator
- , Zend\Paginator\Paginator
- ;
+use Zend\Mvc\Controller\AbstractActionController;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
+use Zend\Form\Annotation\AnnotationBuilder;
+use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
@@ -87,6 +88,54 @@ class IndexController extends AbstractActionController
         return array(
             'revision' => $revision,
         );
+    }
+
+    /**
+     * Allows a user to change a revision comment
+     *
+     * @param integer $rev
+     *
+     */
+    public function revisionEditCommentAction()
+    {
+        $revisionId = (int)$this->getEvent()->getRouteMatch()->getParam('revisionId');
+
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
+
+        $revision = $em
+            ->getRepository('Workspace\\Entity\\Revision')
+            ->find($revisionId);
+
+        if (!$revision)
+            return $this->plugin('redirect')->toRoute('workspace');
+
+        if ($this->zfcUserAuthentication()->getIdentity() !== $revision->getUser()) {
+            throw new \BjyAuthorize\Exception\UnAuthorizedException('Only the owner may edit a revision comment.');
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm($revision);
+        $form->setData($revision->getArrayCopy());
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost()->toArray());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $revision->setComment($form->getData()['comment']);
+
+                $em->persist($revision);
+                $em->flush();
+
+                die();
+            }
+        }
+
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true);
+        $viewModel->setVariable('revision', $revision);
+        $viewModel->setVariable('form', $form);
+        return $viewModel;
     }
 
     /**

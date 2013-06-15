@@ -67,6 +67,16 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'revision-edit-comment' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/revision/edit-comment[/:revisionId]',
+                            'defaults' => array(
+                                'controller' => 'workspace',
+                                'action'     => 'revisionEditComment',
+                            ),
+                        ),
+                    ),
                     'page' => array(
                         'type' => 'Segment',
                         'options' => array(

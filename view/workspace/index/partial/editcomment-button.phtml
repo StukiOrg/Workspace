@@ -1,0 +1,12 @@
+<?php
+if ($this->zfcUserIdentity() == $this->revision->getUser()
+    and in_array($this->revision->getApprove(), ['rejected', 'not submitted']
+)) {
+?>
+    <br>
+    <a href="#" data-id="<?= $this->revision->getId(); ?>" class="btn btn-default workspace-revision-edit-comment">
+        <i class="icon-comment-alt"></i>
+        Edit Comment
+    </a>
+<?php
+}

@@ -3,7 +3,12 @@
 namespace Workspace\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Zend\Form\Annotation as Form;
 
+/**
+ * @Form\Hydrator("Zend\Stdlib\Hydrator\ObjectProperty")
+ * @Form\Name("revision")
+ */
 class Revision
 {
     protected $id;
@@ -13,6 +18,12 @@ class Revision
         return $this->id;
     }
 
+    /**
+     * @Form\Type("Zend\Form\Element")
+     * @Form\Attributes({"type": "textarea"})
+     * @Form\Attributes({"id": "comment"})
+     * @Form\Options({"label": "Comment"})
+     */
     protected $comment;
 
     public function getComment()
@@ -127,5 +138,17 @@ class Revision
     {
         $this->setTimestamp(new \DateTime());
         $this->setApprove('not submitted');
+    }
+
+    public function getArrayCopy()
+    {
+        return [
+            'id' => $this->getId(),
+            'comment' => $this->getComment(),
+            'timestamp' => $this->getTimestamp(),
+            'approve' => $this->getApprove(),
+            'approveMessage' => $this->getApproveMessage(),
+            'approveTimestamp' => $this->getApproveTimestamp(),
+        ];
     }
 }
