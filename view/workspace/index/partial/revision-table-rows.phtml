@@ -1,0 +1,56 @@
+<?php
+foreach ($this->revisions as $revision) {
+?>
+    <tr>
+        <td>
+            <a href="<?=
+                $this->url('workspace/revision',
+                    array(
+                        'revisionId' => $revision->getId()
+                    )
+                );
+            ?>">
+
+                <?= $this->escapeHtml($revision->getId());?>
+                @ <?php echo $this->WorkspaceDateTimeFormatter($revision->getTimestamp()); ?>
+
+            </a>
+        </td>
+
+        <td>
+        <?php
+        foreach ($revision->getRevisionEntities() as $revisionEntity) {
+        ?>
+            <div>
+                <?= $this->workspaceRevisionEntityLink($revisionEntity); ?>
+            </div>
+        <?php
+        }
+        ?>
+        </td>
+
+        <td><?= nl2br($this->escapeHtml($revision->getComment())); ?></td>
+
+        <td>
+        <?= $this->partial(
+            'workspace/index/partial/user-button',
+            array('user' => $revision->getUser())
+        );?>
+        </td>
+
+        <td>
+            <?= $this->partial(
+                'workspace/index/partial/revision-approve',
+                array('revision' => $revision)
+            );
+            ?>
+            <?=
+                $this->partial('workspace/index/partial/editcomment-button', array(
+                    'revision' => $revision,
+                ));
+            ?>
+        </td>
+    </tr>
+<?php
+}
+

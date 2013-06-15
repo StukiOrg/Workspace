@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th>Revision</th>
+            <th>Entity</th>
             <th>Comment</th>
             <th>User</th>
             <th>Approval</th>
@@ -16,34 +17,11 @@
     </thead>
 
     <tbody>
-        <tr>
-            <td>
-                <?= $this->escapeHtml($this->revision->getId());?>
-
-                @ <?php echo $this->WorkspaceDateTimeFormatter($this->revision->getTimestamp()); ?>
-            </td>
-
-            <td><?= $this->escapeHtml($this->revision->getComment()); ?></td>
-
-            <td>
-                <?= $this->partial(
-                    'workspace/index/partial/user-button',
-                    array('user' => $this->revision->getUser())
-                );?>
-            </td>
-            <td>
-                <?= $this->partial(
-                    'workspace/index/partial/revision-approve',
-                    array('revision' => $this->revision)
-                );
-                ?>
-                <?=
-                    $this->partial('workspace/index/partial/editcomment-button', array(
-                        'revision' => $this->revision,
-                    ));
-                ?>
-            </td>
-        </tr>
+        <?=
+        $this->partial('workspace/index/partial/revision-table-rows', array(
+            'revisions' => array($this->revision),
+        ));
+        ?>
     </tbody>
 </table>
 

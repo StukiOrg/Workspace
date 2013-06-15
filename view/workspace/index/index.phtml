@@ -35,56 +35,10 @@
         </th>
     </tfoot>
     <tbody>
-    <?php
-    foreach ($paginator as $revision) {
-    ?>
-        <tr>
-            <td>
-                <a href="<?=
-                    $this->url('workspace/revision',
-                        array(
-                            'revisionId' => $revision->getId()
-                        )
-                    );
-                ?>">
-
-                    <?= $this->escapeHtml($revision->getId());?>
-                    @ <?php echo $this->WorkspaceDateTimeFormatter($revision->getTimestamp()); ?>
-
-                </a>
-            </td>
-
-            <td>
-            <?php
-            foreach ($revision->getRevisionEntities() as $revisionEntity) {
-            ?>
-                    <?= $this->workspaceRevisionEntityLink($revisionEntity); ?>
-                </div>
-            <?php
-            }
-            ?>
-            </td>
-
-            <td><?= $this->escapeHtml($revision->getComment()); ?></td>
-
-            <td>
-                <?= $this->partial(
-                    'workspace/index/partial/user-button',
-                    array('user' => $revision->getUser())
-                );?>
-            </td>
-
-            <td>
-                <?= $this->partial(
-                    'workspace/index/partial/revision-approve',
-                    array('revision' => $revision)
-                );
-                ?>
-            </td>
-
-        </tr>
-    <?php
-    }
-    ?>
+        <?=
+        $this->partial('workspace/index/partial/revision-table-rows', array(
+            'revisions' => $paginator,
+        ));
+        ?>
     </tbody>
 </table>
