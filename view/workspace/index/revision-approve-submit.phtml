@@ -1,0 +1,62 @@
+<?php
+$id = md5(uniqid());
+?>
+
+<?= $this->form()->openTag($form); ?>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1>
+            Submit Workspace
+        </h1>
+    </div>
+
+    <div class="modal-body">
+
+        <?= $this->formRow($this->form->get('comment')); ?>
+
+        <div>
+            When you submit your workspace every revision from this revision backwards in time
+            will be submitted to be peer reviewed then merged into master.
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="send" class="btn btn-success">
+            <i class="icon-globe"></i>
+            Submit Workspace
+        </button>
+
+        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+            Cancel
+        </button>
+    </div>
+
+<?= $this->form()->closeTag(); ?>
+
+<script>
+$(function() {
+
+    $('form#revision').attr('id', 'revision<?= $id; ?>');
+    $('form#revision<?= $id; ?>').on('submit', function(event) {
+
+        $.ajax({
+            url: '<?= $this->url('workspace/revision-approve-submit', array('revisionId' => $this->revision->getId())); ?>',
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            span: $(this).closest('span'),
+            success: function(data) {
+                if (data) {
+                    $(this.span).html(data);
+                } else {
+                    $(this.span).modal('hide');
+                    document.location.reload();
+                }
+            }
+        });
+
+        return false;
+    });
+});
+
+</script>

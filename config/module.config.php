@@ -67,13 +67,34 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'revision-edit-comment' => array(
+
+                    'approve' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/revision/edit-comment[/:revisionId]',
+                            'route' => '/approve[/:revisionId]',
                             'defaults' => array(
                                 'controller' => 'workspace',
-                                'action'     => 'revisionEditComment',
+                                'action'     => 'approve',
+                            ),
+                        ),
+                    ),
+                    'revision-approve-submit' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/revision/approve/submit[/:revisionId]',
+                            'defaults' => array(
+                                'controller' => 'workspace',
+                                'action'     => 'revisionApproveSubmit',
+                            ),
+                        ),
+                    ),
+                    'revision-comment-edit' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/revision/comment/edit[/:revisionId]',
+                            'defaults' => array(
+                                'controller' => 'workspace',
+                                'action'     => 'revisionCommentEdit',
                             ),
                         ),
                     ),

@@ -1,0 +1,51 @@
+<?= $this->partial('workspace/index/partial/navigation'); ?>
+
+<h1>Approve Workspace</h1>
+
+<div>
+    By clicking Approve Worksapce <b>at the bottom of this page</b>, you will merge all the
+    listed revisions into master.
+</div>
+
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <?=
+        $this->partial('workspace/index/partial/revision-table-header-row');
+        ?>
+    </thead>
+
+    <tbody>
+        <?=
+        $this->partial('workspace/index/partial/revision-table-rows', array(
+            'revisions' => $this->revisions,
+        ));
+        ?>
+    </tbody>
+</table>
+
+<?php
+$id = md5(uniqid());
+?>
+
+<?= $this->form()->openTag($form); ?>
+
+    <div class="">
+
+        <?= $this->formRow($this->form->get('comment')); ?>
+
+        <div>
+            By clicking Approve Worksapce, you will merge all the
+            listed revisions into master.
+        </div>
+
+        <button type="send" class="btn btn-large btn-warning">
+            <i class="icon-check"></i>
+            Approve Workspace
+        </button>
+
+        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+            Cancel
+        </button>
+    </div>
+
+<?= $this->form()->closeTag(); ?>

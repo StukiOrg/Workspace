@@ -8,61 +8,17 @@
 
 <table class="table table-striped table-hover table-bordered">
     <thead>
-        <tr>
-            <th>Revision</th>
-            <th>Entity</th>
-            <th>Comment</th>
-            <th>User</th>
-            <th>Approve</th>
-        </tr>
+        <?=
+        $this->partial('workspace/index/partial/revision-table-header-row');
+        ?>
     </thead>
 
     <tbody>
-        <tr>
-            <td>
-                <a href="<?=
-                    $this->url('workspace/revision',
-                        array(
-                            'revisionId' => $this->revisionEntity->getRevision()->getId()
-                        )
-                    );
-                ?>">
-
-                    <?= $this->revisionEntity->getRevision()->getId(); ?>
-
-                    @ <?php echo $this->WorkspaceDateTimeFormatter($revisionEntity->getRevision()->getTimestamp()); ?>
-                </a>
-
-            </td>
-
-            <td>
-                <?= $this->workspaceRevisionEntityLink($revisionEntity); ?>
-            </td>
-
-            <td>
-                <?= $this->escapeHtml($this->revisionEntity->getRevision()->getComment()); ?>
-            </td>
-
-            <td>
-                <?= $this->partial(
-                    'workspace/index/partial/user-button',
-                    array('user' => $this->revisionEntity->getRevision()->getUser())
-                );?>
-            </td>
-
-            <td>
-                <?= $this->partial(
-                    'workspace/index/partial/revision-approve',
-                    array('revision' => $this->revisionEntity->getRevision())
-                );
-                ?>
-                <?=
-                    $this->partial('workspace/index/partial/editcomment-button', array(
-                        'revision' => $this->revisionEntity->getRevision(),
-                    ));
-                ?>
-            </td>
-        </tr>
+        <?=
+        $this->partial('workspace/index/partial/revision-table-rows', array(
+            'revisions' => array($this->revisionEntity->getRevision()),
+        ));
+        ?>
     </tbody>
 </table>
 

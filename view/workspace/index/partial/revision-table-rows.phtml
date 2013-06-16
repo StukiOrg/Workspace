@@ -1,5 +1,5 @@
 <?php
-foreach ($this->revisions as $revision) {
+foreach ($revisions as $revision) {
 ?>
     <tr>
         <td>
@@ -15,9 +15,8 @@ foreach ($this->revisions as $revision) {
                 @ <?php echo $this->WorkspaceDateTimeFormatter($revision->getTimestamp()); ?>
 
             </a>
-        </td>
+        <br>
 
-        <td>
         <?php
         foreach ($revision->getRevisionEntities() as $revisionEntity) {
         ?>
@@ -39,15 +38,86 @@ foreach ($this->revisions as $revision) {
         </td>
 
         <td>
-            <?= $this->partial(
-                'workspace/index/partial/revision-approve',
-                array('revision' => $revision)
-            );
+                <i class="icon-<?php
+                switch ($revision->getApprove()) {
+                    case 'approved':
+                        echo 'check';
+                        break;
+                    case 'rejected':
+                        echo 'check-minus';
+                        break;
+                    case 'submitted':
+                        echo 'check-sign';
+                        break;
+                    case 'not submitted':
+                        echo 'check-empty workspace';
+                        break;
+                    default:
+                        echo '';
+                        break;
+                }
+                ?>"></i> <?= ucwords($revision->getApprove()); ?>
+
+
+            <?php
+                if ($revision->getApprove() == 'approved') {
             ?>
-            <?=
-                $this->partial('workspace/index/partial/editcomment-button', array(
-                    'revision' => $revision,
-                ));
+                    by
+                    <?= $this->partial(
+                        'workspace/index/partial/user-button',
+                        array('user' => $revision->getApproveUser())
+                    );?>
+
+                    <br><?= $this->WorkspaceDateTimeFormatter($revision->getApproveTimestamp()); ?>
+            <?php
+                }
+            ?>
+
+            <?php
+            if (in_array($revision->getApprove(), ['submitted']) and !$this->isAllowed('workspace/approve')) {
+            ?>
+                <br>
+                <a href="<?= $this->url('workspace/approve', array('revisionId' => $revision->getId())); ?>" class="btn btn-inverse">
+                    <i class="icon-check"></i>
+                    Review Workspace
+                </a>
+            <?php
+            }
+            ?>
+
+            <?php
+            if ($this->zfcUserIdentity() == $revision->getUser()
+                and in_array($revision->getApprove(), ['rejected', 'not submitted']
+            )) {
+            ?>
+                <br>
+
+                <a href="#" data-id="<?= $revision->getId(); ?>" class="btn btn-default workspace-revision-edit-comment">
+                    <i class="icon-comment-alt"></i>
+                    Edit Comment
+                </a>
+
+                <a href="<?=
+                    $this->url('workspace/revision',
+                        array('revisionId' => $revision->getId())
+                    );
+                ?>" class="btn btn-approve-<?= $revision->getApprove(); ?> workspace-revision-submit-for-approval"
+                    data-id="<?= $revision->getId(); ?>"
+                >
+                    <i class="icon-check"></i>
+                    Submit For Approval
+                </a>
+            <?php
+            }
+            ?>
+
+            <?php
+            if ($revision->getApproveMessage()) {
+            ?>
+            <div style="border: solid;border-color: #aaaaaa; border-width: 1px; border-radius:4px; padding: 4px;">
+                <?= nl2br($this->escapeHtml($revision->getApproveMessage())); ?></div>
+            <?php
+            }
             ?>
         </td>
     </tr>

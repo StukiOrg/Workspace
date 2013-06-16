@@ -91,12 +91,163 @@ class IndexController extends AbstractActionController
     }
 
     /**
+     * Submit a revision and all previous revisions
+     *
+     */
+    public function revisionApproveSubmitAction()
+    {
+        $revisionId = (int)$this->getEvent()->getRouteMatch()->getParam('revisionId');
+
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
+
+        $revision = $em
+            ->getRepository('Workspace\\Entity\\Revision')
+            ->find($revisionId);
+
+        if (!$revision)
+            return $this->plugin('redirect')->toRoute('workspace');
+
+        if ($this->zfcUserAuthentication()->getIdentity() !== $revision->getUser()) {
+            throw new \BjyAuthorize\Exception\UnAuthorizedException('Only the owner may edit a revision comment.');
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm($revision);
+        $form->setData($revision->getArrayCopy());
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost()->toArray());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $revision->setComment($form->getData()['comment']);
+                $revision->setApprove('submitted');
+
+                // Find all revisons not submitted
+                $unapprovedRevisions = $em->getRepository('Workspace\\Entity\\Revision')->findBy(array(
+                    'user' => $revision->getUser(),
+                    'approve' => 'not submitted',
+                ));
+
+                // Find all revisons not submitted
+                $rejectedRevisions = $em->getRepository('Workspace\\Entity\\Revision')->findBy(array(
+                    'user' => $revision->getUser(),
+                    'approve' => 'rejected',
+                ));
+
+                foreach ($unapprovedRevisions as $rev) {
+                    if ($rev->getId() < $revision->getId()) {
+                        $rev->setApprove('submitted');
+                    }
+                }
+                foreach ($rejectedRevisions as $rev) {
+                    if ($rev->getId() < $revision->getId()) {
+                        $rev->setApprove('submitted');
+                    }
+                }
+
+                $em->flush();
+
+                die();
+            }
+        }
+
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true);
+        $viewModel->setVariable('revision', $revision);
+        $viewModel->setVariable('form', $form);
+        return $viewModel;
+    }
+
+
+
+    /**
+     * Approve a revision and all previous revisions to the master workspace
+     *
+     */
+    public function approveAction()
+    {
+        $revisionId = (int)$this->getEvent()->getRouteMatch()->getParam('revisionId');
+
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
+
+        $revision = $em
+            ->getRepository('Workspace\\Entity\\Revision')
+            ->find($revisionId);
+
+        if (!$revision) {
+            return $this->plugin('redirect')->toRoute('workspace');
+        }
+
+        // Find all submitted revisons not submitted
+        $unapprovedRevisions = $em->getRepository('Workspace\\Entity\\Revision')->findBy(array(
+            'user' => $revision->getUser(),
+            'approve' => 'submitted',
+        ));
+        foreach ($unapprovedRevisions as $index => $rev) {
+            if ($rev->getId() >= $revision->getId()) {
+                unset($unapprovedRevisions[$index]);
+            }
+        }
+
+        // Find all rjected revisons not submitted
+        $rejectedRevisions = $em->getRepository('Workspace\\Entity\\Revision')->findBy(array(
+            'user' => $revision->getUser(),
+            'approve' => 'rejected',
+        ));
+        foreach ($rejectedRevisions as $index => $rev) {
+            if ($rev->getId() >= $revision->getId()) {
+                unset($rejectedRevisions[$index]);
+            }
+        }
+
+        $revisions = array_merge(array($revision), $unapprovedRevisions, $rejectedRevisions);
+
+        usort($revisions, function($a, $b) {
+            if ($a->getId() == $b->getId()) {
+                throw new \Exception('Revision listed twice');
+            }
+
+            return ($a->getId() > $b->getId()) ? -1: 1;
+        });
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm($revision);
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost()->toArray());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+                foreach ($revisions as $rev) {
+                    $rev->setApproveMessage($form->getData()['comment']);
+                    $rev->setApprove('approved');
+                    $rev->setApproveTimestamp(new \DateTime());
+                    $rev->setApproveUser($this->zfcUserAuthentication()->getIdentity());
+                }
+
+                $em->flush();
+
+                return $this->plugin('redirect')->toRoute('workspace/master');
+            }
+        }
+
+        $viewModel = new ViewModel();
+        $viewModel->setVariable('revisions', $revisions);
+        $viewModel->setVariable('form', $form);
+        return $viewModel;
+    }
+
+
+
+
+    /**
      * Allows a user to change a revision comment
      *
      * @param integer $rev
      *
      */
-    public function revisionEditCommentAction()
+    public function revisionCommentEditAction()
     {
         $revisionId = (int)$this->getEvent()->getRouteMatch()->getParam('revisionId');
 

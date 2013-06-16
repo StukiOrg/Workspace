@@ -6,7 +6,7 @@ $id = md5(uniqid());
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h1>
-            Edit Revision Comment
+            Approve Workspace
         </h1>
     </div>
 
@@ -14,12 +14,17 @@ $id = md5(uniqid());
 
         <?= $this->formRow($this->form->get('comment')); ?>
 
+        <div>
+            When you submit this workspace every revision from this revision backwards in time
+            will be approved and merged into master.
+        </div>
+
     </div>
 
     <div class="modal-footer">
-        <button type="send" class="btn btn-warning">
-            <i class="icon-comment-alt"></i>
-            Edit Comment
+        <button type="send" class="btn btn-inverse">
+            <i class="icon-globe"></i>
+            Approve Workspace
         </button>
 
         <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">
@@ -36,7 +41,7 @@ $(function() {
     $('form#revision<?= $id; ?>').on('submit', function(event) {
 
         $.ajax({
-            url: '<?= $this->url('workspace/revision-edit-comment', array('revisionId' => $this->revision->getId())); ?>',
+            url: '<?= $this->url('workspace/revision-approve-approve', array('revisionId' => $this->revision->getId())); ?>',
             type: $(this).attr('method'),
             data: $(this).serialize(),
             span: $(this).closest('span'),

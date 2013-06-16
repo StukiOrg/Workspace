@@ -35,13 +35,9 @@
                     )); ?>
             </th>
         </tr>
-        <tr>
-            <th>Revision</th>
-            <th>Entity</th>
-            <th>Comment</th>
-            <th>User</th>
-            <th>Approval</th>
-        </tr>
+        <?=
+        $this->partial('workspace/index/partial/revision-table-header-row');
+        ?>
     </thead>
 
     <tfoot>
