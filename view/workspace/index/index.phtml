@@ -1,42 +1,19 @@
-<a class="btn btn-info pull-right" href="<?=
-    $this->url('workspace/firehose');
-?>"><i class="icon-bullseye"></i> Firehose</a>
+<?= $this->partial('workspace/index/partial/navigation'); ?>
 
+<h1>Workspace</h1>
 
-<h1>Workspace Master</h1>
+Every user has their own workspace.  Users may add and edit any data.  Each data-changing transaction
+is a revision.  All changes to the data
+are encapsulated in each user's workspace as revisions and merged into the master workspace only after going
+through a peer review process.  The master workspace is composed of all approved revisions.
 
-<?php $paginator = $this->workspaceRevisionPaginator($this->page, array('approve' => 'approved')); ?>
+<ol>
+    <li>A user creates new data</li>
+    <li>The user submits their workspace to be reviewed</li>
+    <li>Another user reviews the submitted workspace and if everything is fine the reviewing user will merge the workspace into the master workspace.
+    </li>
+</ol>
 
-<table class="table table-striped table-hover table-bordered">
-    <thead>
-        <tr>
-            <th colspan="4">
-            <?php echo $this->paginationControl($paginator,
-                'Sliding',
-                'workspace/pagination/revision', array('route' => 'workspace/page'));
-            ?>
-            </th>
-        </tr>
-        <?=
-        $this->partial('workspace/index/partial/revision-table-header-row');
-        ?>
-    </thead>
-
-    <tfoot>
-        <th colspan="4">
-            <?php echo $this->paginationControl($paginator,
-                'Sliding',
-                'workspace/pagination/revision', array('route' => 'workspace/page'));
-            ?>
-        </th>
-    </tfoot>
-    <tbody>
-        <?php
-        foreach ($paginator as $revision) {
-            echo $this->partial('workspace/index/partial/revision-table-row', array(
-                'revision' => $revision
-            ));
-        }
-        ?>
-    </tbody>
-</table>
+A user may submit their workspace for review at any time.  The user's entire workspace from the point of submitting through it's beginning must
+be approved at the same time.  This way every user only ever has one workspace and it must be correct as a whole in order to merge into the
+master workspace.

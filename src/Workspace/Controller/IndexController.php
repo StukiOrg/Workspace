@@ -11,6 +11,11 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
+    public function indexAction()
+    {
+        return array();
+    }
+
     /**
      * Renders a paginated list of revisions.
      *

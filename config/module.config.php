@@ -62,7 +62,7 @@ return array(
                     'route' => '/workspace',
                     'defaults' => array(
                         'controller' => 'workspace',
-                        'action'     => 'master',
+                        'action'     => 'index',
                     ),
                 ),
                 'may_terminate' => true,
