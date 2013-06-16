@@ -14,8 +14,8 @@
 
     <tbody>
         <?=
-        $this->partial('workspace/index/partial/revision-table-rows', array(
-            'revisions' => array($this->revision),
+        $this->partial('workspace/index/partial/revision-table-row', array(
+            'revision' => $this->revision,
         ));
         ?>
     </tbody>

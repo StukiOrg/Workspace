@@ -1,12 +1,26 @@
-<a class="workspace btn btn-default pull-right" style="margin-left: 20px;" href="<?=
+<span class="pull-right">
+
+<a class="workspace btn btn-default" style="margin-left: 20px;" href="<?=
     $this->url('workspace/master');
 ?>"><i class="icon-code-fork"></i> Master</a>
+&nbsp;
 
-<a class="workspace btn btn-default pull-right" href="<?=
+<a class="workspace btn btn-default" href="<?=
     $this->url('workspace/firehose');
 ?>"><i class="icon-bullseye"></i> Firehose</a>
+&nbsp;
 
-<span class="pull-right">
+<?php
+//if ($this->isAllowed('workspace/submitted')) {
+?>
+    <a class="workspace btn btn-default" href="<?=
+        $this->url('workspace/submitted');
+    ?>"><i class="icon-check-sign"></i> Submitted</a>
+    &nbsp;
+<?php
+//}
+?>
+
 <?php
     if ($this->workspaceService()->getUser()) {
         echo $this->partial(
@@ -14,4 +28,4 @@
             array('user' => $this->workspaceService()->getUser()));
     }
 ?>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</span>

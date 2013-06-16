@@ -1,0 +1,21 @@
+<?= $this->partial('workspace/index/partial/navigation'); ?>
+
+<h1>Submitted Workspaces</h1>
+
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <?=
+        $this->partial('workspace/index/partial/revision-table-header-row');
+        ?>
+    </thead>
+
+    <tbody>
+        <?php
+        foreach ($this->revisions as $revision) {
+            echo $this->partial('workspace/index/partial/revision-table-row', array(
+                'revision' => $revision
+            ));
+        }
+        ?>
+    </tbody>
+</table>

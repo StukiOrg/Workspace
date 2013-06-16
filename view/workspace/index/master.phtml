@@ -28,10 +28,12 @@
         </th>
     </tfoot>
     <tbody>
-        <?=
-        $this->partial('workspace/index/partial/revision-table-rows', array(
-            'revisions' => $paginator,
-        ));
+        <?php
+        foreach ($paginator as $revision) {
+            echo $this->partial('workspace/index/partial/revision-table-row', array(
+                'revision' => $revision
+            ));
+        }
         ?>
     </tbody>
 </table>

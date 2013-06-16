@@ -78,6 +78,16 @@ return array(
                             ),
                         ),
                     ),
+                    'submitted' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/submitted',
+                            'defaults' => array(
+                                'controller' => 'workspace',
+                                'action'     => 'submitted',
+                            ),
+                        ),
+                    ),
                     'revision-approve-submit' => array(
                         'type' => 'Segment',
                         'options' => array(

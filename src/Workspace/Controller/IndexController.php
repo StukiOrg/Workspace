@@ -238,7 +238,28 @@ class IndexController extends AbstractActionController
         return $viewModel;
     }
 
+    public function submittedAction()
+    {
+        $em = \Workspace\Module::getModuleOptions()->getEntityManager();
 
+        // Find all submitted revisons by user
+        $submittedRevisions = $em->getRepository('Workspace\\Entity\\Revision')->findBy(array(
+            'approve' => 'submitted',
+        ), array('id' => 'desc'));
+
+        $users = array();
+        $revisions = array();
+        foreach ($submittedRevisions as $index => $rev) {
+            if (!in_array($rev->getUser(), $users)) {
+                $revisions[] = $rev;
+                $users[] = $rev->getUser();
+            }
+        }
+
+        $viewModel = new ViewModel();
+        $viewModel->setVariable('revisions', $revisions);
+        return $viewModel;
+    }
 
 
     /**

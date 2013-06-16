@@ -1,11 +1,4 @@
-<a class="btn btn-info pull-right" style="margin-left: 20px;" href="<?=
-    $this->url('workspace/master');
-?>"><i class="icon-code-fork"></i> Master</a>
-
-<a class="btn btn-info pull-right" href="<?=
-    $this->url('workspace/firehose');
-?>"><i class="icon-bullseye"></i> Firehose</a>
-
+<?= $this->partial('workspace/index/partial/navigation'); ?>
 
 <h1>Workspace Revisions By Entity</h1>
 
@@ -55,11 +48,13 @@
     </tfoot>
 
     <tbody>
-        <?=
-        $this->partial('workspace/index/partial/revision-table-rows', array(
-            'revisions' => $paginator,
-        ));
-        ?>
+<?php
+foreach ($paginator as $revisionEntity) {
+    echo $this->partial('workspace/index/partial/revision-table-row', array(
+        'revision' => $revisionEntity->getRevision()
+    ));
+}
+?>
     </tbody>
 
 </table>

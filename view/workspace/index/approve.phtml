@@ -15,10 +15,12 @@
     </thead>
 
     <tbody>
-        <?=
-        $this->partial('workspace/index/partial/revision-table-rows', array(
-            'revisions' => $this->revisions,
-        ));
+        <?php
+        foreach ($this->revisions as $revision) {
+            echo $this->partial('workspace/index/partial/revision-table-row', array(
+                'revision' => $revision
+            ));
+        }
         ?>
     </tbody>
 </table>
