@@ -20,7 +20,7 @@
     <tbody>
         <?=
             $this->partial('workspace/index/partial/revision-table-row', array(
-                'revision' => $this->revisionEntity,
+                'revision' => $this->revisionEntity->getRevision(),
             ));
         ?>
     </tbody>

@@ -124,6 +124,8 @@ class WorkspaceAutoloader extends StandardAutoloader
         foreach ($workspaceedClassMetadata->getAssociationNames() as $associationName) {
             $workspaceClass->addProperty($associationName, null, PropertyGenerator::FLAG_PROTECTED);
             $fields[] = $associationName;
+
+            echo "Association: " . $associationName . '<BR><BR>';
         }
 
 
@@ -137,9 +139,17 @@ class WorkspaceAutoloader extends StandardAutoloader
         // Add exchange array method
         $setters = array();
         foreach ($fields as $fieldName) {
-            $setters[] = '$this->' . $fieldName . ' = (isset($data["' . $fieldName . '"])) ? $data["' . $fieldName . '"]: null;';
-            $arrayCopy[] = "    \"$fieldName\"" . ' => $this->' . $fieldName;
+            if (!in_array($fieldName, $workspaceedClassMetadata->getAssociationNames())) {
+                $setters[] = '$this->' . $fieldName . ' = (isset($data["' . $fieldName . '"])) ? $data["' . $fieldName . '"]: null;';
+                $arrayCopy[] = "    \"$fieldName\"" . ' => $this->' . $fieldName;
+            }
         }
+
+print_r("return array(\n" . implode(",\n", $arrayCopy) . "\n);");
+
+echo '<BR><BR>';
+
+print_r(implode("\n", $setters));die();
 
         $workspaceClass->addMethod(
             'getArrayCopy',
