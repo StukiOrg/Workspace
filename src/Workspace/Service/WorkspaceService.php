@@ -55,6 +55,19 @@ class WorkspaceService extends AbstractHelper
     }
 
     /**
+     * A utility function to get an association entity from an audited
+     * association identifier value in getArrayCopy
+     */
+    static public function getAssociation($className, $identifier) {
+        $moduleOptions = \Workspace\Module::getModuleOptions();
+        if (!$moduleOptions or !$identifier) return null;
+        $entityManager = $moduleOptions->getEntityManager();
+
+        return $entityManager->getRepository($className)->find($identifier);
+    }
+
+
+    /**
      * To add a comment to a revision fetch this object before flushing
      * and set the comment.  The comment will be fetched by the revision
      * and reset after reading

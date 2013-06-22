@@ -110,9 +110,9 @@ class WorkspaceAutoloader extends StandardAutoloader
         // Get fields from target entity
         $metadataFactory = $entityManager->getMetadataFactory();
 
-        $workspaceedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
-        $fields = $workspaceedClassMetadata->getFieldNames();
-        $identifiers = $workspaceedClassMetadata->getFieldNames();
+        $workspacedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
+        $fields = $workspacedClassMetadata->getFieldNames();
+        $identifiers = $workspacedClassMetadata->getFieldNames();
 
         $service = \Workspace\Module::getModuleOptions()->getWorkspaceService();
 
@@ -121,11 +121,9 @@ class WorkspaceAutoloader extends StandardAutoloader
             $workspaceClass->addProperty($field, null, PropertyGenerator::FLAG_PROTECTED);
         }
 
-        foreach ($workspaceedClassMetadata->getAssociationNames() as $associationName) {
+        foreach ($workspacedClassMetadata->getAssociationNames() as $associationName) {
             $workspaceClass->addProperty($associationName, null, PropertyGenerator::FLAG_PROTECTED);
             $fields[] = $associationName;
-
-            echo "Association: " . $associationName . '<BR><BR>';
         }
 
 
@@ -133,23 +131,42 @@ class WorkspaceAutoloader extends StandardAutoloader
             'getAssociationMappings',
             array(),
             MethodGenerator::FLAG_PUBLIC,
-            "return unserialize('" . serialize($workspaceedClassMetadata->getAssociationMappings()) . "');"
+            "return unserialize('" . serialize($workspacedClassMetadata->getAssociationMappings()) . "');"
         );
 
         // Add exchange array method
         $setters = array();
         foreach ($fields as $fieldName) {
-            if (!in_array($fieldName, $workspaceedClassMetadata->getAssociationNames())) {
+            if (!in_array($fieldName, $workspacedClassMetadata->getAssociationNames())) {
                 $setters[] = '$this->' . $fieldName . ' = (isset($data["' . $fieldName . '"])) ? $data["' . $fieldName . '"]: null;';
                 $arrayCopy[] = "    \"$fieldName\"" . ' => $this->' . $fieldName;
+            } else {
+                switch ($workspacedClassMetadata->getAssociationMappings()[$fieldName]['type']) {
+                    case 1:
+#                        print_r($workspacedClassMetadata->getAssociationMappings()[$fieldName]);
+#                        die('association type 1; workspaceautoloader');
+                    case 2:
+                        // 1:many
+                        $entityClass = $workspacedClassMetadata->getAssociationMappings()[$fieldName]['targetEntity'];
+                        $setters[] = '$this->' . $fieldName . ' = (isset($data["' . $fieldName . '"])) ? $data["' . $fieldName . '"]: null;';
+                        $arrayCopy[] = "    \"$fieldName\"" . ' => \Workspace\Service\WorkspaceService::getAssociation("' . $entityClass . '", $this->' . $fieldName . ')';
+                        break;
+                    case 4:
+                        break;
+                    case 8:
+                        // Many to one
+                        break;
+                    default:
+                        throw new \Exception('Unknown association type');
+                        break;
+                }
+#                if (isset($workspacedClassMetadata->getAssociationNames()[$fieldName])) {
+
+#                    print_r($workspacedClassMetadata->getAssociationMappings());
+#                    die();
+#                }
             }
         }
-
-print_r("return array(\n" . implode(",\n", $arrayCopy) . "\n);");
-
-echo '<BR><BR>';
-
-print_r(implode("\n", $setters));die();
 
         $workspaceClass->addMethod(
             'getArrayCopy',
@@ -177,10 +194,10 @@ print_r(implode("\n", $setters));die();
         $workspaceClass->setName(str_replace('\\', '_', $currentClass));
         $workspaceClass->setExtendedClass('AbstractWorkspace');
 
-        #    $workspaceedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
-        $workspaceedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
+        #    $workspacedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
+        $workspacedClassMetadata = $metadataFactory->getMetadataFor($currentClass);
 
-            foreach ($workspaceedClassMetadata->getAssociationMappings() as $mapping) {
+            foreach ($workspacedClassMetadata->getAssociationMappings() as $mapping) {
                 if (isset($mapping['joinTable']['name'])) {
                     $workspaceJoinTableClassName = "Workspace\\Entity\\" . str_replace('\\', '_', $mapping['joinTable']['name']);
                     $workspaceEntities[] = $workspaceJoinTableClassName;
@@ -188,15 +205,7 @@ print_r(implode("\n", $setters));die();
                 }
             }
 
-#        if ($workspaceClass->getName() == 'AppleConnect_Entity_UserAuthenticationLog') {
-#            echo '<pre>';
-#            echo($workspaceClass->generate());
-#            die();
-#        }
-
         eval($workspaceClass->generate());
-
-#            die();
 
         return true;
     }
